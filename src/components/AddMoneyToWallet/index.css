@@ -1,0 +1,46 @@
+
+.outer-container{
+  max-height: 500px;
+  border:1px solid #e8e8e8;
+  width: 40%;
+  margin:0 auto;
+  margin-top: 30px;
+  text-align: left;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.header{
+  border-bottom: 1px solid white;
+  padding: 15px;
+  font-weight: bold;
+  
+  text-align: center;
+}
+.clickme{
+  cursor: pointer;
+}
+
+.content{
+  padding:20px;
+}
+
+.lable-align{
+  text-align:  left !important;
+}
+.form-control{
+  border-radius: 0;
+  outline: none;
+}
+
+.button-container{
+  display: flex;
+  flex-direction: row;
+}
+.button-align{
+  margin-left: 30px;
+}
+
+.submit{
+  width: 50%;
+  margin:0 auto;
+  padding:30px
+}

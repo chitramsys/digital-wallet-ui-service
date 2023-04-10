@@ -1,0 +1,24 @@
+.card {
+  background-color: #0dcaf021 !important;
+  box-shadow: 0 12px 23px lightgray;
+}
+
+.list-group-item {
+  /* background: #0dcaf021 !important; */
+  background-color: #0dcaf021 !important;
+  color: #0d6efd !important;
+  transition: all .3s;
+}
+
+.list-group-item:hover {
+  opacity: .8;
+}
+
+.maincontainer{
+  height: 100vh;
+}
+
+
+
+
+

@@ -1,0 +1,78 @@
+.title{
+    padding:15px;
+    font-family: Lato;
+    font-size: 30px;
+    text-align: center;
+}
+
+.form-elements{
+    text-align: left;
+    padding: 0px 30px 20px 30px;
+}
+
+.form-control{
+    border-radius: 0 !important;
+    outline: none;
+  }
+
+  .form-label{
+    font-size: 14px !important;
+    }
+
+    ::-webkit-input-placeholder {
+        font-size: 12px !important;
+        padding:0 !important;
+        line-height: 0 !important;
+      }
+      
+      :-moz-placeholder { /* Firefox 18- */
+           font-size: 12px !important;
+           padding:0 !important;
+           line-height: 0 !important;
+      }
+      
+      ::-moz-placeholder {  /* Firefox 19+ */
+           font-size: 12px !important;
+           padding:0 !important;
+           line-height: 0 !important;
+      }
+
+ 
+input.form-fixer {
+    padding: 5px;
+    line-height: 1;
+}
+
+.button-container{
+    width:40%;
+    margin:0 auto;
+}
+
+.button-container .action{
+    border-radius: 0 !important;
+    background-color: #0047AB;
+    background: black;
+}
+
+.button-container .action:hover{
+    border-radius: 0 !important;
+    background: black;
+   
+}
+
+.button-container .cancel{
+    border-radius: 0 !important;
+    margin-right: 20px;
+    font-size: 14px;
+    border: 0;
+    color: white;
+    background-color: #0047AB;
+}
+
+.button-container .cancel:hover{
+    border-radius: 0 !important;
+    background-color: #0047AB;
+    font-size: 14px;
+    border: 0;
+    color: white;
+}

@@ -1,0 +1,28 @@
+{
+    "username": "Paramesh12",
+       "name": {
+           "firstName": "kutty",
+           "middleName": "elu",
+           "lastName": "test"
+       },
+       "password": "newpassword",
+       "dateOfBirth": "1989-05-05",
+       "address": {
+           "address1": "chee",
+           "address2": "cheeq",
+           "city": "tn",
+           "state": "tn",
+           "country": "India",
+           "zip": "600088"
+       },
+       "mobileNumber": "7777777777",
+       "emailAddress": "msys19@gmail.com",
+       "kycIdentiyNumber": "TES6789",
+       "kycIdentityType": "Record",
+       "kycIdentityExpiration": "KNBDJKAD",
+       "hasAdminRole": null,
+       "createdDate": "2023-03-22T18:45:56.171",
+       "updatedDate": "2023-03-22T18:45:56.171",
+       "createdBy": null,
+       "updatedBy": null
+}
