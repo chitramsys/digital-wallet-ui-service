@@ -11,6 +11,7 @@ import RenderOnAnonymous from "../../RenderOnAnonymous";
 import RenderOnAuthenticated from "../../RenderOnAuthenticated";
 import Signup from "../SignupPage";
 import Header from "../Header";
+import Success from '../SignupPage/Success'
 
 /**
  * Container Page
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/success",
+    element: <Success />,
   },
   {
     path: "/dashboard",
@@ -50,7 +55,7 @@ useEffect(()=>{
 },[])
 
   return(
-   <div class="maincontainer">
+   <div className="maincontainer">
   <Suspense fallback={<div>Loading</div>}>
         <div className="container-page">
         <RouterProvider router={router} />

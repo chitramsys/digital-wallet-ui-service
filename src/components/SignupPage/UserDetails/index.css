@@ -46,6 +46,7 @@ input.form-fixer {
 .button-container{
     width:40%;
     margin:0 auto;
+    padding-top:15px;
 }
 
 .button-container .action{

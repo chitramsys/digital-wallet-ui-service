@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-if(process.env.isKeycloak === true) {
+if(process.env.REACT_APP_isKeycloak === 'true') {
     import('./bootstrap.js')
  }
  else {

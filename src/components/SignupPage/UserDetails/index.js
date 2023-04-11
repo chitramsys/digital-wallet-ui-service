@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
+import { useNavigate} from "react-router-dom";
 import "./index.css";
 import userDetails from '../../../services/signup.json';
 import {
@@ -18,7 +19,80 @@ import { signup } from "../../../services/ApiService";
  */
 function UserDetails() {
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+      email: '',
+      username: '',
+      formErrors: {email: '', username: ''},
+      emailValid: false,
+      usernameValid: false,
+      formValid: false
+    });
+    const [signupjson, setSignupjson] =useState({
+      "username": "Paramesh123",
+         "name": {
+             "firstName": "kutty",
+             "middleName": "elu",
+             "lastName": "test"
+         },
+         "password": "newpassword3",
+         "dateOfBirth": "1989-05-05",
+         "address": {
+             "address1": "chee",
+             "address2": "cheeq",
+             "city": "tn",
+             "state": "tn",
+             "country": "India",
+             "zip": "600088"
+         },
+         "mobileNumber": "7777777347",
+         "emailAddress": "msys3419@gmail.com"
+  });
     const [formErrors, setFormErrors] = useState({"username":"","password":"", "mobileNumber":""});
+
+    const handleUserInput = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      setForm(values => ({...values, [name]: value}))
+      console.log(form)
+
+      validateField(name, value);
+    }
+
+  const validateField = (fieldName, value) => {
+      let fieldValidationErrors = form.formErrors;
+      let emailValid = form.emailValid;
+      let usernameValid = form.usernameValid;
+  
+      switch(fieldName) {
+        case 'email':
+          emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+          fieldValidationErrors.email = emailValid ? '' : 'Email is invalid';
+          break;
+        case 'username':
+          usernameValid = value.length >= 2;
+          fieldValidationErrors.username = usernameValid ? '': 'Username should have minimum 2 characters';
+          break;
+        default:
+          break;
+      }
+      setForm(values => ({...values, formErrors: fieldValidationErrors,emailValid:emailValid,usernameValid:usernameValid}))
+     
+                     validateForm();
+                    
+                    
+    }
+
+ const validateForm = () => {
+ // form.formValid= form.emailValid && form.passwordValid;
+  setForm(values => ({...values, formValid: form.emailValid && form.usernameValid}))
+ // setForm(form);
+      
+    }
+
+   const errorClass=(error)=> {
+      return(error.length === 0 ? '' : 'has-error');
+    }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -168,13 +242,74 @@ function UserDetails() {
        // }
     };
 
+    const signup = (signupjson) => {
+      signupjson.username = form.username;
+      signupjson.emailAddress = form.email;
+
+
+      const response = fetch(`http://3.232.225.73/digital-wallet/user/create`,  {
+        headers:{
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+            
+        },
+        method: "POST",
+        body: JSON.stringify(signupjson),
+    })
+    response.then(res => res.json()).then(data =>{
+      if(data.success === true){
+        navigate('/success')
+       }
+   
+    });
+  }
+
+    const navigateTo =(path) =>{
+      navigate('/');
+    }
+
     useEffect(()=>{
       
     },[]);
     return (
         <>
+
+<form className="demoForm">
+<div className="form-container">
+        <div className="title"> Sign Up</div>
+        <div className={`form-group form-elements ${errorClass(form.formErrors.username)}`}>
+          <label htmlFor="username" className="form-label">Username</label>
+          <input type="text" className={form.formErrors.username.length > 0 ? "is-invalid form-control" : "form-control"} name="username"
+            placeholder="Please enter username"
+            value={form.username}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.username}</div>
+                    }
+        </div>
+        <div className={`form-group form-elements ${errorClass(form.formErrors.email)}`}>
+          <label htmlFor="email" className="form-label">Email address</label>
+          <input type="email" required  
+          className={form.formErrors.email.length > 0 ? "is-invalid form-control" : "form-control"} name="email"
+            placeholder="Please enter email address"
+            value={form.email}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.email}</div>
+                    }
+        </div>
+        
+        <div className="button-container">
+            <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo('/')}>Cancel</button>
+              <button type="button"  className="btn btn-primary action" disabled={!form.formValid} onClick={(e)=>signup(signupjson)}>Submit</button>
+            </div>
+        {/* <button type="submit" className="btn btn-primary" disabled={!form.formValid}>Sign up</button> */}
+        </div>
+        
+      </form>
        
-        <div className="form-container">
+        {/* <div className="form-container">
         <div className="title"> Sign Up</div>
       <form className="userDetails-form" onSubmit={handleSubmit} noValidate >
         <div className="form-elements">
@@ -224,8 +359,8 @@ function UserDetails() {
                <div className="invalid-feedback">
         Please choose a username.
       </div>
-            </div> 
-            {/* <div className="mb-3">
+            </div> */}
+            {/* <div className="mb-3"> 
               <label htmlFor="identificationType" className="form-label">Identification Type</label>
               <input  
              
@@ -253,14 +388,14 @@ function UserDetails() {
       </div>
             </div>  */}
       
-            </div>
+            {/* </div>
             <div className="button-container">
             <button type="button"  className="btn btn-light cancel">Cancel</button>
               <button type="submit"  className="btn btn-primary action">Next</button>
             </div>
       
-      </form>
-      </div>
+      </form> 
+      </div>*/}
        </> 
     );
 }

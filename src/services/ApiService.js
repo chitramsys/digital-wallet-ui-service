@@ -19,21 +19,29 @@ export async function signup(userDetails) {
 
 export async function linkToken(userDetails) {
     try {
-        const response = await fetch(`http://3.232.225.73/digital-wallet/digital-wallet/link-bank-account`,  {
+        const response = await fetch(`http://3.232.225.73/digital-wallet/plaid-service/link-token`,  {
             headers:{
                 'accept': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization' : `Bearer ${UserService.getToken()}`
-                
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'    
             },
             method: "POST",
             body: JSON.stringify({
-                "userId": "95925151-2962-4432-b0d0-b752c15a822d"
+                "userId": "642eca73e504cb20a953eba6"
               }),
         })
-       console.log(response)
+        if(response.status !== 200) {
+            throw Error('Failed Fetch')
+        }else {
+            const json = response.json()
+            return Promise.resolve(json)
+        }
+       
+       // localStorage.setItem("link_token", data.result.data.link_token);
+      // console.log(response)
     } catch (error) {
         console.log(error)
         return Promise.reject(error)
     }
 }
+

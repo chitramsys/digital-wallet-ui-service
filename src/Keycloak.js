@@ -1,8 +1,8 @@
 import Keycloak from "keycloak-js";
 const keycloak =new Keycloak({
- url: "http://localhost:8080",
- realm: "test",
- clientId: "react-auth",
+ url: "http://3.232.225.73:8080",
+ realm: "SpringBootKeycloak",
+ clientId: "springboot-keycloak-client",
 })
 
 export default keycloak;

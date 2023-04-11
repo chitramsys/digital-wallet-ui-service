@@ -30,6 +30,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "react-uuid": "^2.0.0",
     "redux": "^4.2.1",
     "redux-axios-middleware": "^4.0.1",
     "redux-logger": "^3.0.6",
@@ -43,7 +44,7 @@
     "zxcvbn": "^4.4.2"
   },
   "scripts": {
-    "start": "react-scripts start --port 80",
+    "start": "react-scripts start",
     "start-client": "react-scripts start",
     "start-server": "nodemon server.js",
     "build": "react-scripts build",
@@ -67,5 +68,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://3.232.225.73"
 }
