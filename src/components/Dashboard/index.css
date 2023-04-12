@@ -22,3 +22,9 @@
 .link-label{
     text-align: center;
 }
+
+.dashboard-container{
+    padding:50px;
+   
+    background-color: orange;
+}

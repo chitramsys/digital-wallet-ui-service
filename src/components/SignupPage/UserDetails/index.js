@@ -257,13 +257,12 @@ function UserDetails() {
         method: "POST",
         body: JSON.stringify(signupjson),
     })
-    response.then(res => res.json()).then(data =>{
-      if(data.success === true){
-        navigate('/success')
-       }
+   console.log(response)
+
+   navigate('/success');
+  
    
-    });
-  }
+    }
 
     const navigateTo =(path) =>{
       navigate('/');

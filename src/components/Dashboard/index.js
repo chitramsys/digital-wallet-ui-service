@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import "./index.css"
 import { usePlaidLink } from "react-plaid-link";
 //import "./App.scss";
 import {linkToken} from '../../services/ApiService';
@@ -112,14 +113,14 @@ function App(props) {
   }, [token, isOauth, ready, open]);
   
   return (
-    <div>
+    <div className="">
       <button onClick={() => open()
         } disabled={!ready}>
         <strong>Link account</strong>
       </button>
 <br/>
 <br/>
-      <button onClick={() => createWalletUser()
+      <button  onClick={() => createWalletUser()
         } >
         <strong>Create Wallet</strong>
       </button>
