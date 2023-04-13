@@ -59,6 +59,7 @@ useEffect(()=>{
       </RenderOnAnonymous>
       <RenderOnAuthenticated>
         <div className="container-page">
+        <Header></Header>
         <RouterProvider router={router} />
          </div>
       </RenderOnAuthenticated>

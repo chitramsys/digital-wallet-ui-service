@@ -8,13 +8,7 @@
   text-align: left;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.header{
-  border-bottom: 1px solid white;
-  padding: 15px;
-  font-weight: bold;
-  
-  text-align: center;
-}
+
 .clickme{
   cursor: pointer;
 }

@@ -56,8 +56,10 @@ useEffect(()=>{
 
   return(
    <div className="maincontainer">
+   
   <Suspense fallback={<div>Loading</div>}>
         <div className="container-page">
+        
         <RouterProvider router={router} />
         </div>
   </Suspense>

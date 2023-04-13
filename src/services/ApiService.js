@@ -1,16 +1,21 @@
-import UserService from "./UserService"
 export async function signup(userDetails) {
     try {
-        const response = await fetch(`http://3.232.225.73/digitalwallet/user/create`,  {
+        const response = await fetch(`${process.env.REACT_APP_serverURL}/user/create`,  {
             headers:{
                 'accept': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
                 
             },
             method: "POST",
             body: JSON.stringify(userDetails),
         })
-       console.log(response)
+        if(response.status !== 200) {
+            throw Error('Failed Fetch')
+        }else {
+            const json = response.json()
+            return Promise.resolve(json)
+        }
     } catch (error) {
         console.log(error)
         return Promise.reject(error)
@@ -19,7 +24,7 @@ export async function signup(userDetails) {
 
 export async function linkToken(userDetails) {
     try {
-        const response = await fetch(`http://3.232.225.73/digital-wallet/plaid-service/link-token`,  {
+        const response = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/link-token`,  {
             headers:{
                 'accept': 'application/json',
                 'Content-Type': 'application/json',

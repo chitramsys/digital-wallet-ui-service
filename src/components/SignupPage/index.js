@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Header from "../Header";
 import "./index.css";
 import UserDetails from "./UserDetails";
 
@@ -38,6 +39,7 @@ function Signup() {
     },[]);
     return (
       <>
+      <Header page={'signup'}></Header>
       <div  className="sign-up">
       <div className="signup-container" >
 

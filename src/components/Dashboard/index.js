@@ -4,6 +4,7 @@ import { usePlaidLink } from "react-plaid-link";
 //import "./App.scss";
 import {linkToken} from '../../services/ApiService';
 import uuid from 'react-uuid';
+import Header from "../Header";
 
 
 
@@ -15,7 +16,7 @@ function App(props) {
   const [displayResponse, setDisplayResponse] = useState("");
 
   const createWalletUser = () => {
-    const response = fetch(`http://3.232.225.73/digital-wallet/wallet/account`, {
+    const response = fetch(`${process.env.REACT_APP_serverURL}/wallet/account`, {
       headers: {
         'accept': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -29,7 +30,7 @@ function App(props) {
 
   const onSuccess = useCallback(async (publicToken) => {
     setLoading(true);
-    const response = await fetch("http://3.232.225.73/digital-wallet/plaid-service/access-token", {
+    const response = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/access-token`, {
       method: "POST",
       headers: {
         'accept': 'application/json',
@@ -39,7 +40,6 @@ function App(props) {
       body: JSON.stringify({ publicToken: publicToken }),
     });
     var data = await response.json();
-    console.log("accessToken : ",data);
     localStorage.setItem("accessToken", data.result.data.accessToken);
     await getBalance();
   }, []);
@@ -51,30 +51,20 @@ function App(props) {
       const linkToken = localStorage.getItem('link_token');
       setToken(linkToken);
     } else {
-//       const response = await fetch("/LinkToken", {});
-//       const data = await response.json();
-//       console.log("link tocken : ", data);
-//       setToken(data.linkToken);
-//       localStorage.setItem("link_token", data.linkToken);
           linkToken().then(response => {
-            console.log("success token")
-          //  const data = response.json();
             console.log(response)
             localStorage.setItem("link_token", response.result.data.linkToken);
             setToken(response.result.data.linkToken);
-            console.log("success token1")
 
           })
-          .catch(err => {
-
-          })
+          .catch(err => {})
     }
   }, [setToken]);
 
   // Fetch balance data
   const getBalance = React.useCallback(async () => {
     setLoading(true);
-    const response = await fetch("http://3.232.225.73/digital-wallet/plaid-service/account-details", {
+    const response = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/account-details`, {
       method: "POST",
       headers: {
         'accept': 'application/json',
@@ -83,7 +73,6 @@ function App(props) {
       },
       body: JSON.stringify({ accessToken: localStorage.getItem('accessToken') }),
     });
-   // const response = await fetch("http://3.232.225.73/digital-wallet/plaid-service/account-details", {});
     const data = await response.json();
     setData(data);
     setLoading(false);
@@ -114,6 +103,7 @@ function App(props) {
   
   return (
     <div className="">
+      <Header page={'dashboard'}></Header>
       <button onClick={() => open()
         } disabled={!ready}>
         <strong>Link account</strong>

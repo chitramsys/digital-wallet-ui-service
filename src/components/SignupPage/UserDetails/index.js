@@ -242,26 +242,14 @@ function UserDetails() {
        // }
     };
 
-    const signup = (signupjson) => {
+    const onSignup = (signupjson) => {
       signupjson.username = form.username;
       signupjson.emailAddress = form.email;
 
-
-      const response = fetch(`http://3.232.225.73/digital-wallet/user/create`,  {
-        headers:{
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-            
-        },
-        method: "POST",
-        body: JSON.stringify(signupjson),
-    })
-   console.log(response)
-
-   navigate('/success');
-  
-   
+      signup(signupjson).then((data)=>{
+        console.log(data);
+        navigate('/success');
+      })
     }
 
     const navigateTo =(path) =>{
@@ -301,7 +289,7 @@ function UserDetails() {
         
         <div className="button-container">
             <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo('/')}>Cancel</button>
-              <button type="button"  className="btn btn-primary action" disabled={!form.formValid} onClick={(e)=>signup(signupjson)}>Submit</button>
+              <button type="button"  className="btn btn-primary action" disabled={!form.formValid} onClick={(e)=>onSignup(signupjson)}>Submit</button>
             </div>
         {/* <button type="submit" className="btn btn-primary" disabled={!form.formValid}>Sign up</button> */}
         </div>

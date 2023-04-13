@@ -1,8 +1,8 @@
 import Keycloak from "keycloak-js";
 const keycloak =new Keycloak({
- url: "http://3.232.225.73:8080",
- realm: "SpringBootKeycloak",
- clientId: "springboot-keycloak-client",
+ url: process.env.REACT_APP_keycloakURL,
+ realm: process.env.REACT_APP_realm,
+ clientId: process.env.REACT_APP_clientID,
 })
 
 export default keycloak;
