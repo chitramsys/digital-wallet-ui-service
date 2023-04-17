@@ -17,15 +17,21 @@ import { signup } from "../../../services/ApiService";
  * @description: Shows a Signup component with a form to enter username & password
  * @returns Signup Component
  */
-function UserDetails() {
+function UserDetails(props) {
+  const {step, handleUpdate, nextStep, prevStep} = props;
     const [user, setUser] = useState({});
     const navigate = useNavigate();
     const [form, setForm] = useState({
+      step: 1,
       email: '',
       username: '',
-      formErrors: {email: '', username: ''},
+      mobileNumber: '',
+      password: '',
+      formErrors: {email: '', username: '', mobileNumber: '', password: ''},
       emailValid: false,
       usernameValid: false,
+      mobileNumberValid: false,
+      passwordValide:false,
       formValid: false
     });
     const [signupjson, setSignupjson] =useState({
@@ -246,10 +252,13 @@ function UserDetails() {
       signupjson.username = form.username;
       signupjson.emailAddress = form.email;
 
-      signup(signupjson).then((data)=>{
-        console.log(data);
-        navigate('/success');
-      })
+      nextStep();
+      
+
+      // signup(signupjson).then((data)=>{
+      //   console.log(data);
+      //   navigate('/success');
+      // })
     }
 
     const navigateTo =(path) =>{
@@ -286,10 +295,34 @@ function UserDetails() {
                         <div className="invalid-feedback">{form.formErrors.email}</div>
                     }
         </div>
+
+        <div className={`form-group form-elements ${errorClass(form.formErrors.password)}`}>
+          <label htmlFor="password" className="form-label">Password</label>
+          <input type="password" required  
+          className={form.formErrors.password.length > 0 ? "is-invalid form-control" : "form-control"} name="password"
+            placeholder="Please enter password"
+            value={form.password}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.password}</div>
+                    }
+        </div>
+
+        <div className={`form-group form-elements ${errorClass(form.formErrors.mobileNumber)}`}>
+          <label htmlFor="mobileNumber" className="form-label">Mobile Number</label>
+          <input type="text" required  
+          className={form.formErrors.mobileNumber.length > 0 ? "is-invalid form-control" : "form-control"} name="mobileNumber"
+            placeholder="Please enter mobile number"
+            value={form.mobileNumber}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.mobileNumber}</div>
+                    }
+        </div>
         
         <div className="button-container">
             <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo('/')}>Cancel</button>
-              <button type="button"  className="btn btn-primary action" disabled={!form.formValid} onClick={(e)=>onSignup(signupjson)}>Submit</button>
+              <button type="button"  className="btn btn-primary action" disabled={!form.formValid} onClick={(e)=>onSignup(signupjson)}>Next</button>
             </div>
         {/* <button type="submit" className="btn btn-primary" disabled={!form.formValid}>Sign up</button> */}
         </div>

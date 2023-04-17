@@ -11,39 +11,53 @@ import UserDetails from "./UserDetails";
  * @returns Signup Component
  */
 function Signup() {
-  // const [inputs, setInputs] = useState({});
 
-  // const handleChange = (event) => {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-  //   setInputs(values => ({...values, [name]: value}))
-  // }
+  const [form, setForm] = useState({
+    email: '',
+    username: '',
+    mobileNumber: '',
+    password: '',
+  });
+  const [step, setStep] = useState(1)
 
+  // Proceed to next step
+  const nextStep = () => {
+    console.log("next")
+    setStep(step+1);
+    
+  };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-      //  if (userLogin.username.trim() && userLogin.password.trim()) {
-          //  const { username, password } = userLogin;
-            // signup(userDetails)
-            // .then(res => {
-            //     console.log("user created")
-            // })
-            // .catch(err => {
-            //     toast.error('Login Failed!!!')
-            // })
-       // }
-    // };
+   // Go back to prev step
+   const prevStep = () => {
+    const { step } = form;
+    setForm(values => ({...values, step: step-1}))
+  };
 
+  const handleUpdate = (form) => {
+    console.log(form);
+  };
+  
     useEffect(()=>{
       
     },[]);
     return (
       <>
       <Header page={'signup'}></Header>
-      <div  className="sign-up">
+      <div  className="sign-up-content">
       <div className="signup-container" >
+      {(() => {
+        switch (step) {
+          case 1:
+            return <UserDetails  step={step} handleUpdate={handleUpdate}
+            nextStep={nextStep} prevStep={prevStep} />
+         
+          default:
+            return null
+        }
+      })()}
+     
 
-      <UserDetails />
+      
       </div>
       </div>
       </>

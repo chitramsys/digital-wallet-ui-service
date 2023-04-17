@@ -8,9 +8,11 @@ import reportWebVitals from './reportWebVitals';
 
 
 if(process.env.REACT_APP_isKeycloak === 'true') {
+  console.log("yes")
     import('./bootstrap.js')
  }
  else {
+  console.log("no")
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

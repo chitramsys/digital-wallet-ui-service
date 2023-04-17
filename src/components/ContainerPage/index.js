@@ -55,7 +55,9 @@ useEffect(()=>{
   <Suspense fallback={<div>Loading</div>}>
  <Provider store={store}> 
       <RenderOnAnonymous>
+      <div className="container-page">
         <RouterProvider router={routersignup} />
+        </div>
       </RenderOnAnonymous>
       <RenderOnAuthenticated>
         <div className="container-page">

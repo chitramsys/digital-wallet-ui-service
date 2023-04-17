@@ -46,4 +46,8 @@ header {
   .img-logo{
     float: left;
   }
+
+  .action-link{
+    cursor: pointer;
+  }
   

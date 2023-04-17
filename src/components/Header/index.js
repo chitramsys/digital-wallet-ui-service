@@ -15,7 +15,12 @@ import headers from './headers.json'
 function Header({page}) {
   const navigate = useNavigate();
   const navigateTo = (path) => {
+    if(path==='signin'){
+      UserService.doLogin();
+    }
+    else{
       navigate('/'+path);
+    }
     };
 
     const getMenu = (menu,index) =>{
@@ -34,7 +39,7 @@ function Header({page}) {
 {headers.map((header)=> header.page===page && header.menu.map((menu, index)=> 
 {
   return (
-    ((process.env.REACT_APP_isKeycloak === menu.keyCloak) || menu.keyCloak===null ) && <a key={index} className="" href="" onClick={() => navigateTo(menu.key)}>{menu.displayName} </a>
+    ((process.env.REACT_APP_isKeycloak === menu.keyCloak) || menu.keyCloak===null ) && <a key={index} className="action-link"  onClick={() => navigateTo(menu.key)}>{menu.displayName} </a>
   
   
   )}))}
