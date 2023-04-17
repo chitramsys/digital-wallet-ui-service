@@ -17,7 +17,7 @@ import { signup } from "../../../services/ApiService";
  * @description: Shows a Signup component with a form to enter username & password
  * @returns Signup Component
  */
-function UserDetails(props) {
+function ResidanceDetails(props) {
   const {step, handleUpdate, nextStep, prevStep} = props;
     const [user, setUser] = useState({});
     const navigate = useNavigate();
@@ -253,7 +253,7 @@ function UserDetails(props) {
       signupjson.emailAddress = form.email;
 
       nextStep();
-
+      
 
       // signup(signupjson).then((data)=>{
       //   console.log(data);
@@ -274,8 +274,9 @@ function UserDetails(props) {
 <form className="demoForm">
 <div className="form-container">
         <div className="title"> Sign Up</div>
+        
         <div className={`form-group form-elements ${errorClass(form.formErrors.username)}`}>
-          <label htmlFor="username" className="form-label">Username</label>
+          <label htmlFor="username" className="form-label">Address 1</label>
           <input type="text" className={form.formErrors.username.length > 0 ? "is-invalid form-control" : "form-control"} name="username"
             placeholder="Please enter username"
             value={form.username}
@@ -285,7 +286,7 @@ function UserDetails(props) {
                     }
         </div>
         <div className={`form-group form-elements ${errorClass(form.formErrors.email)}`}>
-          <label htmlFor="email" className="form-label">Email address</label>
+          <label htmlFor="email" className="form-label">Address 2</label>
           <input type="email" required  
           className={form.formErrors.email.length > 0 ? "is-invalid form-control" : "form-control"} name="email"
             placeholder="Please enter email address"
@@ -297,7 +298,7 @@ function UserDetails(props) {
         </div>
 
         <div className={`form-group form-elements ${errorClass(form.formErrors.password)}`}>
-          <label htmlFor="password" className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">City</label>
           <input type="password" required  
           className={form.formErrors.password.length > 0 ? "is-invalid form-control" : "form-control"} name="password"
             placeholder="Please enter password"
@@ -309,7 +310,31 @@ function UserDetails(props) {
         </div>
 
         <div className={`form-group form-elements ${errorClass(form.formErrors.mobileNumber)}`}>
-          <label htmlFor="mobileNumber" className="form-label">Mobile Number</label>
+          <label htmlFor="mobileNumber" className="form-label">State</label>
+          <input type="text" required  
+          className={form.formErrors.mobileNumber.length > 0 ? "is-invalid form-control" : "form-control"} name="mobileNumber"
+            placeholder="Please enter mobile number"
+            value={form.mobileNumber}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.mobileNumber}</div>
+                    }
+        </div>
+
+        <div className={`form-group form-elements ${errorClass(form.formErrors.mobileNumber)}`}>
+          <label htmlFor="mobileNumber" className="form-label">Country</label>
+          <input type="text" required  
+          className={form.formErrors.mobileNumber.length > 0 ? "is-invalid form-control" : "form-control"} name="mobileNumber"
+            placeholder="Please enter mobile number"
+            value={form.mobileNumber}
+            onChange={(e)=>handleUserInput(e)}  />
+             {
+                        <div className="invalid-feedback">{form.formErrors.mobileNumber}</div>
+                    }
+        </div>
+
+        <div className={`form-group form-elements ${errorClass(form.formErrors.mobileNumber)}`}>
+          <label htmlFor="mobileNumber" className="form-label">ZIP code</label>
           <input type="text" required  
           className={form.formErrors.mobileNumber.length > 0 ? "is-invalid form-control" : "form-control"} name="mobileNumber"
             placeholder="Please enter mobile number"
@@ -322,7 +347,7 @@ function UserDetails(props) {
         
         <div className="button-container">
             <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo('/')}>Cancel</button>
-              <button type="button"  className="btn btn-primary action"  onClick={(e)=>onSignup(signupjson)}>Next</button>
+              <button type="button"  className="btn btn-primary action" onClick={(e)=>onSignup(signupjson)}>Next</button>
             </div>
         {/* <button type="submit" className="btn btn-primary" disabled={!form.formValid}>Sign up</button> */}
         </div>
@@ -420,6 +445,6 @@ function UserDetails(props) {
     );
 }
 
-export default UserDetails;
+export default ResidanceDetails;
 
 

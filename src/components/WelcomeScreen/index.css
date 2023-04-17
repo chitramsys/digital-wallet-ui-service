@@ -16,7 +16,7 @@
 
 .left-container ul{
     list-style: square;
-    font-size: 20px;
+    font-size: 30px;
     line-height: 2;
     color: orange;
 }
@@ -26,6 +26,7 @@ color: orange;
 border-bottom: 3px solid white;
 padding-bottom: 10px;
 display: inline-block;
+font-size: 60px;
 }
 
 .right-container{

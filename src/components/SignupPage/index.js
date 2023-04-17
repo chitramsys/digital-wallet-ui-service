@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
+import IdentificationDetails from "./IdentificationDetails";
 import "./index.css";
 import UserDetails from "./UserDetails";
+import PersonalDetails from "./PersonalDetails";
+import ResidanceDetails from "./ResidanceDetails";
 
 
 /**
@@ -50,6 +53,18 @@ function Signup() {
           case 1:
             return <UserDetails  step={step} handleUpdate={handleUpdate}
             nextStep={nextStep} prevStep={prevStep} />
+           
+             case 2:
+               return <PersonalDetails  step={step} handleUpdate={handleUpdate}
+               nextStep={nextStep} prevStep={prevStep} />
+
+               case 3:
+                  return <IdentificationDetails  step={step} handleUpdate={handleUpdate}
+                  nextStep={nextStep} prevStep={prevStep} />
+
+                case 4:
+                    return <ResidanceDetails  step={step} handleUpdate={handleUpdate}
+                    nextStep={nextStep} prevStep={prevStep} />
          
           default:
             return null
