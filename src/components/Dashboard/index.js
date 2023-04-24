@@ -5,7 +5,7 @@ import { usePlaidLink } from "react-plaid-link";
 import {linkToken} from '../../services/ApiService';
 import uuid from 'react-uuid';
 import Header from "../Header";
-import linkAccount from '../../assets/images/linkaccount.png';
+import linkAccount from '../../assets/images/wallet5.png';
 
 
 
@@ -125,31 +125,37 @@ function App(props) {
     <Header page={'dashboard'}></Header>
     <div className="welcome-container">
       <div className="left-container" style={{padding:'30px'}}>
-      {/* <div className="card text-white bg-primary mb-3" >
-   <div className="card-header">Linked Accounts</div>
-  <div className="card-body">
-    <h5 class="card-title">No accounts linked</h5>
-     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div> 
-   </div> */}
-      <div className="card text-white bg-primary mb-3" >
- <div className="card-body">
-    <h5 class="card-title">City Bank Chennai Branch</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div>
-   </div>
-   <div className="card text-white bg-primary mb-3">
-    <div className="card-body">
-    <h5 class="card-title">City Bank Pune Branch</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div>
-</div>
+      <img alt="logo" className="img-logo" style={{width:'80%'}} src={linkAccount} />
 </div>
       
-      <div className="right-container">
-      {/* <img alt="logo" className="img-logo" src={linkAccount} /> */}
-        Do you want to link new account? <button type="button"  onClick={() => open()
-        } disabled={!ready} class="btn btn-link">Link Account</button>
+      <div className="right-container" style={{padding:'30px'}}>
+      
+ <div style={{display: 'flex'}}> 
+ <div style={{color: 'white',width: '100%', display:'flex',alignItems:'center', fontSize:'20px'}}>Linked Bank Accounts</div>
+  <div style={{display: 'flex',float: 'right',flexDirection: 'row-reverse',/* align-items: flex-end; */width: '80%'}}>
+  
+       <button type="button"  onClick={() => open()
+        } disabled={!ready} class="btn btn-link" style={{color: 'white'}}>Link Account</button></div> </div>  
+         <div className="card text-white bg-primary mb-3" >
+ <div className="card-body">
+    <h5 class="card-title custom-title">City Bank Chennai Branch</h5>
+    <div style={{display:'flex'}}>
+    <div><span style={{fontSize:'14px'}}>Account NO:  </span><span style={{ fontSize:'12px'}}>2324353 45454</span></div>
+    <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Balance:  </span><span style={{ fontSize:'12px'}}>10000.00</span></div>
+    <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Status:  </span><span style={{ fontSize:'12px'}}>Active</span></div>
+    </div>
+    </div>
+   </div>
+   <div className="card text-white bg-primary mb-3" >
+ <div className="card-body">
+    <h5 class="card-title custom-title">City Bank Pune Branch</h5>
+    <div style={{display:'flex'}}>
+    <div><span style={{fontSize:'14px'}}>Account NO:  </span><span style={{ fontSize:'12px'}}>2324353 45454</span></div>
+    <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Balance:  </span><span style={{ fontSize:'12px'}}>10000.00</span></div>
+    <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Status:  </span><span style={{fontSize:'12px'}}>Active</span></div>
+    </div>
+    </div>
+   </div>
       </div>
     </div>
 

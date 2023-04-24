@@ -24,3 +24,11 @@
    
     background-color: orange;
 }
+
+.custom-card{
+    background-color: white !important;
+}
+
+.custom-title{
+    font-size: 14px;
+}

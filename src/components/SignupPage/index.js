@@ -7,7 +7,7 @@ import UserDetails from "./UserDetails";
 import PersonalDetails from "./PersonalDetails";
 import ResidanceDetails from "./ResidanceDetails";
 import signupJSON  from "../../services/signup.json";
-import {signup} from "../../services/ApiService"
+import {signup} from "../../services/ApiService";
 
 
 /**
@@ -86,7 +86,7 @@ function Signup() {
 
       <div className="welcome-container">
       <div className="left-container">
-      {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
+       {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
       </div>
       <div className="right-container">
       <div  className="sign-up-content">
