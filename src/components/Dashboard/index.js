@@ -75,25 +75,26 @@ function App(props) {
       body: JSON.stringify({ accessToken: localStorage.getItem('accessToken') }),
     });
     const data = await response.json();
+
     setData(data);
-    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/link-bank-account`, {
-      method: "POST",
-      headers: {
-        'accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Access-Control-Allow-Origin': '*' 
-      },
-      body: JSON.stringify({
-        "bankName": "SampleBankName",
-        "userId": "642eca73e504cb20a953eba6",
-        "bankRoutingNumber" : "CITI2041",
-        "bankAccountId" : "accountID"
+    // const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/link-bank-account`, {
+    //   method: "POST",
+    //   headers: {
+    //     'accept': 'application/json',
+    //      'Content-Type': 'application/json',
+    //      'Access-Control-Allow-Origin': '*' 
+    //   },
+    //   body: JSON.stringify({
+    //     "bankName": "SampleBankName",
+    //     "userId": "642eca73e504cb20a953eba6",
+    //     "bankRoutingNumber" : "CITI2041",
+    //     "bankAccountId" : "accountID"
       
-      }),
-    });
-
-    const datalinkaccount = await responseLinkAccount.json();
-
+    //   }),
+    // });
+    
+   // const datalinkaccount = await responseLinkAccount.json();
+console.log(data)
     setLoading(false);
   }, [setData, setLoading]);
 
@@ -135,10 +136,10 @@ function App(props) {
   <div style={{display: 'flex',float: 'right',flexDirection: 'row-reverse',/* align-items: flex-end; */width: '80%'}}>
   
        <button type="button"  onClick={() => open()
-        } disabled={!ready} class="btn btn-link" style={{color: 'white'}}>Link Account</button></div> </div>  
+        } disabled={!ready} className="btn btn-link" style={{color: 'white'}}>Link Account</button></div> </div>  
          <div className="card text-white bg-primary mb-3" >
  <div className="card-body">
-    <h5 class="card-title custom-title">City Bank Chennai Branch</h5>
+    <h5 className="card-title custom-title">City Bank Chennai Branch</h5>
     <div style={{display:'flex'}}>
     <div><span style={{fontSize:'14px'}}>Account NO:  </span><span style={{ fontSize:'12px'}}>2324353 45454</span></div>
     <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Balance:  </span><span style={{ fontSize:'12px'}}>10000.00</span></div>
@@ -148,7 +149,7 @@ function App(props) {
    </div>
    <div className="card text-white bg-primary mb-3" >
  <div className="card-body">
-    <h5 class="card-title custom-title">City Bank Pune Branch</h5>
+    <h5 className="card-title custom-title">City Bank Pune Branch</h5>
     <div style={{display:'flex'}}>
     <div><span style={{fontSize:'14px'}}>Account NO:  </span><span style={{ fontSize:'12px'}}>2324353 45454</span></div>
     <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Balance:  </span><span style={{ fontSize:'12px'}}>10000.00</span></div>
@@ -156,6 +157,29 @@ function App(props) {
     </div>
     </div>
    </div>
+
+
+          {!loading &&
+        data != null &&
+        data.result.data.accounts.map((account, i) => (
+            <div className="card text-white bg-primary mb-3" >
+        <div className="card-body">
+           <h5 className="card-title custom-title">City Bank</h5>
+           <div style={{display:'flex'}}>
+           <div><span style={{fontSize:'14px'}}>Account NO:  </span><span style={{ fontSize:'12px'}}>{account.accountId}</span></div>
+           <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Balance:  </span><span style={{ fontSize:'12px'}}>{account.balances?.available}</span></div>
+           <div style={{marginLeft:'10px'}}><span style={{fontSize:'14px'}}>Account Status:  </span><span style={{fontSize:'12px'}}>Active</span></div>
+           </div>
+           </div>
+          </div>
+          
+      
+          ) 
+      )}
+   
+        
+
+  
       </div>
     </div>
 

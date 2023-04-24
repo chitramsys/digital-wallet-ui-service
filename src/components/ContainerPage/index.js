@@ -11,6 +11,7 @@ import RenderOnAnonymous from "../../RenderOnAnonymous";
 import RenderOnAuthenticated from "../../RenderOnAuthenticated";
 import Signup from "../SignupPage";
 import Header from "../Header";
+import Wallet from "../Wallet"
 
 /**
  * Container Page
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/addMoney",
     element: <AddMoneyToWallet />,
+  },
+  {
+    path: "/wallet",
+    element: <Wallet />,
   }
 ]);
 
@@ -51,7 +56,7 @@ useEffect(()=>{
 },[])
 
   return(
-   <div class="maincontainer">
+   <div className="maincontainer">
   <Suspense fallback={<div>Loading</div>}>
  <Provider store={store}> 
       <RenderOnAnonymous>

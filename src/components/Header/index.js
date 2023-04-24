@@ -37,7 +37,7 @@ function Header({page}) {
     }, []);
     return (
         <header >
-           <div class="header">
+           <div className="header">
 <img alt='logo' className='img-logo' onClick={()=>navigateTo('/')}  src={MSysLogo} style={{height:50,width:200,cursor:"pointer"}}/>
   <div class="header-right">
 {headers.map((header)=> header.page===page && header.menu.map((menu, index)=> 

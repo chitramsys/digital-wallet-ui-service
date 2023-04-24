@@ -38,21 +38,21 @@ function LinkBankAccount() {
         onChange={handleChange} maxLength="64" className="form-control" id="accountName"  required="true"/>
     </div>
   </div>
-  <div class="mb-3 row">
+  <div className="mb-3 row">
         <label htmlFor="accountNumber" className="col-sm-5 col-form-label lable-align">Account Number</label>
             <div className="col-sm-7">
       <input type="text" className="form-control" placeholder="Enter Account Number"  name="accountnumber" value={inputs.accountnumber || ""} 
         onChange={handleChange} id="accountNumber"  required="true"/>
     </div>
   </div>
-  <div class="mb-3 row">
+  <div className="mb-3 row">
         <label htmlFor="repeatAccountNumber" className="col-sm-5 col-form-label lable-align">Repeat Account Number</label>
             <div className="col-sm-7">
       <input type="text" className="form-control"  placeholder="Enter Repeat Account Number"   name="repeataccountnumber" value={inputs.repeataccountnumber || ""} 
         onChange={handleChange} id="repeatAccountNumber"  required="true"/>
     </div>
   </div>
-  <div class="mb-3 row">
+  <div className="mb-3 row">
         <label htmlFor="ifsc" className="col-sm-5 col-form-label lable-align">IFSC code</label>
             <div className="col-sm-7">
       <input type="text" className="form-control" placeholder="Enter IFSC Code"  name="ifsc" value={inputs.ifsc || ""} 
