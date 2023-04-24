@@ -1,6 +1,6 @@
 import "./index.css";
 import React, { useEffect } from "react";
-import MSysLogo from "../../assets/images/wallet1.png";
+import MSysLogo from "../../assets/images/wallet5.png";
 import Header from "../Header";
 
 function WelcomeScreen() {

@@ -1,28 +1,25 @@
 {
-    "username": "Paramesh12",
+    "username": "",
        "name": {
-           "firstName": "kutty",
-           "middleName": "elu",
-           "lastName": "test"
+           "firstName": "",
+           "middleName": "",
+           "lastName": ""
        },
-       "password": "newpassword",
+       "password": "",
        "dateOfBirth": "1989-05-05",
        "address": {
-           "address1": "chee",
-           "address2": "cheeq",
-           "city": "tn",
-           "state": "tn",
+           "address1": "",
+           "address2": "",
+           "city": "",
+           "state": "",
            "country": "India",
            "zip": "600088"
        },
-       "mobileNumber": "7777777777",
-       "emailAddress": "msys19@gmail.com",
-       "kycIdentiyNumber": "TES6789",
-       "kycIdentityType": "Record",
-       "kycIdentityExpiration": "KNBDJKAD",
-       "hasAdminRole": null,
-       "createdDate": "2023-03-22T18:45:56.171",
-       "updatedDate": "2023-03-22T18:45:56.171",
-       "createdBy": null,
-       "updatedBy": null
+       "mobileNumber": "",
+       "emailAddress": "",
+       "kycIdentiyNumber": "",
+       "kycIdentityType": "",
+       "kycIdentityExpiration": "",
+       "hasAdminRole": null
+       
 }

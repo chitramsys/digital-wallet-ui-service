@@ -11,7 +11,8 @@ export async function signup(userDetails) {
             body: JSON.stringify(userDetails),
         })
         if(response.status !== 200) {
-            throw Error('Failed Fetch')
+            const json = response.json()
+            return Promise.resolve(json)
         }else {
             const json = response.json()
             return Promise.resolve(json)

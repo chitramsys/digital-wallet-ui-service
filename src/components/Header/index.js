@@ -18,8 +18,12 @@ function Header({page}) {
     if(path==='signin'){
       UserService.doLogin();
     }
+    else if(page ==='logout'){
+      UserService.doLogout();
+    }
     else{
-      navigate('/'+path);
+      localStorage.setItem('position', 'header')
+      navigate('../'+ path);
     }
     };
 
@@ -34,7 +38,7 @@ function Header({page}) {
     return (
         <header >
            <div class="header">
-<img alt='logo' className='img-logo' src={MSysLogo} style={{height:50,width:200}}/>
+<img alt='logo' className='img-logo' onClick={()=>navigateTo('/')}  src={MSysLogo} style={{height:50,width:200,cursor:"pointer"}}/>
   <div class="header-right">
 {headers.map((header)=> header.page===page && header.menu.map((menu, index)=> 
 {

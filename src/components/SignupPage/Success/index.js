@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate} from "react-router-dom";
+import Header from "../../Header";
 import "./index.css";
-function UserDetails() {
+function Success() {
     const navigate = useNavigate();
 
     const navigateTo =() =>{
@@ -9,6 +10,7 @@ function UserDetails() {
       }
     return(
         <>
+        <Header ></Header>
        <div  className="sign-up">
       <div className="signup-container" >
 
@@ -23,4 +25,4 @@ function UserDetails() {
     )
 }
 
-export default UserDetails
+export default Success

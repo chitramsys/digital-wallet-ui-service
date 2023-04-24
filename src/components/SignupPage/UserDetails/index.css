@@ -1,13 +1,13 @@
 .title{
-    padding:15px;
+    padding:10px;
     font-family: Lato;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
 }
 
 .form-elements{
     text-align: left;
-    padding: 0px 30px 20px 30px;
+    padding: 0px 20px 10px 20px;
 }
 
 .form-control{
@@ -16,7 +16,7 @@
   }
 
   .form-label{
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-family: sans-serif;
     }
 
@@ -45,8 +45,9 @@ input.form-fixer {
 }
 
 .button-container{
-    width:40%;
-    margin:0 auto;
+   padding-bottom: 15px;
+   display: flex;
+   justify-content: center;
     padding-top:15px;
 }
 
@@ -54,6 +55,8 @@ input.form-fixer {
     border-radius: 0 !important;
     background-color: #0047AB;
     background: black;
+    line-height: 0.5;
+    height: 30px;
 }
 
 .button-container .action:hover{
@@ -69,6 +72,8 @@ input.form-fixer {
     border: 0;
     color: white;
     background-color: #0047AB;
+    line-height: 0.5;
+    height: 30px;
 }
 
 .button-container .cancel:hover{

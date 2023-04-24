@@ -18,20 +18,19 @@ import { signup } from "../../../services/ApiService";
  * @returns Signup Component
  */
 function PersonalDetails(props) {
-  const {step, handleUpdate, nextStep, prevStep} = props;
+  const {step, handleUpdate, nextStep, prevStep, personnalDetailsValue, signUpJson } = props;
+  console.log(JSON.stringify(signUpJson));
     const [user, setUser] = useState({});
     const navigate = useNavigate();
     const [form, setForm] = useState({
-      step: 1,
-      email: '',
-      username: '',
-      mobileNumber: '',
-      password: '',
-      formErrors: {email: '', username: '', mobileNumber: '', password: ''},
-      emailValid: false,
-      usernameValid: false,
-      mobileNumberValid: false,
-      passwordValide:false,
+      step: 2,
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      formErrors: {firstName: '', lastName: '', middleName: ''},
+      firstNameValid: false,
+      lastNameValid: false,
+      middleNameValid: false,
       formValid: false
     });
     const [signupjson, setSignupjson] =useState({
@@ -67,22 +66,31 @@ function PersonalDetails(props) {
 
   const validateField = (fieldName, value) => {
       let fieldValidationErrors = form.formErrors;
-      let emailValid = form.emailValid;
-      let usernameValid = form.usernameValid;
+      let firstNameValid = form.firstNameValid;
+      let lastNameValid = form.lastNameValid;
+      let middleNameValid = form.middleNameValid;
   
       switch(fieldName) {
-        case 'email':
-          emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-          fieldValidationErrors.email = emailValid ? '' : 'Email is invalid';
+        
+        case 'firstName':
+          firstNameValid = value.length >= 2;
+          fieldValidationErrors.firstName = firstNameValid ? '': 'first name should have minimum 2 characters';
           break;
-        case 'username':
-          usernameValid = value.length >= 2;
-          fieldValidationErrors.username = usernameValid ? '': 'Username should have minimum 2 characters';
-          break;
+          case 'lastName':
+            lastNameValid = value.length >= 2;
+            fieldValidationErrors.lastName = lastNameValid ? '': 'last name should have minimum 2 characters';
+            break;
+
+            case 'middleName':
+                middleNameValid = value.length >= 2;
+                fieldValidationErrors.middleName = middleNameValid ? '': 'middle name should have minimum 2 characters';
+                break;
+
         default:
           break;
       }
-      setForm(values => ({...values, formErrors: fieldValidationErrors,emailValid:emailValid,usernameValid:usernameValid}))
+      setForm(values => ({...values, formErrors: fieldValidationErrors,
+        firstNameValid:firstNameValid,lastNameValid:lastNameValid,middleNameValid:middleNameValid}))
      
                      validateForm();
                     
@@ -91,7 +99,7 @@ function PersonalDetails(props) {
 
  const validateForm = () => {
  // form.formValid= form.emailValid && form.passwordValid;
-  setForm(values => ({...values, formValid: form.emailValid && form.usernameValid}))
+  setForm(values => ({...values, formValid: form.firstNameValid && form.lastNameValid && form.middleNameValid}))
  // setForm(form);
       
     }
@@ -100,159 +108,12 @@ function PersonalDetails(props) {
       return(error.length === 0 ? '' : 'has-error');
     }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    let currentErrors = formErrors;
-  switch (name) {
-    
-    case 'username':
-        if (minMaxLength(value, 2,64)) {
-            console.log("dsd")
-            currentErrors[
-              name
-            ] = 'Username should have minimum 2 characters';
-          } else {
-            currentErrors[name] = '';
-            setFormErrors(currentErrors);
-          }
-          console.log(formErrors)
-          break;
-    case 'mobileNumber':
-        if (minMaxLength(value, 10)) {
-            console.log("dsd")
-            currentErrors[
-              name
-            ] = 'Mobile Number should have minimum 10 characters';
-          } else {
-            currentErrors[name] = '';
-          }
-          console.log(formErrors)
-          break;
-    case 'email':
-        if (!value || validEmail(value)) {
-            currentErrors[name] = `Email address is invalid`;
-          } else {
-            userExists(value).then((result) => {
-              if (result) {
-                currentErrors[name] =
-                  'The email is already registered. Please use a different email.';
-              } else {
-                delete currentErrors[name];
-                setUser({
-                    ...user,
-                    username: value,
-                  });
-              }
-            });
-        }
-                
-      break;
-    case 'password':
-        if (minMaxLength(value, 6)) {
-            currentErrors[name] = 'Password should have minimum 6 characters';
-          } else if (passwordStrength(value)) {
-            currentErrors[name] =
-              'Password is not strong enough. Include an upper case letter, a number or a special character to make it strong';
-          
-            } else {
-           currentErrors[name] ='';
-           setFormErrors(currentErrors);
-            setUser({
-              ...user,
-              password: value,
-            });
-            if (user.confirmpassword) {
-              validateConfirmPassword(
-                value,
-                user.confirmpassword,
-                currentErrors
-              );
-            }
-          }
-                
-      break;
-    case 'confirmpassword':
-        let valid = validateConfirmPassword(
-            user.password,
-            value,
-            currentErrors
-          );
-          if (valid) {
-            setUser({ ...user, confirmpassword: value });
-          }
-         break;
-                
-      break;
-    default:
-      break;
-  }
-  setFormErrors(currentErrors);
-  
-  }
-
-  function validateConfirmPassword(
-    password,
-    confirmpassword,
-    formErrors
-  ) {
-    formErrors = formErrors || {};
-
-    if (password !== confirmpassword) {
-      formErrors.confirmpassword =
-        'Confirmed password is not matching with password';
-      return false;
-    } else {
-      delete formErrors.confirmpassword;
-      return true;
-    }
-  }
-
-  const formValid = ({ isError, ...rest }) => {
-    let isValid = false;
-    
-    Object.values(formErrors).forEach(val => {
-        if (val.length > 0) {
-            isValid = false
-        } else {
-            isValid = true
-        }
-    });
-    Object.values(user).forEach(val => {
-        if (val === null) {
-            isValid = false
-        } else {
-            isValid = true
-        }
-    });
-    return isValid;
-};
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(user)
-        console.log(formErrors);
-        if (formValid(user)) {
-           // console.log(this.state)
-        } else {
-            console.log("Form is invalid!");
-        }
-      //  if (userLogin.username.trim() && userLogin.password.trim()) {
-          //  const { username, password } = userLogin;
-             signup(userDetails)
-             .then(res => {
-                 console.log("user created")
-             })
-             .catch(err => {
-                 toast.error('Login Failed!!!')
-             })
-       // }
-    };
 
     const onSignup = (signupjson) => {
       signupjson.username = form.username;
       signupjson.emailAddress = form.email;
 
-      nextStep();
+      nextStep(form, 'personalDetails');
       
 
       // signup(signupjson).then((data)=>{
@@ -262,11 +123,18 @@ function PersonalDetails(props) {
     }
 
     const navigateTo =(path) =>{
-      navigate('/');
-    }
+        navigate('/');
+      }
+
+      const redirectTo = () =>{
+        handleUpdate(1);
+      }
+  
 
     useEffect(()=>{
-      
+        if(personnalDetailsValue!=null){
+            setForm(personnalDetailsValue);
+          }
     },[]);
     return (
         <>
@@ -274,134 +142,45 @@ function PersonalDetails(props) {
 <form className="demoForm">
 <div className="form-container">
         <div className="title"> Sign Up</div>
-        <div className={`form-group form-elements ${errorClass(form.formErrors.username)}`}>
-          <label htmlFor="username" className="form-label">First name</label>
-          <input type="text" className={form.formErrors.username.length > 0 ? "is-invalid form-control" : "form-control"} name="username"
-            placeholder="Please enter username"
-            value={form.username}
+        <div className={`form-group form-elements ${errorClass(form.formErrors.firstName)}`}>
+          <label htmlFor="firstName" className="form-label">First name</label>
+          <input type="text" className={form.formErrors.firstName.length > 0 ? "is-invalid form-control" : "form-control"} name="firstName"
+            placeholder="Please enter first name"
+            value={form.firstName}
             onChange={(e)=>handleUserInput(e)}  />
              {
-                        <div className="invalid-feedback">{form.formErrors.username}</div>
+                        <div className="invalid-feedback">{form.formErrors.firstName}</div>
                     }
         </div>
-        <div className={`form-group form-elements ${errorClass(form.formErrors.username)}`}>
-          <label htmlFor="username" className="form-label">Last name</label>
-          <input type="text" className={form.formErrors.username.length > 0 ? "is-invalid form-control" : "form-control"} name="username"
-            placeholder="Please enter username"
-            value={form.username}
+        <div className={`form-group form-elements ${errorClass(form.formErrors.lastName)}`}>
+          <label htmlFor="lastName" className="form-label">Last name</label>
+          <input type="text" className={form.formErrors.lastName.length > 0 ? "is-invalid form-control" : "form-control"} name="lastName"
+            placeholder="Please enter last name"
+            value={form.lastName}
             onChange={(e)=>handleUserInput(e)}  />
              {
-                        <div className="invalid-feedback">{form.formErrors.username}</div>
+                        <div className="invalid-feedback">{form.formErrors.lastName}</div>
                     }
         </div>
-        <div className={`form-group form-elements ${errorClass(form.formErrors.username)}`}>
-          <label htmlFor="username" className="form-label">Middle name</label>
-          <input type="text" className={form.formErrors.username.length > 0 ? "is-invalid form-control" : "form-control"} name="username"
-            placeholder="Please enter username"
-            value={form.username}
+        <div className={`form-group form-elements ${errorClass(form.formErrors.middleName)}`}>
+          <label htmlFor="middleName" className="form-label">Middle name</label>
+          <input type="text" className={form.formErrors.middleName.length > 0 ? "is-invalid form-control" : "form-control"} name="middleName"
+            placeholder="Please enter middle name"
+            value={form.middleName}
             onChange={(e)=>handleUserInput(e)}  />
              {
-                        <div className="invalid-feedback">{form.formErrors.username}</div>
+                        <div className="invalid-feedback">{form.formErrors.middleName}</div>
                     }
         </div>
        
         
         <div className="button-container">
-            <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo('/')}>Cancel</button>
-              <button type="button"  className="btn btn-primary action"  onClick={(e)=>onSignup(signupjson)}>Next</button>
+            <button type="button"  className="btn btn-light cancel" onClick={()=>redirectTo('userDetails')}>Back</button>
+              <button type="button"  className="btn btn-primary action" disabled={!form.formValid}  onClick={(e)=>onSignup(signupjson)}>Next</button>
             </div>
-        {/* <button type="submit" className="btn btn-primary" disabled={!form.formValid}>Sign up</button> */}
         </div>
         
       </form>
-       
-        {/* <div className="form-container">
-        <div className="title"> Sign Up</div>
-      <form className="userDetails-form" onSubmit={handleSubmit} noValidate >
-        <div className="form-elements">
-        <div className="mb-3 form-group">
-              <label htmlFor="username" className="form-label">Username</label>
-              <input  type="text" 
-              name="username"
-              className={formErrors.username.length > 0 ? "is-invalid form-control form-fixer" : "form-control form-fixer"}
-              onChange={handleChange}
-              id="username"  
-              placeholder="Please enter username" required 
-              noValidate
-              />
-                {formErrors.username.length > 0 && (
-                        <span className="invalid-feedback">{formErrors.username}</span>
-                    )}
-          </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input  type="password" 
-              name="password"
-              className={formErrors.password.length > 0 ? "is-invalid form-control form-fixer" : "form-control form-fixer"}
-              onChange={handleChange} id="password" 
-              placeholder="Please enter password" required  noValidate/>
-              {formErrors.password.length > 0 && (
-                        <span className="invalid-feedback">{formErrors.password}</span>
-                    )}
-            </div> 
-            <div className="mb-3">
-              <label htmlFor="mobilenumber" className="form-label">Mobile Number</label>
-              <input  
-              
-              type="text" name="password"
-              className={formErrors.mobileNumber.length > 0 ? "is-invalid form-control form-fixer" : "form-control form-fixer"}
-              onChange={handleChange} id="mobilenumber"
-               placeholder="Please enter mobile number" required noValidate />
-              <div className="invalid-feedback">
-        Please choose a username.
-      </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email Address</label>
-              <input 
-             
-               type="email" className="form-control" id="email" 
-               placeholder="Please enter email address" required noValidate />
-               <div className="invalid-feedback">
-        Please choose a username.
-      </div>
-            </div> */}
-            {/* <div className="mb-3"> 
-              <label htmlFor="identificationType" className="form-label">Identification Type</label>
-              <input  
-             
-               type="text" className="form-control" id="identificationType"  
-               placeholder="Please enter identification type" required noValidate />
-              <div className="invalid-feedback">
-        Please choose a username.
-      </div>
-            </div> 
-            <div className="mb-3">
-              <label htmlFor="identificationNumber" className="form-label">Identification Number</label>
-              <input  
-              type="text" className="form-control" 
-              id="identificationNumber" placeholder="Please enter identification number" required  noValidate/>
-              <div className="invalid-feedback">
-        Please choose a username.
-      </div>
-            </div> 
-            <div className="mb-3">
-              <label htmlFor="identificationExpiry" className="form-label">Identification Expiry Date</label>
-              <input  
-               type="text" className="form-control" required  noValidate id="identificationExpiry" placeholder="Please enter identification expiry date" />
-              <div className="invalid-feedback">
-        Please choose a username.
-      </div>
-            </div>  */}
-      
-            {/* </div>
-            <div className="button-container">
-            <button type="button"  className="btn btn-light cancel">Cancel</button>
-              <button type="submit"  className="btn btn-primary action">Next</button>
-            </div>
-      
-      </form> 
-      </div>*/}
        </> 
     );
 }

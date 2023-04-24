@@ -75,6 +75,24 @@ function App(props) {
     });
     const data = await response.json();
     setData(data);
+    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/link-bank-account`, {
+      method: "POST",
+      headers: {
+        'accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin': '*' 
+      },
+      body: JSON.stringify({
+        "bankName": "SampleBankName",
+        "userId": "642eca73e504cb20a953eba6",
+        "bankRoutingNumber" : "CITI2041",
+        "bankAccountId" : "accountID"
+      
+      }),
+    });
+
+    const datalinkaccount = await responseLinkAccount.json();
+
     setLoading(false);
   }, [setData, setLoading]);
 
