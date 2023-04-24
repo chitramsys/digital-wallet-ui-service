@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./index.css"
 import { usePlaidLink } from "react-plaid-link";
 //import "./App.scss";
-import {linkToken} from '../../services/ApiService';
+import { linkToken } from '../../services/ApiService';
 import uuid from 'react-uuid';
 import Header from "../Header";
 
@@ -13,7 +13,7 @@ function App(props) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [displayResponse, setDisplayResponse] = useState("");
+  const [displayResponse, setDisplayResponse] = useState({});
 
   const createWalletUser = () => {
     const response = fetch(`${process.env.REACT_APP_serverURL}/wallet/account`, {
@@ -24,8 +24,11 @@ function App(props) {
       },
       method: "POST",
     })
-
-    response.then(res => res.json()).then(data => setDisplayResponse(JSON.stringify(data)))
+    setDisplayResponse({})
+    response.then(res => res.json()).then(data => {
+      console.log(data.length)
+      setDisplayResponse(data)
+    })
   }
 
   const onSuccess = useCallback(async (publicToken) => {
@@ -34,8 +37,8 @@ function App(props) {
       method: "POST",
       headers: {
         'accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Access-Control-Allow-Origin': '*' 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({ publicToken: publicToken }),
     });
@@ -51,13 +54,13 @@ function App(props) {
       const linkToken = localStorage.getItem('link_token');
       setToken(linkToken);
     } else {
-          linkToken().then(response => {
-            console.log(response)
-            localStorage.setItem("link_token", response.result.data.linkToken);
-            setToken(response.result.data.linkToken);
+      linkToken().then(response => {
+        console.log(response)
+        localStorage.setItem("link_token", response.result.data.linkToken);
+        setToken(response.result.data.linkToken);
 
-          })
-          .catch(err => {})
+      })
+        .catch(err => { })
     }
   }, [setToken]);
 
@@ -68,8 +71,8 @@ function App(props) {
       method: "POST",
       headers: {
         'accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Access-Control-Allow-Origin': '*' 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({ accessToken: localStorage.getItem('accessToken') }),
     });
@@ -79,15 +82,15 @@ function App(props) {
       method: "POST",
       headers: {
         'accept': 'application/json',
-         'Content-Type': 'application/json',
-         'Access-Control-Allow-Origin': '*' 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
         "bankName": "SampleBankName",
         "userId": "642eca73e504cb20a953eba6",
-        "bankRoutingNumber" : "CITI2041",
-        "bankAccountId" : "accountID"
-      
+        "bankRoutingNumber": "CITI2041",
+        "bankAccountId": "accountID"
+
       }),
     });
 
@@ -118,16 +121,29 @@ function App(props) {
       open();
     }
   }, [token, isOauth, ready, open]);
-  
+
   return (
     <>
-    <Header page={'dashboard'}></Header>
-    <button  onClick={() => createWalletUser()
-        } >
+      <Header page={'dashboard'}></Header>
+      <button className="create-wallet-btn" onClick={() => createWalletUser()
+      } >
         <strong>Create Wallet</strong>
       </button>
 
-      <div>{displayResponse}</div>
+      {/* <div>{JSON.stringify(displayResponse)}</div> */}
+      {Object.keys(displayResponse).length > 0 && (
+        <div className="card text-white bg-primary mb-3 wallet-details-card" >
+          <div className="card-body">
+            <h5 class="card-title custom-title">Created Wallet Details</h5>
+            <div className="details-wrapper">
+              <div><span>User Id:  </span><span style={{ fontSize: '12px' }}>{displayResponse.userId}</span></div>
+              <div><span>Plaid User Id:  </span><span style={{ fontSize: '12px' }}>{displayResponse.plaidWalletId}</span></div>
+              <div><span>Account Balance:  </span><span style={{ fontSize: '12px' }}>{displayResponse.accountBalance}</span></div>
+            </div>
+          </div>
+        </div>
+      )
+      }
       {!loading &&
         data != null &&
         Object.entries(data).map((entry, i) => (
@@ -135,31 +151,31 @@ function App(props) {
             <code>{JSON.stringify(entry[1], null, 2)}</code>
           </pre>
         )
-      )}
+        )}
     </>
-//     <div className="">
-//       <Header page={'dashboard'}></Header>
-//       <button onClick={() => open()
-//         } disabled={!ready}>
-//         <strong>Link account</strong>
-//       </button>
-// <br/>
-// <br/>
-//       <button  onClick={() => createWalletUser()
-//         } >
-//         <strong>Create Wallet</strong>
-//       </button>
+    //     <div className="">
+    //       <Header page={'dashboard'}></Header>
+    //       <button onClick={() => open()
+    //         } disabled={!ready}>
+    //         <strong>Link account</strong>
+    //       </button>
+    // <br/>
+    // <br/>
+    //       <button  onClick={() => createWalletUser()
+    //         } >
+    //         <strong>Create Wallet</strong>
+    //       </button>
 
-//       <div>{displayResponse}</div>
-//       {!loading &&
-//         data != null &&
-//         Object.entries(data).map((entry, i) => (
-//           <pre key={i}>
-//             <code>{JSON.stringify(entry[1], null, 2)}</code>
-//           </pre>
-//         )
-//       )}
-//     </div>
+    //       <div>{displayResponse}</div>
+    //       {!loading &&
+    //         data != null &&
+    //         Object.entries(data).map((entry, i) => (
+    //           <pre key={i}>
+    //             <code>{JSON.stringify(entry[1], null, 2)}</code>
+    //           </pre>
+    //         )
+    //       )}
+    //     </div>
   );
 }
 
