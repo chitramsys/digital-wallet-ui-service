@@ -28,14 +28,14 @@
     "page": "dashboard",
     "menu": [
       {
-        "displayName": "Link Token",
+        "displayName": "Dashboard",
         "key": "dashboard",
         "keyCloak": null
         
       },
       {
-        "displayName": "Create Wallet",
-        "key": "createwallet",
+        "displayName": "Wallet",
+        "key": "wallet",
         "keyCloak": null
       },
       {

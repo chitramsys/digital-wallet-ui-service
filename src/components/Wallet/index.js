@@ -5,7 +5,6 @@ import { usePlaidLink } from "react-plaid-link";
 import {linkToken} from '../../services/ApiService';
 import uuid from 'react-uuid';
 import Header from "../Header";
-import linkAccount from '../../assets/images/linkaccount.png';
 
 
 
@@ -123,36 +122,20 @@ function App(props) {
   return (
     <>
     <Header page={'dashboard'}></Header>
-    <div className="welcome-container">
-      <div className="left-container" style={{padding:'30px'}}>
-      {/* <div className="card text-white bg-primary mb-3" >
-   <div className="card-header">Linked Accounts</div>
-  <div className="card-body">
-    <h5 class="card-title">No accounts linked</h5>
-     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div> 
-   </div> */}
-      <div className="card text-white bg-primary mb-3" >
- <div className="card-body">
-    <h5 class="card-title">City Bank Chennai Branch</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div>
-   </div>
-   <div className="card text-white bg-primary mb-3">
-    <div className="card-body">
-    <h5 class="card-title">City Bank Pune Branch</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-   </div>
-</div>
-</div>
-      
-      <div className="right-container">
-      {/* <img alt="logo" className="img-logo" src={linkAccount} /> */}
-        Do you want to link new account? <button type="button"  onClick={() => open()
-        } disabled={!ready} class="btn btn-link">Link Account</button>
-      </div>
-    </div>
+    <button  onClick={() => createWalletUser()
+        } >
+        <strong>Create Wallet</strong>
+      </button>
 
+      <div>{displayResponse}</div>
+      {!loading &&
+        data != null &&
+        Object.entries(data).map((entry, i) => (
+          <pre key={i}>
+            <code>{JSON.stringify(entry[1], null, 2)}</code>
+          </pre>
+        )
+      )}
     </>
 //     <div className="">
 //       <Header page={'dashboard'}></Header>

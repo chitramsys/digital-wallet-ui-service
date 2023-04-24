@@ -8,6 +8,7 @@ import LinkBankAccount from "../LinkBankAccount";
 import AddMoneyToWallet from "../AddMoneyToWallet";
 import Signup from "../SignupPage";
 import Success from '../SignupPage/Success';
+import Wallet from '../Wallet';
 
 /**
  * Container Page
@@ -37,11 +38,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/linkBank",
-    element: <LinkBankAccount />,
+    element: <Wallet />,
   },
   {
-    path: "/addMoney",
-    element: <AddMoneyToWallet />,
+    path: "/wallet",
+    element: <Wallet />,
   }
 ]);
 
