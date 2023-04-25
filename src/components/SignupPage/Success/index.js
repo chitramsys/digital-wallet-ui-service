@@ -11,16 +11,14 @@ function Success() {
     return(
         <>
         <Header ></Header>
-       <div  className="sign-up">
-      <div className="signup-container" >
-
-       <div className="success-msg" > User Successfully created </div>
-
-       <div className="button-container">
-            <button type="button"  className="btn btn-light cancel" onClick={()=>navigateTo()}>Cancel</button>
-              </div> 
-      </div>
-      </div>
+        <div className="card text-white bg-primary mb-3 wallet-details-card-success" >
+          <div className="card-body">
+            <h5 class="card-title custom-title-success">User Created Successfully </h5>
+            <div className="details-wrapper-success">
+            <button type="button"  className="btn btn-link"  onClick={()=>navigateTo()}>Go To Home Page</button>
+            </div>
+          </div>
+        </div>
         </>
     )
 }

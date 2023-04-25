@@ -50,7 +50,7 @@ function Signup() {
       signupJSON.address.state = form.state;
       signup(signupJSON).then((data)=>{
         console.log(data);
-        if(data.status === 200){
+        if(data.success === true){
         navigate('/success');
         }
         else{

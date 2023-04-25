@@ -77,23 +77,23 @@ function App(props) {
     const data = await response.json();
 
     setData(data);
-    // const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/link-bank-account`, {
-    //   method: "POST",
-    //   headers: {
-    //     'accept': 'application/json',
-    //      'Content-Type': 'application/json',
-    //      'Access-Control-Allow-Origin': '*' 
-    //   },
-    //   body: JSON.stringify({
-    //     "bankName": "SampleBankName",
-    //     "userId": "642eca73e504cb20a953eba6",
-    //     "bankRoutingNumber" : "CITI2041",
-    //     "bankAccountId" : "accountID"
+    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`, {
+      method: "POST",
+      headers: {
+        'accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin': '*' 
+      },
+      body: JSON.stringify({
+        "bankName": "Bank of America",
+        "userId": "642eca73e504cb20a953eba6",
+        "bankRoutingNumber" : "CITI2041",
+        "bankAccountId" : "234354546445"
       
-    //   }),
-    // });
+      }),
+    });
     
-   // const datalinkaccount = await responseLinkAccount.json();
+   const datalinkaccount = await responseLinkAccount.json();
 console.log(data)
     setLoading(false);
   }, [setData, setLoading]);
@@ -112,13 +112,37 @@ console.log(data)
   }
   const { open, ready } = usePlaidLink(config);
 
-  useEffect(() => {
+useEffect(  () => {
     if (token == null) {
       createLinkToken();
     }
     if (isOauth && ready) {
       open();
     }
+
+    const getUsers = async () => {
+    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/userId`, {
+      method: "POST",
+      headers: {
+        'accept': 'application/json',
+         'Content-Type': 'application/json',
+         'Access-Control-Allow-Origin': '*' 
+      },
+      body: JSON.stringify({
+        "userId": "642eca73e504cb20a953eba6"
+      }),
+    })
+
+    const datalinkaccount1 = await responseLinkAccount.json();
+    console.log(datalinkaccount1);
+  }
+
+    getUsers();
+
+    
+ 
+
+  
   }, [token, isOauth, ready, open]);
   
   return (
