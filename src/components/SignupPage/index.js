@@ -118,35 +118,6 @@ function Signup() {
       </div>
       </div>
     </div>
-      {/* <div  className="sign-up-content">
-      <div className="sign-up-container" >
-      {(() => {
-        switch (step) {
-          case 1:
-            return <UserDetails signUpJson={signUpJson}  step={step} handleUpdate={handleUpdate}
-            nextStep={nextStep} prevStep={prevStep} />
-           
-             case 2:
-               return <PersonalDetails signUpJson={signUpJson}  step={step} handleUpdate={handleUpdate}
-               nextStep={nextStep} prevStep={prevStep} />
-
-               case 3:
-                  return <IdentificationDetails signUpJson={signUpJson}  step={step} handleUpdate={handleUpdate}
-                  nextStep={nextStep} prevStep={prevStep} />
-
-                case 4:
-                    return <ResidanceDetails signUpJson={signUpJson}  step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} prevStep={prevStep} />
-         
-          default:
-            return null
-        }
-      })()}
-     
-
-      
-      </div>
-      </div> */}
       </>
         
     );

@@ -7,8 +7,8 @@ import Dashboard from "../Dashboard";
 import LinkBankAccount from "../LinkBankAccount";
 import AddMoneyToWallet from "../AddMoneyToWallet";
 import Signup from "../SignupPage";
-import Success from '../SignupPage/Success';
-import Wallet from '../Wallet';
+import Success from "../SignupPage/Success";
+import Wallet from "../Wallet";
 
 /**
  * Container Page
@@ -16,7 +16,6 @@ import Wallet from '../Wallet';
  * @description: Container Page containing all the MFEs
  * @returns Combined MFEs
  */
-
 
 const router = createBrowserRouter([
   {
@@ -43,24 +42,21 @@ const router = createBrowserRouter([
   {
     path: "/wallet",
     element: <Wallet />,
-  }
+  },
 ]);
 
-function ContainerPageNoKeyCloak  ( ){
-useEffect(()=>{
+function ContainerPageNoKeyCloak() {
+  useEffect(() => {}, []);
 
-},[])
-
-  return(
-   <div className="maincontainer">
-   
-  <Suspense fallback={<div>Loading</div>}>
+  return (
+    <div className="maincontainer">
+      <Suspense fallback={<div>Loading</div>}>
         <div className="container-page">
-        
-        <RouterProvider router={router} />
+          <RouterProvider router={router} />
         </div>
-  </Suspense>
-  </div>)
-};
+      </Suspense>
+    </div>
+  );
+}
 
 export default ContainerPageNoKeyCloak;

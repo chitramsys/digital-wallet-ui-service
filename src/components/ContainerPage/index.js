@@ -1,6 +1,11 @@
 import React, { Suspense } from "react";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 import "./index.css";
 import WelcomeScreen from "../WelcomeScreen";
 import { useEffect } from "react";
@@ -11,7 +16,8 @@ import RenderOnAnonymous from "../../RenderOnAnonymous";
 import RenderOnAuthenticated from "../../RenderOnAuthenticated";
 import Signup from "../SignupPage";
 import Header from "../Header";
-import Wallet from "../Wallet"
+import Wallet from "../Wallet";
+import Success from "../SignupPage/Success";
 
 /**
  * Container Page
@@ -19,63 +25,50 @@ import Wallet from "../Wallet"
  * @description: Container Page containing all the MFEs
  * @returns Combined MFEs
  */
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Dashboard />,
-  },
-  {
-    path: "/linkBank",
-    element: <LinkBankAccount />,
-  },
-  {
-    path: "/addMoney",
-    element: <AddMoneyToWallet />,
-  },
-  {
-    path: "/wallet",
-    element: <Wallet />,
-  }
-]);
 
-const routersignup = createBrowserRouter([
-  {
-    path: "/",
-    element: <WelcomeScreen />,
-  },
+const routerAfterAuth = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Dashboard />}>
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="linkBank" element={<LinkBankAccount />} />
+      <Route path="addMoney" element={<AddMoneyToWallet />} />
+      <Route path="wallet" element={<Wallet />} />
+    </Route>
+  )
+);
 
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-]);
+const routerBeforeAuth = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<WelcomeScreen />}>
+      <Route path="signup" element={<Signup />} />
+      <Route path="success" element={<Success />} />
+    </Route>
+  )
+);
 
-function ContainerPage  ({ store }){
-useEffect(()=>{
+function ContainerPage({ store }) {
+  useEffect(() => {}, []);
 
-},[])
-
-  return(
-   <div className="maincontainer">
-  <Suspense fallback={<div>Loading</div>}>
- <Provider store={store}> 
-      <RenderOnAnonymous>
-      <div className="container-page">
-        <RouterProvider router={routersignup} />
-        </div>
-      </RenderOnAnonymous>
-      <RenderOnAuthenticated>
-        <div className="container-page">
-       
-        <RouterProvider router={router} >
-        <Header></Header>
-          </RouterProvider>
-         </div>
-      </RenderOnAuthenticated>
-    </Provider>
-
-  </Suspense>
-  </div>)
-};
+  return (
+    <div className="maincontainer">
+      <Suspense fallback={<div>Loading</div>}>
+        <Provider store={store}>
+          <RenderOnAnonymous>
+            <div className="container-page">
+              <RouterProvider router={routerBeforeAuth} />
+            </div>
+          </RenderOnAnonymous>
+          <RenderOnAuthenticated>
+            <div className="container-page">
+              <RouterProvider router={routerAfterAuth}>
+                <Header></Header>
+              </RouterProvider>
+            </div>
+          </RenderOnAuthenticated>
+        </Provider>
+      </Suspense>
+    </div>
+  );
+}
 
 export default ContainerPage;

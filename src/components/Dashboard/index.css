@@ -5,7 +5,6 @@
     margin-top: 30px;
     text-align: center;
     background-image: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% );
-
 }
 
 .clickme{
@@ -31,4 +30,52 @@
 
 .custom-title{
     font-size: 14px;
+}
+
+.dashboard-log{
+    width: 80%;
+}
+
+.dashboard-left-container{
+    padding:30px
+}
+
+.dashboard-left-container > div {
+    display: flex;
+}
+
+.linked-bank-title{
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 20px,;
+}
+
+.link-color{
+    color: white;
+    
+}
+
+.link-account-button{
+    display: flex;
+    float: right;
+    flex-direction: row-reverse;
+    width: 80%;
+}
+
+.mar-left{
+    margin-left: 10px;
+}
+
+.f-size-14{
+    font-size: 14px;
+}
+
+.f-size-12{
+    font-size: 12px;
+}
+
+.display-flex{
+    display: flex;
 }
