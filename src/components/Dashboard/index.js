@@ -6,6 +6,11 @@ import { linkToken } from "../../services/ApiService";
 import uuid from "react-uuid";
 import Header from "../Header";
 import linkAccount from "../../assets/images/wallet5.png";
+import { RiMenuLine, RiLayoutGridFill, RiCurrencyFill } from "react-icons/ri";
+
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { BsHeartFill, BsHeart } from "react-icons/bs";
+import SideBar from "../SideBar";
 
 function App(props) {
   const [token, setToken] = useState(null);
@@ -13,6 +18,7 @@ function App(props) {
   const [loading, setLoading] = useState(true);
 
   const [displayResponse, setDisplayResponse] = useState("");
+  const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
 
   const createWalletUser = () => {
     const response = fetch(
@@ -124,7 +130,7 @@ function App(props) {
     isOauth = true;
   }
   const { open, ready } = usePlaidLink(config);
-
+  const sideBarCollapse = async() => setSideBarCollapsed(!sideBarCollapsed);
   useEffect(() => {
     if (token == null) {
       createLinkToken();
@@ -132,6 +138,9 @@ function App(props) {
     if (isOauth && ready) {
       open();
     }
+
+    
+    
 
     const getUsers = async () => {
       const responseLinkAccount = await fetch(
@@ -159,17 +168,11 @@ function App(props) {
   return (
     <>
       <Header page={"dashboard"}></Header>
-      <div className="welcome-container">
-        <div className="dashboard-left-container">
-          <img
-            alt="logo"
-            className="dashboard-logo"
-            src={linkAccount}
-          />
-        </div>
-
-        <div className="dashboard-left-container">
-          <div>
+      <div className="container-fluid content-area">
+        <div className="row flex-nowrap">
+        <SideBar />
+        <div className="col py-3">
+      <div className="heading-container">
             <div className="linked-bank-title" >
               Linked Bank Accounts
             </div>
@@ -181,80 +184,56 @@ function App(props) {
                 className="btn btn-link link-color">
                 Link Account
               </button>
-            </div>
-          </div>
-          <div className="card text-white bg-primary mb-3">
-            <div className="card-body">
-              <h5 className="card-title custom-title">
-                City Bank Chennai Branch
-              </h5>
-              <div className="display-flex">
-                <div>
-                  <span className="f-size-14">Account NO: </span>
-                  <span className="f-size-12">2324353 45454</span>
-                </div>
-                <div className="mar-left">
-                  <span className="f-size-14">Account Balance: </span>
-                  <span className="f-size-12">10000.00</span>
-                </div>
-                <div className="mar-left">
-                  <span className="f-size-14">Account Status: </span>
-                  <span className="f-size-12">Active</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card text-white bg-primary mb-3">
-            <div className="card-body">
-              <h5 className="card-title custom-title">City Bank Pune Branch</h5>
-              <div className="display-flex">
-                <div>
-                  <span className="f-size-14">Account NO: </span>
-                  <span className="f-size-12">2324353 45454</span>
-                </div>
-                <div className="mar-left">
-                  <span className="f-size-14">Account Balance: </span>
-                  <span className="f-size-12">10000.00</span>
-                </div>
-                <div className="mar-left">
-                  <span className="f-size-14">Account Status: </span>
-                  <span className="f-size-12">Active</span>
-                </div>
-              </div>
-            </div>
+            
           </div>
 
-          {!loading &&
+          <div class="container">
+  <div class="row">
+    <div class="col-3">
+    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank</div>
+              <div className="card-body text-info">
+                <h5 className="card-title">Info card title</h5>
+                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+             </div>
+          </div>
+    </div>
+    <div class="col-3">
+    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank</div>
+              <div className="card-body text-info">
+                <h5 className="card-title">Info card title</h5>
+                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+             </div>
+          </div>
+    </div>
+    <div class="col-3">
+    {!loading &&
             data != null &&
             data.result.data.accounts.map((account, i) => (
-              <div className="card text-white bg-primary mb-3">
-                <div className="card-body">
-                  <h5 className="card-title custom-title">City Bank</h5>
-                  <div className="display-flex">
-                    <div>
-                      <span className="f-size-14">Account NO: </span>
-                      <span className="f-size-12">
-                        {account.accountId}
-                      </span>
-                    </div>
-                    <div className="mar-left">
-                      <span className="f-size-14">
-                        Account Balance:{" "}
-                      </span>
-                      <span className="f-size-12">
-                        {account.balances?.available}
-                      </span>
-                    </div>
-                    <div className="mar-left">
-                      <span className="f-size-14">Account Status: </span>
-                      <span className="f-size-12">Active</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank</div>
+              <div className="card-body text-info">
+                <h5 className="card-title">Info card title</h5>
+                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+             </div>
+          </div>
             ))}
+    </div>
+    </div>
+  </div>
+          
+
+         
+
+
+          
+            </div>
+        
         </div>
-      </div>
+    </div>
+</div>
+     
     </>
   );
 }

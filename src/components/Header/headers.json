@@ -27,21 +27,5 @@
   {
     "page": "dashboard",
     "menu": [
-      {
-        "displayName": "Dashboard",
-        "key": "dashboard",
-        "keyCloak": null
-        
-      },
-      {
-        "displayName": "Wallet",
-        "key": "wallet",
-        "keyCloak": null
-      },
-      {
-        "displayName": "Log Out",
-        "key": "logout",
-        "keyCloak": null
-      }
     ]
 }]

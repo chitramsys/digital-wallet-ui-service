@@ -5,6 +5,8 @@ import { usePlaidLink } from "react-plaid-link";
 import { linkToken } from '../../services/ApiService';
 import uuid from 'react-uuid';
 import Header from "../Header";
+import SideBar from "../SideBar";
+import AddMoneyToWallet from "../AddMoneyToWallet";
 
 
 
@@ -124,13 +126,25 @@ function App(props) {
 
   return (
     <>
-      <Header page={'dashboard'}></Header>
+
+<Header page={"dashboard"}></Header>
+      <div className="container-fluid content-area">
+        <div className="row flex-nowrap">
+        <SideBar />
+        <div className="col py-3">
+         <AddMoneyToWallet />
+        </div>
+        
+        
+    </div>
+</div>
+      {/* <Header page={'dashboard'}></Header>
       <button className="create-wallet-btn" onClick={() => createWalletUser()
       } >
         <strong>Create Wallet</strong>
       </button>
 
-      {/* <div>{JSON.stringify(displayResponse)}</div> */}
+      {/* <div>{JSON.stringify(displayResponse)}</div> 
       {Object.keys(displayResponse).length > 0 && (
         <div className="card text-white bg-primary mb-3 wallet-details-card" >
           <div className="card-body">
@@ -151,7 +165,7 @@ function App(props) {
             <code>{JSON.stringify(entry[1], null, 2)}</code>
           </pre>
         )
-        )}
+        )} */}
     </>
     //     <div className="">
     //       <Header page={'dashboard'}></Header>

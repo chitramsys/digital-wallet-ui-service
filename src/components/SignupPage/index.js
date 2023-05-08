@@ -8,6 +8,7 @@ import PersonalDetails from "./PersonalDetails";
 import ResidanceDetails from "./ResidanceDetails";
 import signupJSON  from "../../services/signup.json";
 import {signup} from "../../services/ApiService";
+import OTPVerification from "./OTPVerification";
 
 
 /**
@@ -97,16 +98,20 @@ function Signup() {
           case 1:
             return <UserDetails  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
             nextStep={nextStep} />
+
+            case 2:
+               return <OTPVerification personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
+               nextStep={nextStep} />
            
-             case 2:
+             case 3:
                return <PersonalDetails personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
                nextStep={nextStep} />
 
-               case 3:
+               case 4:
                   return <IdentificationDetails  identificationDetailsValue = {identificationDetailsValue}  step={step} handleUpdate={handleUpdate}
                   nextStep={nextStep} />
 
-                case 4:
+                case 5:
                     return <ResidanceDetails residanceDetailsValue= {residanceDetailsValue} errorMessage = {errorMessage} step={step} handleUpdate={handleUpdate}
                     nextStep={nextStep} />
          
