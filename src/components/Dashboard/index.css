@@ -47,13 +47,7 @@ body {
     display: flex;
 }
 
-.linked-bank-title{
-    color: black;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 20px,;
-}
+
 
 .link-color{
     color: black;
@@ -65,7 +59,7 @@ body {
     float: right;
     flex-direction: row-reverse;
     width: 80%;
-    margin-top:-40px;
+    margin-top:-50px;
 }
 
 .mar-left{
@@ -165,4 +159,14 @@ body {
   .content-area{
     margin-top:-7.5px;
   }
+
+  .linked-bank-title{
+    color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 20px;
+    font-weight: 600;
+}
   

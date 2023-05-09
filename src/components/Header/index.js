@@ -81,18 +81,18 @@ function Header({ page }) {
         <button className="btn btn-outline-success" type="submit">Search</button>
       </form>
 
-      <div className="dropdown pb-1">
+      <div className="dropdown pb-1" style={{marginRight: '10px',marginLeft: '10px'}}>
                     <a href="#" className="d-flex  text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
-                        <span className="d-none d-sm-inline mx-1">loser</span>
+                        <span className="d-none d-sm-inline mx-1">Chitra</span>
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a className="dropdown-item" href="#">New </a></li>
+                        {/* <li><a className="dropdown-item" href="#">New </a></li>
                         <li><a className="dropdown-item" href="#">Settings</a></li>
                         <li><a className="dropdown-item" href="#">Profile</a></li>
                         <li>
                             <hr className="dropdown-divider" />
-                        </li>
+                        </li> */}
                         <li><a className="dropdown-item" href="#">Sign out</a></li>
                     </ul>
                 </div>

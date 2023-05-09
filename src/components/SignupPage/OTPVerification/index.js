@@ -18,9 +18,11 @@ import { signup } from "../../../services/ApiService";
  * @returns Signup Component
  */
 function OTPVerification(props) {
-  const {step, handleUpdate, nextStep, prevStep, personnalDetailsValue, signUpJson } = props;
-  console.log(JSON.stringify(signUpJson));
+  const {step, handleUpdate, nextStep, userDetailsValue} = props;
+  console.log(JSON.stringify(userDetailsValue));
     const [user, setUser] = useState({});
+    const [userDetails, setUserDetails] = useState(userDetailsValue);
+    const [isResendEnable, setIsResendEnable] = useState(false);
     const navigate = useNavigate();
     const [form, setForm] = useState({
       step: 2,
@@ -47,8 +49,8 @@ function OTPVerification(props) {
       switch(fieldName) {
         
         case 'otp':
-          otpValid = value.length >= 2;
-          fieldValidationErrors.otp = otpValid ? '': 'first name should have minimum 2 characters';
+          otpValid = value.length >= 6;
+          fieldValidationErrors.otp = otpValid ? '': 'OTP should have 6 digits';
           break;
           default:
           break;
@@ -73,7 +75,23 @@ function OTPVerification(props) {
     }
 
 
-    const onSignup = () => {
+    const verifyOTP = async() => {
+      console.log(form)
+      // const response = await fetch(
+      //   `${process.env.REACT_APP_serverURL}/notification/verifyotp`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       accept: "application/json",
+      //       "Content-Type": "application/json",
+      //       "Access-Control-Allow-Origin": "*",
+      //     },
+      //     body: JSON.stringify({
+      //       accessToken: localStorage.getItem("accessToken"),
+      //     }),
+      //   }
+      // );
+      // const data = await response.json();
       nextStep(form, 'otp');
       
 
@@ -89,9 +107,10 @@ function OTPVerification(props) {
   
 
     useEffect(()=>{
-        if(personnalDetailsValue!=null){
-            setForm(personnalDetailsValue);
-          }
+
+      setTimeout(() => {
+        setIsResendEnable(true);
+     }, 3000);
     },[]);
     return (
         <>
@@ -102,8 +121,8 @@ function OTPVerification(props) {
 
         {/* <div className="otp-label" style={{textAlign:'center', paddingBottom:'10px', fontSize: '15px'}}>OTP Verification</div>
          */}<div className={`form-group form-elements ${errorClass(form.formErrors.otp)}`}>
-          <label htmlFor="otp" className="form-label">Please enter otp sent to +919884313282</label>
-          <input type="text" className={form.formErrors.otp.length > 0 ? "is-invalid form-control" : "form-control"} name="otp"
+          <label htmlFor="otp" className="form-label">Please enter otp sent to +91 {userDetails.mobileNumber}</label>
+          <input type="number" className={form.formErrors.otp.length > 0 ? "is-invalid form-control" : "form-control"} name="otp"
             placeholder="Please enter otp"
             value={form.otp}
             onChange={(e)=>handleUserInput(e)}  />
@@ -117,14 +136,14 @@ function OTPVerification(props) {
         
         <div className="btn-container">
             <button type="button"  className="btn btn-light cancel" onClick={()=>redirectTo('userDetails')}>Back</button>
-              <button type="button"  className="btn btn-primary action"   onClick={(e)=>onSignup()}>Verify OTP</button>
+              <button type="button"  className="btn btn-primary action" disabled={!form.formValid}  onClick={(e)=>verifyOTP()}>Verify OTP</button>
               {/* <button type="button"  className="btn btn-primary action" disabled={!form.formValid}  onClick={(e)=>onSignup(signupjson)}>Verify OTP</button>
                */}
             </div>
             <div className="re-send-container">
-            <button disabled={!form.formValid}
+            <button 
                 type="button"
-                className="btn btn-link link-color resend">
+                className="btn btn-link link-color resend" disabled={!isResendEnable}>
                 Re-send OTP
               </button>
               </div>

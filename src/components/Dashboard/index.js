@@ -144,7 +144,7 @@ function App(props) {
 
     const getUsers = async () => {
       const responseLinkAccount = await fetch(
-        `${process.env.REACT_APP_serverURL}/plaid-service/userId`,
+        `${process.env.REACT_APP_serverURL}/digital-wallet/userId`,
         {
           method: "POST",
           headers: {
@@ -181,7 +181,7 @@ function App(props) {
                 type="button"
                 onClick={() => open()}
                 disabled={!ready}
-                className="btn btn-link link-color">
+                className="btn btn-secondary">
                 Link Account
               </button>
             
@@ -191,20 +191,51 @@ function App(props) {
   <div class="row">
     <div class="col-3">
     <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-              <div className="card-header">City Bank</div>
-              <div className="card-body text-info">
-                <h5 className="card-title">Info card title</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-             </div>
+    <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div> </div>
           </div>
     </div>
     <div class="col-3">
     <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-              <div className="card-header">City Bank</div>
-              <div className="card-body text-info">
-                <h5 className="card-title">Info card title</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-             </div>
+              <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div>
+              </div>
+          </div>
+    </div>
+    <div class="col-3">
+    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div>
+              </div>
+          </div>
+    </div>
+    <div class="col-3">
+    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div>
+              </div>
+          </div>
+    </div>
+    <div class="col-3">
+    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
+              <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div>
+              </div>
           </div>
     </div>
     <div class="col-3">
@@ -212,11 +243,12 @@ function App(props) {
             data != null &&
             data.result.data.accounts.map((account, i) => (
               <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-              <div className="card-header">City Bank</div>
-              <div className="card-body text-info">
-                <h5 className="card-title">Info card title</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-             </div>
+              <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
+              <div className="card-body">
+              <span> Available Balance</span><h5 className="card-title">20000</h5>
+              <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+              </div>
+              </div>
           </div>
             ))}
     </div>

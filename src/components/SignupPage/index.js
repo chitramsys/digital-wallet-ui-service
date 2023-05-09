@@ -28,7 +28,7 @@ function Signup() {
   const navigate = useNavigate();
 
   // Proceed to next step
-  const nextStep = (form, position) => {
+  const nextStep = async(form, position) => {
     console.log(JSON.stringify(form));
     if(position==='UserDetails'){
       signupJSON.username = form.username;
@@ -66,6 +66,25 @@ function Signup() {
       setIdentificationDetailsValue(form);
       setStep(4);
     }
+    else if(position==='otp'){
+      // const response = await fetch(
+      //   `${process.env.REACT_APP_serverURL}/notification/otp`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       accept: "application/json",
+      //       "Content-Type": "application/json",
+      //       "Access-Control-Allow-Origin": "*",
+      //     },
+      //     body: JSON.stringify({
+      //       accessToken: localStorage.getItem("accessToken"),
+      //     }),
+      //   }
+      // );
+      // const data = await response.json();
+      setStep(4);
+    }
+    
     if(position !='Residance'){
     setStep(step+1);
     }
@@ -79,6 +98,7 @@ function Signup() {
   };
   
     useEffect(()=>{
+    
     },[]);
 
     return (
@@ -100,7 +120,7 @@ function Signup() {
             nextStep={nextStep} />
 
             case 2:
-               return <OTPVerification personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
+               return <OTPVerification  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
                nextStep={nextStep} />
            
              case 3:

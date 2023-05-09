@@ -9,6 +9,7 @@ import AddMoneyToWallet from "../AddMoneyToWallet";
 import Signup from "../SignupPage";
 import Success from "../SignupPage/Success";
 import Wallet from "../Wallet";
+import Transaction from "../Transactions";
 
 /**
  * Container Page
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/wallet",
     element: <Wallet />,
+  },
+  {
+    path: "/transaction",
+    element: <Transaction />,
   },
 ]);
 

@@ -18,6 +18,7 @@ import Signup from "../SignupPage";
 import Header from "../Header";
 import Wallet from "../Wallet";
 import Success from "../SignupPage/Success";
+import Transaction from "../Transactions";
 
 /**
  * Container Page
@@ -33,6 +34,7 @@ const routerAfterAuth = createBrowserRouter(
       <Route path="linkBank" element={<LinkBankAccount />} />
       <Route path="addMoney" element={<AddMoneyToWallet />} />
       <Route path="wallet" element={<Wallet />} />
+      <Route path="transaction" element={<Transaction />} />
     </Route>
   )
 );
