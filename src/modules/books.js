@@ -1,5 +1,4 @@
-import { SUCCESS_SUFFIX } from "redux-axios-middleware";
-import UserService from "../services/UserService";
+import { SUCCESS_SUFFIX } from 'redux-axios-middleware';
 
 const LIST_BOOKS = 'LIST_BOOKS';
 const ADD_BOOK = 'ADD_BOOK';
@@ -7,14 +6,14 @@ const DELETE_BOOK = 'DELETE_BOOK';
 
 const booksReducer = (state = [], action) => {
   switch (action.type) {
-    case LIST_BOOKS + SUCCESS_SUFFIX:
-      return action.payload.data;
+  case LIST_BOOKS + SUCCESS_SUFFIX:
+    return action.payload.data;
 
-    case DELETE_BOOK:
-      return state.filter((book) => book.id !== action.payload.book.id);
+  case DELETE_BOOK:
+    return state.filter((book) => book.id !== action.payload.book.id);
 
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 
@@ -30,7 +29,6 @@ export const allBooks = () => ({
 });
 
 export const addBook = book => {
-  console.log(`${UserService.getUsername()} added the book ${book.title}`);
   return {
     type: ADD_BOOK,
     payload: {
@@ -44,7 +42,6 @@ export const addBook = book => {
 };
 
 export const deleteBook = book => {
-  console.log(`${UserService.getUsername()} deletes the book ${book.title}`);
   return {
     type: DELETE_BOOK,
     payload: {

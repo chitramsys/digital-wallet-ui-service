@@ -1,15 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import "./index.css";
-import userDetails from "../../../services/signup.json";
-import {
-  minMaxLength,
-  validEmail,
-  passwordStrength,
-  userExists,
-} from "../Validation";
-import { signup } from "../../../services/ApiService";
+import React, { useState, useEffect } from 'react';
+import './index.css';
 
 /**
  * Signup Display Page
@@ -18,20 +8,18 @@ import { signup } from "../../../services/ApiService";
  * @returns Signup Component
  */
 function IdentificationDetails(props) {
-  const { step, handleUpdate, nextStep, prevStep, identificationDetailsValue } =
+  const {handleUpdate, nextStep, identificationDetailsValue } =
     props;
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     step: 3,
-    identificationNumber: "",
-    identificationType: "",
-    expiryDate: "",
-    password: "",
+    identificationNumber: '',
+    identificationType: '',
+    expiryDate: '',
+    password: '',
     formErrors: {
-      identificationNumber: "",
-      identificationType: "",
-      expiryDate: "",
+      identificationNumber: '',
+      identificationType: '',
+      expiryDate: '',
     },
     identificationNumberValid: false,
     identificationTypeValid: false,
@@ -43,8 +31,6 @@ function IdentificationDetails(props) {
     const name = e.target.name;
     const value = e.target.value;
     setForm((values) => ({ ...values, [name]: value }));
-    console.log(form);
-
     validateField(name, value);
   };
 
@@ -55,26 +41,20 @@ function IdentificationDetails(props) {
     let expiryDateValid = form.expiryDateValid;
 
     switch (fieldName) {
-      case "identificationNumber":
-        identificationNumberValid = value.length >= 2;
-        fieldValidationErrors.identificationNumber = identificationNumberValid
-          ? ""
-          : "identification number should have minimum 2 characters";
-        break;
-      case "identificationType":
-        identificationTypeValid = value.length >= 2;
-        fieldValidationErrors.identificationType = identificationTypeValid
-          ? ""
-          : "identification number should have minimum 2 characters";
-        break;
-      case "identificationNumber":
-        expiryDateValid = value.length >= 2;
-        fieldValidationErrors.expiryDate = expiryDateValid
-          ? ""
-          : "identification number should have minimum 2 characters";
-        break;
-      default:
-        break;
+    case 'identificationNumber':
+      identificationNumberValid = value.length >= 2;
+      fieldValidationErrors.identificationNumber = identificationNumberValid
+        ? ''
+        : 'identification number should have minimum 2 characters';
+      break;
+    case 'identificationType':
+      identificationTypeValid = value.length >= 2;
+      fieldValidationErrors.identificationType = identificationTypeValid
+        ? ''
+        : 'identification number should have minimum 2 characters';
+      break;
+    default:
+      break;
     }
     setForm((values) => ({
       ...values,
@@ -98,11 +78,11 @@ function IdentificationDetails(props) {
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? "" : "has-error";
+    return error.length === 0 ? '' : 'has-error';
   };
 
   const onSignup = () => {
-    nextStep(form, "IdentificationDetails");
+    nextStep(form, 'IdentificationDetails');
   };
 
   const redirectTo = () => {
@@ -113,7 +93,7 @@ function IdentificationDetails(props) {
     if (identificationDetailsValue != null) {
       setForm(identificationDetailsValue);
     }
-  }, []);
+  }, [identificationDetailsValue]);
   return (
     <>
       <form className="demoForm">
@@ -131,8 +111,8 @@ function IdentificationDetails(props) {
               type="text"
               className={
                 form.formErrors.identificationType.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="identificationType"
               placeholder="Please enter identification type"
@@ -158,8 +138,8 @@ function IdentificationDetails(props) {
               required
               className={
                 form.formErrors.identificationNumber.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="identificationNumber"
               placeholder="Please enter identification number address"
@@ -186,8 +166,8 @@ function IdentificationDetails(props) {
               required
               className={
                 form.formErrors.expiryDate.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="expiryDate"
               placeholder="Please enter expiry date"
@@ -205,14 +185,14 @@ function IdentificationDetails(props) {
             <button
               type="button"
               className="btn btn-light cancel"
-              onClick={() => redirectTo("userDetails")}
+              onClick={() => redirectTo('userDetails')}
             >
               Back
             </button>
             <button
               type="button"
               className="btn btn-primary action"
-              onClick={(e) => onSignup()}
+              onClick={() => onSignup()}
             >
               Next
             </button>

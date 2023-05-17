@@ -1,6 +1,4 @@
-.img-logo{
-    width: 70%;
-}
+
 
 .welcome-container{
     display: flex;
@@ -32,4 +30,5 @@ font-size: 60px;
 
 .right-container{
     width: 50%;
+   
 } 

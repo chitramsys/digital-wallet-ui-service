@@ -1,15 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import "./index.css";
-import userDetails from "../../../services/signup.json";
-import {
-  minMaxLength,
-  validEmail,
-  passwordStrength,
-  userExists,
-} from "../Validation";
-import { signup } from "../../../services/ApiService";
+import React, { useState, useEffect } from 'react';
+import './index.css';
 
 /**
  * Signup Display Page
@@ -19,22 +9,16 @@ import { signup } from "../../../services/ApiService";
  */
 function PersonalDetails(props) {
   const {
-    step,
     handleUpdate,
     nextStep,
-    prevStep,
-    personnalDetailsValue,
-    signUpJson,
+    personnalDetailsValue
   } = props;
-  console.log(JSON.stringify(signUpJson));
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     step: 2,
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    formErrors: { firstName: "", lastName: "", middleName: "" },
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    formErrors: { firstName: '', lastName: '', middleName: '' },
     firstNameValid: false,
     lastNameValid: false,
     middleNameValid: false,
@@ -44,8 +28,6 @@ function PersonalDetails(props) {
     const name = e.target.name;
     const value = e.target.value;
     setForm((values) => ({ ...values, [name]: value }));
-    console.log(form);
-
     validateField(name, value);
   };
 
@@ -56,28 +38,28 @@ function PersonalDetails(props) {
     let middleNameValid = form.middleNameValid;
 
     switch (fieldName) {
-      case "firstName":
-        firstNameValid = value.length >= 2;
-        fieldValidationErrors.firstName = firstNameValid
-          ? ""
-          : "first name should have minimum 2 characters";
-        break;
-      case "lastName":
-        lastNameValid = value.length >= 2;
-        fieldValidationErrors.lastName = lastNameValid
-          ? ""
-          : "last name should have minimum 2 characters";
-        break;
+    case 'firstName':
+      firstNameValid = value.length >= 2;
+      fieldValidationErrors.firstName = firstNameValid
+        ? ''
+        : 'first name should have minimum 2 characters';
+      break;
+    case 'lastName':
+      lastNameValid = value.length >= 2;
+      fieldValidationErrors.lastName = lastNameValid
+        ? ''
+        : 'last name should have minimum 2 characters';
+      break;
 
-      case "middleName":
-        middleNameValid = value.length >= 2;
-        fieldValidationErrors.middleName = middleNameValid
-          ? ""
-          : "middle name should have minimum 2 characters";
-        break;
+    case 'middleName':
+      middleNameValid = value.length >= 2;
+      fieldValidationErrors.middleName = middleNameValid
+        ? ''
+        : 'middle name should have minimum 2 characters';
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
     setForm((values) => ({
       ...values,
@@ -99,11 +81,11 @@ function PersonalDetails(props) {
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? "" : "has-error";
+    return error.length === 0 ? '' : 'has-error';
   };
 
   const onSignup = () => {
-    nextStep(form, "personalDetails");
+    nextStep(form, 'personalDetails');
   };
 
   const redirectTo = () => {
@@ -114,7 +96,7 @@ function PersonalDetails(props) {
     if (personnalDetailsValue != null) {
       setForm(personnalDetailsValue);
     }
-  }, []);
+  }, [personnalDetailsValue]);
   return (
     <>
       <form className="demoForm">
@@ -132,8 +114,8 @@ function PersonalDetails(props) {
               type="text"
               className={
                 form.formErrors.firstName.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="firstName"
               placeholder="Please enter first name"
@@ -158,8 +140,8 @@ function PersonalDetails(props) {
               type="text"
               className={
                 form.formErrors.lastName.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="lastName"
               placeholder="Please enter last name"
@@ -180,8 +162,8 @@ function PersonalDetails(props) {
               type="text"
               className={
                 form.formErrors.middleName.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="middleName"
               placeholder="Please enter middle name"
@@ -199,7 +181,7 @@ function PersonalDetails(props) {
             <button
               type="button"
               className="btn btn-light cancel"
-              onClick={() => redirectTo("userDetails")}
+              onClick={() => redirectTo('userDetails')}
             >
               Back
             </button>
@@ -207,7 +189,7 @@ function PersonalDetails(props) {
               type="button"
               className="btn btn-primary action"
               disabled={!form.formValid}
-              onClick={(e) => onSignup()}
+              onClick={() => onSignup()}
             >
               Next
             </button>

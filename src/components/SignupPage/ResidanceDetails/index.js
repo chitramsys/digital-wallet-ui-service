@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import "./index.css";
-import userDetails from "../../../services/signup.json";
-import {
-  minMaxLength,
-  validEmail,
-  passwordStrength,
-  userExists,
-} from "../Validation";
+import React, { useState, useEffect } from 'react';
+import './index.css';
 
 /**
  * Signup Display Page
@@ -18,22 +9,18 @@ import {
  */
 function ResidanceDetails(props) {
   const {
-    step,
     handleUpdate,
     nextStep,
-    prevStep,
     errorMessage,
     residanceDetailsValue,
   } = props;
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     step: 1,
-    address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    formErrors: { address1: "", address2: "", city: "", state: "" },
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    formErrors: { address1: '', address2: '', city: '', state: '' },
     address1Valid: false,
     address2Valid: false,
     cityValid: false,
@@ -45,8 +32,6 @@ function ResidanceDetails(props) {
     const name = e.target.name;
     const value = e.target.value;
     setForm((values) => ({ ...values, [name]: value }));
-    console.log(form);
-
     validateField(name, value);
   };
 
@@ -58,32 +43,32 @@ function ResidanceDetails(props) {
     let stateValid = form.stateValid;
 
     switch (fieldName) {
-      case "address1":
-        address1Valid = value.length >= 2;
-        fieldValidationErrors.address1 = address1Valid
-          ? ""
-          : "address1 should have minimum 2 characters";
-        break;
-      case "address2":
-        address2Valid = value.length >= 2;
-        fieldValidationErrors.address2 = address2Valid
-          ? ""
-          : "address2 should have minimum 2 characters";
-        break;
-      case "city":
-        cityValid = value.length >= 2;
-        fieldValidationErrors.city = cityValid
-          ? ""
-          : "city should have minimum 2 characters";
-        break;
-      case "state":
-        stateValid = value.length >= 2;
-        fieldValidationErrors.state = stateValid
-          ? ""
-          : "state should have minimum 2 characters";
-        break;
-      default:
-        break;
+    case 'address1':
+      address1Valid = value.length >= 2;
+      fieldValidationErrors.address1 = address1Valid
+        ? ''
+        : 'address1 should have minimum 2 characters';
+      break;
+    case 'address2':
+      address2Valid = value.length >= 2;
+      fieldValidationErrors.address2 = address2Valid
+        ? ''
+        : 'address2 should have minimum 2 characters';
+      break;
+    case 'city':
+      cityValid = value.length >= 2;
+      fieldValidationErrors.city = cityValid
+        ? ''
+        : 'city should have minimum 2 characters';
+      break;
+    case 'state':
+      stateValid = value.length >= 2;
+      fieldValidationErrors.state = stateValid
+        ? ''
+        : 'state should have minimum 2 characters';
+      break;
+    default:
+      break;
     }
     setForm((values) => ({
       ...values,
@@ -109,10 +94,10 @@ function ResidanceDetails(props) {
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? "" : "has-error";
+    return error.length === 0 ? '' : 'has-error';
   };
   const onSignup = () => {
-    nextStep(form, "Residance");
+    nextStep(form, 'Residance');
   };
 
   const redirectTo = () => {
@@ -124,7 +109,7 @@ function ResidanceDetails(props) {
       setForm(residanceDetailsValue);
     }
     setErrorMsg(errorMessage);
-  }, [errorMessage]);
+  }, [errorMessage, residanceDetailsValue]);
   return (
     <>
       <form className="demoForm">
@@ -143,8 +128,8 @@ function ResidanceDetails(props) {
               type="text"
               className={
                 form.formErrors.address1.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="address1"
               placeholder="Please enter address 1"
@@ -166,8 +151,8 @@ function ResidanceDetails(props) {
               required
               className={
                 form.formErrors.address2.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="address2"
               placeholder="Please enter email address 2"
@@ -190,8 +175,8 @@ function ResidanceDetails(props) {
               required
               className={
                 form.formErrors.city.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="city"
               placeholder="Please enter city"
@@ -214,8 +199,8 @@ function ResidanceDetails(props) {
               required
               className={
                 form.formErrors.state.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="state"
               placeholder="Please enter state"
@@ -229,7 +214,7 @@ function ResidanceDetails(props) {
             <button
               type="button"
               className="btn btn-light cancel"
-              onClick={() => redirectTo("identification")}
+              onClick={() => redirectTo('identification')}
             >
               Back
             </button>
@@ -237,7 +222,7 @@ function ResidanceDetails(props) {
               type="button"
               className="btn btn-primary action"
               disabled={!form.formValid}
-              onClick={(e) => onSignup()}
+              onClick={() => onSignup()}
             >
               Submit
             </button>

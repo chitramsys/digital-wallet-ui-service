@@ -14,15 +14,18 @@ const initKeycloak = (onAuthenticatedCallback) => {
   })
     .then((authenticated) => {
       if (!authenticated) {
-        console.log("user is not authenticated..!");
+        // eslint-disable-next-line no-console
+        console.log('user is not authenticated..!');
       }else{
-        console.log("authenticated")
+        // eslint-disable-next-line no-console
+        console.log('authenticated')
        
       }
       onAuthenticatedCallback();
      
      
     })
+    // eslint-disable-next-line no-console
     .catch(console.error);
 };
 

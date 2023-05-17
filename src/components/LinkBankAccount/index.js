@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./index.css";
+import React, { useEffect, useState } from 'react';
+import './index.css';
 
 /**
  * Top Repos List
@@ -38,10 +38,10 @@ function LinkBankAccount() {
             <div className="col-sm-7">
               <input
                 type="text"
-                minlength="5"
+                minLength="5"
                 placeholder="Enter Name on the Account"
                 name="accountname"
-                value={inputs.accountname || ""}
+                value={inputs.accountname || ''}
                 onChange={handleChange}
                 maxLength="64"
                 className="form-control"
@@ -63,7 +63,7 @@ function LinkBankAccount() {
                 className="form-control"
                 placeholder="Enter Account Number"
                 name="accountnumber"
-                value={inputs.accountnumber || ""}
+                value={inputs.accountnumber || ''}
                 onChange={handleChange}
                 id="accountNumber"
                 required="true"
@@ -83,7 +83,7 @@ function LinkBankAccount() {
                 className="form-control"
                 placeholder="Enter Repeat Account Number"
                 name="repeataccountnumber"
-                value={inputs.repeataccountnumber || ""}
+                value={inputs.repeataccountnumber || ''}
                 onChange={handleChange}
                 id="repeatAccountNumber"
                 required="true"
@@ -103,7 +103,7 @@ function LinkBankAccount() {
                 className="form-control"
                 placeholder="Enter IFSC Code"
                 name="ifsc"
-                value={inputs.ifsc || ""}
+                value={inputs.ifsc || ''}
                 onChange={handleChange}
                 required="true"
                 id="ifsc"
@@ -114,10 +114,10 @@ function LinkBankAccount() {
 
         <button
           className="button"
-          style={{ backgroundColor: "#0047AB" }}
+          style={{ backgroundColor: '#0047AB' }}
           type="submit"
         >
-          {" "}
+          {' '}
           Add
         </button>
       </form>

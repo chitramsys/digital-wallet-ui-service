@@ -1,0 +1,12 @@
+{"eslint.enable": true,
+"eslint.packageManager": "npm",
+"eslint.alwaysShowStatus": true,
+"eslint.validate": [
+  "html",
+  "javascript",
+  "typescript",
+  "javascriptreact",
+  "typescriptreact"
+],
+"eslint.nodePath": ".npm/sdks"
+}

@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import "./index.css";
+import React, { useState, useCallback } from 'react';
+import './index.css';
 
 /**
  * Top Repos List
@@ -8,10 +8,11 @@ import "./index.css";
  * @returns Bootstrap List Group of Top Repos
  */
 function AddMoneyToWallet() {
+  // eslint-disable-next-line no-unused-vars
   const [inputs, setInputs] = useState({});
-  const [moneyTranserType, setMoneyTranserType] = useState("Add Money from Bank to Wallet")
+  const [moneyTranserType, setMoneyTranserType] = useState('Add Money from Bank to Wallet')
   const [isWalletToWalletSelected, setIsWalletToWalletSelected] = useState(false);
-  const [walletId, setWalletId] = useState("")
+  const [walletId, setWalletId] = useState('')
   const [walletAmount, setWalletAmount] = useState(0)
   const [showToastMessage, setShowToastMessage] = useState(false)
 
@@ -25,7 +26,7 @@ function AddMoneyToWallet() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setShowToastMessage(true)
-    setWalletId("")
+    setWalletId('')
     setWalletAmount(0)
     setTimeout(() => {
       setShowToastMessage(false)
@@ -34,11 +35,11 @@ function AddMoneyToWallet() {
 
   const handleOnWalletToWalletClick = useCallback((e) => {
     if (e.target.value !== moneyTranserType) {
-      setIsWalletToWalletSelected(e.target.value === "Add Money from Wallet to Wallet")
+      setIsWalletToWalletSelected(e.target.value === 'Add Money from Wallet to Wallet')
       setMoneyTranserType(e.target.value)
       setWalletAmount(0)
     }
-  }, [isWalletToWalletSelected])
+  }, [moneyTranserType])
 
   const handleOnAddHundred = () => {
     setWalletAmount(walletAmount ? (walletAmount + 100) : 100)
@@ -60,17 +61,18 @@ function AddMoneyToWallet() {
   return (
     <>
       <div className="wallet-title"> Transer Money </div>
-      <select class="form-select header select-wrapper" aria-label="Default select example" onClick={handleOnWalletToWalletClick}>
-        {/* <option selected>Add Money to Wallet</option> */}
+     
+      <select className="form-select header select-wrapper" aria-label="Default select example" onClick={handleOnWalletToWalletClick}>
+        {/* <option selected>Add Money to Wallet</option>  */}
         <option value="Add Money from Bank to Wallet">Add Money from Bank to Wallet</option>
         <option value="Add Money from Wallet to Bank">Add Money from Wallet to Bank</option>
         <option value="Add Money from Wallet to Wallet" >Add Money from Wallet to Wallet</option>
-      </select>
+      </select> 
       <div className="outer-container">
         {showToastMessage && (
-          <div class="alert alert-success alert-dismissible fade show toast-wrapper" role="alert">
+          <div className="alert alert-success alert-dismissible fade show toast-wrapper" role="alert">
             <strong>Success!</strong> Money Added Successfully.
-            <button type="button" class="close close-btn" onClick={handleOnToastClose} data-dismiss="alert" aria-label="Close">
+            <button type="button" className="close close-btn" onClick={handleOnToastClose} data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -80,13 +82,13 @@ function AddMoneyToWallet() {
           <div className="content">
             <div className="mb-3">
               <label htmlFor="amount" className="form-label lable-align">Enter amount</label>
-              <input type="text" minlength="5" name="amount" value={walletAmount || ""}
-                onChange={handleChange} maxLength="64" placeholder="Enter amount" className="form-control" id="amount" required="true" />
+              <input type="text" minLength="5" name="amount" value={walletAmount || ''}
+                onChange={handleChange} maxLength="64" placeholder="Enter amount" className="form-control" id="amount" required />
             </div>{isWalletToWalletSelected && (
               <div className="mb-3">
                 <label htmlFor="amount" className="form-label lable-align">Enter Wallet Id</label>
-                <input type="text" minlength="5" name="amount" value={walletId || ""}
-                  onChange={handleWalletIdChange} maxLength="64" placeholder="Enter Wallet Id" className="form-control" id="amount" required="true" />
+                <input type="text" minLength="5" name="amount" value={walletId || ''}
+                  onChange={handleWalletIdChange} maxLength="64" placeholder="Enter Wallet Id" className="form-control" id="amount" required />
               </div>
             )}
             <div className="button-container">

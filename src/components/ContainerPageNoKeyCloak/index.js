@@ -1,15 +1,13 @@
-import React, { Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import WelcomeScreen from "../WelcomeScreen";
-import { useEffect } from "react";
-import Dashboard from "../Dashboard";
-import LinkBankAccount from "../LinkBankAccount";
-import AddMoneyToWallet from "../AddMoneyToWallet";
-import Signup from "../SignupPage";
-import Success from "../SignupPage/Success";
-import Wallet from "../Wallet";
-import Transaction from "../Transactions";
+import React, { Suspense } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
+import WelcomeScreen from '../WelcomeScreen';
+import { useEffect } from 'react';
+import Dashboard from '../Dashboard';
+import Signup from '../SignupPage';
+import Success from '../SignupPage/Success';
+import Wallet from '../Wallet';
+import Transaction from '../Transactions';
 
 /**
  * Container Page
@@ -20,32 +18,32 @@ import Transaction from "../Transactions";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <WelcomeScreen />,
   },
 
   {
-    path: "/signup",
+    path: '/signup',
     element: <Signup />,
   },
   {
-    path: "/success",
+    path: '/success',
     element: <Success />,
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     element: <Dashboard />,
   },
   {
-    path: "/linkBank",
+    path: '/linkBank',
     element: <Wallet />,
   },
   {
-    path: "/wallet",
+    path: '/wallet',
     element: <Wallet />,
   },
   {
-    path: "/transaction",
+    path: '/transaction',
     element: <Transaction />,
   },
 ]);

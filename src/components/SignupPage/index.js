@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Header from "../Header";
-import IdentificationDetails from "./IdentificationDetails";
-import "./index.css";
-import { useNavigate} from "react-router-dom";
-import UserDetails from "./UserDetails";
-import PersonalDetails from "./PersonalDetails";
-import ResidanceDetails from "./ResidanceDetails";
-import signupJSON  from "../../services/signup.json";
-import {signup} from "../../services/ApiService";
-import OTPVerification from "./OTPVerification";
+import React, { useState, useEffect } from 'react';
+import Header from '../Header';
+import IdentificationDetails from './IdentificationDetails';
+import './index.css';
+import { useNavigate} from 'react-router-dom';
+import UserDetails from './UserDetails';
+import PersonalDetails from './PersonalDetails';
+import ResidanceDetails from './ResidanceDetails';
+import signupJSON  from '../../services/signup.json';
+import {signup} from '../../services/ApiService';
+import OTPVerification from './OTPVerification';
 
 
 /**
@@ -29,13 +29,12 @@ function Signup() {
 
   // Proceed to next step
   const nextStep = async(form, position) => {
-    console.log(JSON.stringify(form));
     if(position==='UserDetails'){
       signupJSON.username = form.username;
       signupJSON.password = form.password;
       signupJSON.emailAddress = form.email;
       signupJSON.mobileNumber = form.mobileNumber;
-    setUserDetailsValue(form);
+      setUserDetailsValue(form);
     }
     else if(position==='personalDetails'){
       signupJSON.name.firstName = form.firstName;
@@ -50,14 +49,13 @@ function Signup() {
       signupJSON.address.city = form.city;
       signupJSON.address.state = form.state;
       signup(signupJSON).then((data)=>{
-        console.log(data);
         if(data.success === true){
-        navigate('/success');
+          navigate('/success');
         }
         else{
           setErrorMessage(data.message)
         }
-     })
+      })
     }
     else if(position==='IdentificationDetails'){
       signupJSON.kycIdentityType = form.identificationType;
@@ -86,7 +84,7 @@ function Signup() {
     }
     
     if(position !='Residance'){
-    setStep(step+1);
+      setStep(step+1);
     }
     
   };
@@ -97,55 +95,55 @@ function Signup() {
     setStep(step);
   };
   
-    useEffect(()=>{
+  useEffect(()=>{
     
-    },[]);
+  },[]);
 
-    return (
-      <>
+  return (
+    <>
       <Header page={'signup'}></Header>
 
       <div className="welcome-container">
-      <div className="left-container">
-       {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
-      </div>
-      <div className="right-container">
-      <div  className="sign-up-content">
-      <div className="sign-up-container" >
+        <div className="left-container">
+          {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
+        </div>
+        <div className="right-container">
+          <div  className="sign-up-content">
+            <div className="sign-up-container" >
         
-      {(() => {
-        switch (step) {
-          case 1:
-            return <UserDetails  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
-            nextStep={nextStep} />
+              {(() => {
+                switch (step) {
+                case 1:
+                  return <UserDetails  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
+                    nextStep={nextStep} />
 
-            case 2:
-               return <OTPVerification  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
-               nextStep={nextStep} />
+                case 2:
+                  return <OTPVerification  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
+                    nextStep={nextStep} />
            
-             case 3:
-               return <PersonalDetails personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
-               nextStep={nextStep} />
+                case 3:
+                  return <PersonalDetails personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
+                    nextStep={nextStep} />
 
-               case 4:
+                case 4:
                   return <IdentificationDetails  identificationDetailsValue = {identificationDetailsValue}  step={step} handleUpdate={handleUpdate}
-                  nextStep={nextStep} />
+                    nextStep={nextStep} />
 
                 case 5:
-                    return <ResidanceDetails residanceDetailsValue= {residanceDetailsValue} errorMessage = {errorMessage} step={step} handleUpdate={handleUpdate}
+                  return <ResidanceDetails residanceDetailsValue= {residanceDetailsValue} errorMessage = {errorMessage} step={step} handleUpdate={handleUpdate}
                     nextStep={nextStep} />
          
-          default:
-            return null
-        }
-      })()}
+                default:
+                  return null
+                }
+              })()}
+            </div>
+          </div>
+        </div>
       </div>
-      </div>
-      </div>
-    </div>
-      </>
+    </>
         
-    );
+  );
 }
 
 export default Signup;

@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import "./index.css";
-import userDetails from "../../../services/signup.json";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './index.css';
 import {
   minMaxLength,
-  validEmail,
-  passwordStrength,
-  userExists,
-} from "../Validation";
-import { signup } from "../../../services/ApiService";
+  passwordStrength
+} from '../Validation';
 
 /**
  * Signup Display Page
@@ -22,11 +17,11 @@ function UserDetails(props) {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     step: 1,
-    email: "",
-    username: "",
-    mobileNumber: "",
-    password: "",
-    formErrors: { email: "", username: "", mobileNumber: "", password: "" },
+    email: '',
+    username: '',
+    mobileNumber: '',
+    password: '',
+    formErrors: { email: '', username: '', mobileNumber: '', password: '' },
     emailValid: false,
     usernameValid: false,
     mobileNumberValid: false,
@@ -36,7 +31,7 @@ function UserDetails(props) {
   const handleUserInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    if (name === "mobileNumber") {
+    if (name === 'mobileNumber') {
       setForm((values) => ({
         ...values,
         [name]: normalizeInput(value, form.mobileNumber),
@@ -54,35 +49,33 @@ function UserDetails(props) {
     let passwordValid = form.passwordValid;
 
     switch (fieldName) {
-      case "email":
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? "" : "Email is invalid";
+    case 'email':
+      emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+      fieldValidationErrors.email = emailValid ? '' : 'Email is invalid';
+      break;
+    case 'username':
+      usernameValid = value.length >= 2;
+      fieldValidationErrors.username = usernameValid
+        ? ''
+        : 'Username should have minimum 2 characters';
+      break;
+    case 'password':
+      fieldValidationErrors.password = '';
+      passwordValid = !minMaxLength(value, 6) && !passwordStrength(value);
+      if (minMaxLength(value, 6)) {
+        fieldValidationErrors.password = !minMaxLength(value, 6)
+          ? ''
+          : 'Password should have minimum 6 characters';
         break;
-      case "username":
-        usernameValid = value.length >= 2;
-        fieldValidationErrors.username = usernameValid
-          ? ""
-          : "Username should have minimum 2 characters";
-        break;
-      case "password":
-        console.log(minMaxLength(value, 6));
-        console.log(passwordStrength(value));
-        fieldValidationErrors.password = "";
-        passwordValid = !minMaxLength(value, 6) && !passwordStrength(value);
-        if (minMaxLength(value, 6)) {
-          fieldValidationErrors.password = !minMaxLength(value, 6)
-            ? ""
-            : "Password should have minimum 6 characters";
-          break;
-        }
-        if (passwordStrength(value))
-          fieldValidationErrors.password = !passwordStrength(value)
-            ? ""
-            : "Password is not strong enough. Include an upper case letter, a number or a special character to make it strong";
-        break;
+      }
+      if (passwordStrength(value))
+        fieldValidationErrors.password = !passwordStrength(value)
+          ? ''
+          : 'Password is not strong enough. Include an upper case letter, a number or a special character to make it strong';
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
     setForm((values) => ({
       ...values,
@@ -103,12 +96,12 @@ function UserDetails(props) {
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? "" : "has-error";
+    return error.length === 0 ? '' : 'has-error';
   };
 
   const normalizeInput = (value, previousValue) => {
     if (!value) return value;
-    const currentValue = value.replace(/[^\d]/g, "");
+    const currentValue = value.replace(/[^\d]/g, '');
     const cvLength = currentValue.length;
 
     if (!previousValue || value.length > previousValue.length) {
@@ -123,19 +116,18 @@ function UserDetails(props) {
   };
 
   const onSignup = () => {
-    nextStep(form, "UserDetails");
+    nextStep(form, 'UserDetails');
   };
 
-  const navigateTo = (path) => {
-    navigate("/");
+  const navigateTo = () => {
+    navigate('/');
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(userDetailsValue));
     if (userDetailsValue != null) {
       setForm(userDetailsValue);
     }
-  }, []);
+  }, [userDetailsValue]);
   return (
     <>
       <form className="demoForm">
@@ -149,8 +141,8 @@ function UserDetails(props) {
               type="text"
               className={
                 form.formErrors.username.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="username"
               placeholder="Please enter username"
@@ -168,8 +160,8 @@ function UserDetails(props) {
               required
               className={
                 form.formErrors.email.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="email"
               placeholder="Please enter email address"
@@ -192,8 +184,8 @@ function UserDetails(props) {
               required
               className={
                 form.formErrors.password.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="password"
               placeholder="Please enter password"
@@ -216,8 +208,8 @@ function UserDetails(props) {
               required
               className={
                 form.formErrors.mobileNumber.length > 0
-                  ? "is-invalid form-control"
-                  : "form-control"
+                  ? 'is-invalid form-control'
+                  : 'form-control'
               }
               name="mobileNumber"
               placeholder="Please enter mobile number"
@@ -235,13 +227,13 @@ function UserDetails(props) {
             <button
               type="button"
               className="btn btn-light cancel"
-              onClick={() => navigateTo("/")}
+              onClick={() => navigateTo('/')}
             >Cancel</button>
             <button
               type="button"
               className="btn btn-primary action"
               disabled={!form.formValid}
-              onClick={(e) => onSignup()}
+              onClick={() => onSignup()}
             >Next</button>
           </div>
         </div>
