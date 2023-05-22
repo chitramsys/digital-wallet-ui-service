@@ -23,23 +23,23 @@ function SideBar() {
                
           <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             <li className="nav-item" style={{paddingBottom:'15px'}} onClick={()=>sideBarCollapse()} title="Menu">
-              <a href="#" className="nav-link align-middle px-0">
+              <a href="" className="nav-link align-middle px-0">
                 <RiMenuLine style={{width:'2rem',height:'2rem'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Menu</span>
               </a>
             </li>
             <li className="nav-item" style={{paddingBottom:'15px'}} onClick={()=>navigateTo('dashboard')}>
-              <a href="#" className="nav-link align-middle px-0" title="Dashboard">
+              <a href="" className="nav-link align-middle px-0" title="Dashboard">
                 <RiLayoutGridFill style={{width:'2rem',height:'2rem'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Dashboard</span>
               </a>
             </li>
             <li className="nav-item" style={{paddingBottom:'15px'}} onClick={()=>navigateTo('wallet')}>
-              <a href="#" className="nav-link align-middle px-0" title="Transfer">
+              <a href="" className="nav-link align-middle px-0" title="Transfer">
                 <RiCurrencyFill style={{width:'2rem',height:'2rem', textAlign:'center'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Transfer</span>
               </a>
             </li>
 
             <li className="nav-item" style={{paddingBottom:'15px'}} onClick={()=>navigateTo('transaction')}>
-              <a href="#" className="nav-link align-middle px-0" title="History">
+              <a href="" className="nav-link align-middle px-0" title="History">
                 <RiBillFill style={{width:'2rem',height:'2rem'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}> History</span>
               </a>
             </li>
