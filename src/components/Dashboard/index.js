@@ -141,18 +141,14 @@ function App() {
     
 
     const getUsers = async () => {
-      const responseLinkAccount = await fetch(
-        `${process.env.REACT_APP_serverURL}/digital-wallet/userId`,
+      const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
-            accept: 'application/json',
+            'accept': 'application/json',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-          },
-          body: JSON.stringify({
-            userId: '642eca73e504cb20a953eba6',
-          }),
+          }
         }
       );
 
