@@ -56,25 +56,47 @@ function OTPVerification(props) {
 
 
   const verifyOTP = async() => {
-    // const response = await fetch(
-    //   `${process.env.REACT_APP_serverURL}/notification/verifyotp`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       "Access-Control-Allow-Origin": "*",
-    //     },
-    //     body: JSON.stringify({
-    //       accessToken: localStorage.getItem("accessToken"),
-    //     }),
-    //   }
-    // );
-    // const data = await response.json();
+    const response = await fetch(
+      'http://3.232.225.73/notification/verify',
+      {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({'identifier': '+91'+ `${userDetails.mobileNumber.replaceAll(/\s/g,'')}` ,'token':form.otp, 'channel':'sms'}),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
     nextStep(form, 'otp');
       
 
   }
+
+  const reSendOTP = async() => {
+    setIsResendEnable(false);
+    const response = await fetch(
+      'http://3.232.225.73/notification/OTP',
+      {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({'identifier': '+91'+ `${userDetails.mobileNumber.replaceAll(/\s/g,'')}`, 'channel':'sms'}),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    setTimeout(() => {
+      setIsResendEnable(true);
+    }, 3000);
+
+  }
+
 
   const redirectTo = () =>{
     handleUpdate(1);
@@ -118,6 +140,7 @@ function OTPVerification(props) {
           <div className="re-send-container">
             <button 
               type="button"
+              onClick={()=>reSendOTP()}
               className="btn btn-link link-color resend" disabled={!isResendEnable}>
                 Re-send OTP
             </button>

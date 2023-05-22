@@ -35,12 +35,28 @@ function Signup() {
       signupJSON.emailAddress = form.email;
       signupJSON.mobileNumber = form.mobileNumber;
       setUserDetailsValue(form);
+      const response = await fetch(
+        'http://3.232.225.73/notification/OTP',
+        {
+          method: 'POST',
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: JSON.stringify(
+            {'identifier': '+91'+ `${signupJSON.mobileNumber.replaceAll(/\s/g,'')}` ,'channel':'sms'}),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
     }
     else if(position==='personalDetails'){
       signupJSON.name.firstName = form.firstName;
       signupJSON.name.lastName = form.lastName;
       signupJSON.name.middleName = form.middleName;
       setPersonnalDetailsValue(form);
+
     }
     else if( position==='Residance'){
       setResidanceDetailsValue(form);
@@ -65,21 +81,21 @@ function Signup() {
       setStep(4);
     }
     else if(position==='otp'){
-      // const response = await fetch(
-      //   `${process.env.REACT_APP_serverURL}/notification/otp`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       accept: "application/json",
-      //       "Content-Type": "application/json",
-      //       "Access-Control-Allow-Origin": "*",
-      //     },
-      //     body: JSON.stringify({
-      //       accessToken: localStorage.getItem("accessToken"),
-      //     }),
-      //   }
-      // );
-      // const data = await response.json();
+    
+      const response = await fetch(
+        'http://3.232.225.73/notification/OTP',
+        {
+          method: 'POST',
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: JSON.stringify({'identifier': '+919884313282','channel':'sms'}),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
       setStep(4);
     }
     
