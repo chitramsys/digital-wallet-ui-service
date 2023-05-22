@@ -2,16 +2,12 @@ import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
-  RouterProvider,
-  createRoutesFromElements,
-  Route,
+  RouterProvider
 } from 'react-router-dom';
 import './index.css';
 import WelcomeScreen from '../WelcomeScreen';
 import { useEffect } from 'react';
 import Dashboard from '../Dashboard';
-import LinkBankAccount from '../LinkBankAccount';
-import AddMoneyToWallet from '../AddMoneyToWallet';
 import RenderOnAnonymous from '../../RenderOnAnonymous';
 import RenderOnAuthenticated from '../../RenderOnAuthenticated';
 import Signup from '../SignupPage';
@@ -27,26 +23,72 @@ import Transaction from '../Transactions';
  * @returns Combined MFEs
  */
 
-const routerAfterAuth = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Dashboard />}>
-      <Route path="dashboard" element={<Dashboard />} />
-      <Route path="linkBank" element={<LinkBankAccount />} />
-      <Route path="addMoney" element={<AddMoneyToWallet />} />
-      <Route path="wallet" element={<Wallet />} />
-      <Route path="transaction" element={<Transaction />} />
-    </Route>
-  )
-);
+const routerAfterAuth = createBrowserRouter([
+  {
+    path: '/',
+    element: <Dashboard />,
+  },
 
-const routerBeforeAuth = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<WelcomeScreen />}>
-      <Route path="signup" element={<Signup />} />
-      <Route path="success" element={<Success />} />
-    </Route>
-  )
-);
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/success',
+    element: <Success />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
+  },
+  {
+    path: '/wallet',
+    element: <Wallet />,
+  },
+  {
+    path: '/transaction',
+    element: <Transaction />,
+  },
+]);
+
+
+// const routerAfterAuth = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<Dashboard />}>
+//       <Route path="dashboard" element={<Dashboard />} />
+//       <Route path="linkBank" element={<LinkBankAccount />} />
+//       <Route path="addMoney" element={<AddMoneyToWallet />} />
+//       <Route path="wallet" element={<Wallet />} />
+//       <Route path="transaction" element={<Transaction />} />
+//     </Route>
+//   )
+// );
+
+const routerBeforeAuth = createBrowserRouter([
+  {
+    path: '/',
+    element: <WelcomeScreen />,
+  },
+
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/success',
+    element: <Success />,
+  }
+]);
+
+
+// const routerBeforeAuth = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<WelcomeScreen />}>
+//       <Route path="signup" element={<Signup />} />
+//       <Route path="success" element={<Success />} />
+//     </Route>
+//   )
+// );
 
 function ContainerPage({ store }) {
   useEffect(() => {}, []);

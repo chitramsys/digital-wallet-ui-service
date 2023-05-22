@@ -51,7 +51,7 @@ function Header({ page }) {
                   // eslint-disable-next-line no-undef
                   (process.env.REACT_APP_isKeycloak === menu.keyCloak ||
                     menu.keyCloak === null) && (
-                    <li className="nav-item" onClick={() => navigateTo(menu.key)}>
+                    <li key={menu.key} className="nav-item" onClick={() => navigateTo(menu.key)}>
                       <a className="nav-link active" aria-current="page" >{menu.displayName}</a>
                     </li>
                     // <a
