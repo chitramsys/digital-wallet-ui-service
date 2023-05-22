@@ -46,7 +46,7 @@ function App(props) {
     var data = await response.json();
     localStorage.setItem('accessToken', data.result.data.accessToken);
     await getBalance();
-  }, [getBalance]);
+  }, []);
 
   // Creates a Link token
   const createLinkToken = React.useCallback(async () => {
