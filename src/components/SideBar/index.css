@@ -11,4 +11,11 @@
     align-items: center;
     padding:16px;
   }
+
+  .selected{
+    color: green;
+  }
+  .unselected{
+
+  }
   

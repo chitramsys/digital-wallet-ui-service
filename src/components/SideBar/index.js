@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 function SideBar() {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
+  const [selectedState, setSelectedState] = useState('dashboard');
   const sideBarCollapse = async() => setSideBarCollapsed(!sideBarCollapsed);
 
   const navigate = useNavigate();
   const navigateTo = (path) => {
+    setSelectedState(path);
     navigate('../' + path);
   }
 
@@ -29,18 +31,18 @@ function SideBar() {
             </li>
             <li className="nav-item" style={{paddingBottom:'15px'}} >
               <a onClick={()=>navigateTo('dashboard')} className="nav-link align-middle px-0" title="Dashboard">
-                <RiLayoutGridFill style={{width:'2rem',height:'2rem'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Dashboard</span>
+                <RiLayoutGridFill style={{width:'2rem',height:'2rem'}} className={selectedState ==='dashboard'?'selected':'unselected'} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Dashboard</span>
               </a>
             </li>
             <li className="nav-item" style={{paddingBottom:'15px'}}>
               <a onClick={()=>navigateTo('wallet')} className="nav-link align-middle px-0" title="Transfer">
-                <RiCurrencyFill style={{width:'2rem',height:'2rem', textAlign:'center'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}>Transfer</span>
+                <RiCurrencyFill style={{width:'2rem',height:'2rem', textAlign:'center'}} className={selectedState ==='wallet'?'selected':'unselected'} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed' }>Transfer</span>
               </a>
             </li>
 
             <li className="nav-item" style={{paddingBottom:'15px'}} >
               <a onClick={()=>navigateTo('transaction')} className="nav-link align-middle px-0" title="History">
-                <RiBillFill style={{width:'2rem',height:'2rem'}} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}> History</span>
+                <RiBillFill style={{width:'2rem',height:'2rem'}} className={selectedState ==='transaction'?'selected':'unselected'} /> <span  className={sideBarCollapsed ? 'ms-1 isSideBarCollapsed':'ms-1 isSideBarNotCollapsed'}> History</span>
               </a>
             </li>
                     
