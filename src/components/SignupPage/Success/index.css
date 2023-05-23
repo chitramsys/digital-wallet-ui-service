@@ -50,7 +50,7 @@
     .wallet-details-card-success {
         width: 50% !important;
         margin: 0 auto !important;
-        margin-top: 10% !important;
+        background: green !important;
     }
 
     
