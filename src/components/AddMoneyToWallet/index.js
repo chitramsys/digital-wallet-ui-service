@@ -23,14 +23,32 @@ function AddMoneyToWallet() {
     setWalletAmount(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     setShowToastMessage(true)
     setWalletId('')
-    setWalletAmount(0)
-    setTimeout(() => {
-      setShowToastMessage(false)
-    }, 2000)
+    setWalletAmount(0);
+    const responseLinkAccount = await fetch('http://3.232.225.73/digital-wallet/wallet/transaction', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'user-id': '8a80b6bc-eb9d-4d57-90e9-6e065489e6df'
+      },
+      body: JSON.stringify({
+        'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
+        'amount': 10.00,
+        'reason': 'testing',
+        'currency': 'GBP'
+      }),
+    });
+
+    const datalinkaccount = await responseLinkAccount.json();
+    console.log(datalinkaccount);
+    
+    setShowToastMessage(false)
+    
   }
 
   const handleOnWalletToWalletClick = useCallback((e) => {

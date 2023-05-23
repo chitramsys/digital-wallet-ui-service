@@ -69,14 +69,24 @@ function OTPVerification(props) {
       }
     );
     const data = await response.json();
-    console.log(data);
-    nextStep(form, 'otp');
+    if(data.result==='Approved'){
+      nextStep(form, 'otp');
+    }
+    else{
+      let fieldValidationErrors = form.formErrors;
+      fieldValidationErrors.otp = 'Please enter valid OTP' 
+      setForm(values => ({...values, formErrors: fieldValidationErrors,
+        otpValid:false}));
+      validateForm();
+    }
+    
       
 
   }
 
   const reSendOTP = async() => {
     setIsResendEnable(false);
+    setForm(values => ({...values, otp: ''}));
     const response = await fetch(
       'http://3.232.225.73/notification/OTP',
       {

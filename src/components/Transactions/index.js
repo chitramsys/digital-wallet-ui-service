@@ -1,8 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './index.css';
 import Header from '../Header';
 import SideBar from '../SideBar';
 function Transaction() {
+
+  useEffect(() => {
+    const responseLinkAccount = fetch('http://3.232.225.73//digital-wallet/wallet/transaction', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'user-id': '8a80b6bc-eb9d-4d57-90e9-6e065489e6df'
+      },
+      body: JSON.stringify({
+        'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
+        'amount': 300.00,
+        'reason': 'testing',
+        'currency': 'GBP'
+      }),
+    });
+
+    const datalinkaccount = responseLinkAccount.json();
+    console.log(datalinkaccount);
+  }, []);
 
   return(
     <>

@@ -84,9 +84,7 @@ function Header({ page }) {
                         <li>
                             <hr className="dropdown-divider" />
                         </li> */}
-                <li onClick={()=>window.location.replace('http://3.232.225.73:8080/realms/SpringBootKeycloak/protocol/openid-connect/logout')} ><a href=""  className="dropdown-item" target="_blank" rel="noopener noreferrer">
-      bobbyhadz.com
-    Sign out</a></li>
+                <li onClick={()=>window.location.replace('http://3.232.225.73:8080/realms/SpringBootKeycloak/protocol/openid-connect/logout')} ><a href=""  className="dropdown-item" target="_blank" rel="noopener noreferrer">Sign out</a></li>
               </ul>
             </div>
             </>)
