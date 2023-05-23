@@ -12,7 +12,7 @@ function AddMoneyToWallet() {
   const [inputs, setInputs] = useState({});
   const [moneyTranserType, setMoneyTranserType] = useState('Add Money from Bank to Wallet')
   const [isWalletToWalletSelected, setIsWalletToWalletSelected] = useState(false);
-  const [walletId, setWalletId] = useState('')
+  const [walletId, setWalletId] = useState('23907d09-3d25-4499-96f1-03e02d12a074')
   const [walletAmount, setWalletAmount] = useState(0)
   const [showToastMessage, setShowToastMessage] = useState(false)
 
@@ -28,13 +28,13 @@ function AddMoneyToWallet() {
     setShowToastMessage(true)
     setWalletId('')
     setWalletAmount(0);
-    const responseLinkAccount = await fetch('http://3.232.225.73/digital-wallet/wallet/transaction', {
+    const responseLinkAccount = await fetch('http://3.232.225.73/digital-wallet/wallet/payment/wallet-to-wallet', {
       method: 'POST',
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'user-id': '8a80b6bc-eb9d-4d57-90e9-6e065489e6df'
+        'user-id': 'cbc29bee-3ff3-47d6-9314-d0423a7e93a8'
       },
       body: JSON.stringify({
         'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
@@ -70,7 +70,9 @@ function AddMoneyToWallet() {
     setWalletAmount(walletAmount ? (walletAmount + 1000) : 1000)
   }
   const handleWalletIdChange = (e) => {
-    setWalletId(e.target.value)
+    setWalletId(e.target.value);
+    
+
   }
   const handleOnToastClose = () => {
     setShowToastMessage(false)
@@ -100,7 +102,7 @@ function AddMoneyToWallet() {
           <div className="content">
             <div className="mb-3">
               <label htmlFor="amount" className="form-label lable-align">Enter amount</label>
-              <input type="text" minLength="5" name="amount" value={walletAmount || ''}
+              <input type="text" minLength="2" name="amount" value={walletAmount || ''}
                 onChange={handleChange} maxLength="64" placeholder="Enter amount" className="form-control" id="amount" required />
             </div>{isWalletToWalletSelected && (
               <div className="mb-3">

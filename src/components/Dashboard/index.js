@@ -89,8 +89,7 @@ function App() {
       }
     );
     const data = await response.json();
-
-    setData(data);
+    console.log(data);
     const responseLinkAccount = await fetch(
       `${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`,
       {
@@ -102,7 +101,7 @@ function App() {
         },
         body: JSON.stringify({
           bankName: 'Bank of America',
-          userId: '642eca73e504cb20a953eba6',
+          userId: '6433a4233810353a290384c0',
           bankRoutingNumber: 'CITI2041',
           bankAccountId: '234354546445',
         }),
@@ -111,6 +110,7 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount = await responseLinkAccount.json();
+    getUsers();
     setLoading(false);
   }, [setData, setLoading]);
 
@@ -140,25 +140,30 @@ function App() {
     
     
 
-    const getUsers = async () => {
-      const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
-        {
-          method: 'GET',
-          headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          }
-        }
-      );
-
-      // eslint-disable-next-line no-unused-vars
-      const datalinkaccount1 = await responseLinkAccount.json();
-    };
+   
 
     getUsers();
   }, [token, isOauth, ready, open, createLinkToken]);
 
+  const getUsers = async () => {
+    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
+      {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        }
+      }
+    );
+
+    // eslint-disable-next-line no-unused-vars
+    const datalinkaccount1 = await responseLinkAccount.json();
+    console.log(datalinkaccount1);
+    setLoading(false);
+    setData(datalinkaccount1);
+    
+  };
   return (
     <>
       <Header page={'dashboard'}></Header>
@@ -183,69 +188,25 @@ function App() {
 
               <div className="container">
                 <div className="row">
-                  <div className="col-3">
-                    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-                      <div className="card-header">City Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                      <div className="card-body">
-                        <span> Available Balance</span><h5 className="card-title">20000</h5>
-                        <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
-                        </div> </div>
-                    </div>
-                  </div>
-                  <div className="col-3">
-                    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-                      <div className="card-header">City Union <span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                      <div className="card-body">
-                        <span> Available Balance</span><h5 className="card-title">20000</h5>
-                        <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-3">
-                    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-                      <div className="card-header">Punjab Union<span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                      <div className="card-body">
-                        <span> Available Balance</span><h5 className="card-title">20000</h5>
-                        <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****2345</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-3">
-                    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-                      <div className="card-header">HDFC Bank <span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                      <div className="card-body">
-                        <span> Available Balance</span><h5 className="card-title">20000</h5>
-                        <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****6767</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-3">
-                    <div className="card border-info mb-3" style={{maxWidth: '18rem'}}>
-                      <div className="card-header">Bank of America <span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                      <div className="card-body">
-                        <span> Available Balance</span><h5 className="card-title">20000</h5>
-                        <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****6567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-3">
-                    {!loading &&
-            data != null &&
-            data.result.data.accounts.map((account, i) => (
-              <div className="card border-info mb-3" key= {i} style={{maxWidth: '18rem'}}>
-                <div className="card-header">Axis Bank<span style={{float:'right', cursor:'pointer'}}>X</span></div>
+                 
+                  {!loading &&
+            data != null && data.result.data.length>0 &&
+            data.result.data.map((account, i) => (     <div key ={i} className="col-3" style={{width: '18rem !important'}}>
+                    
+              <div className="card border-info mb-3" key= {i} >
+                <div className="card-header">{account.bankName}<span style={{float:'right', cursor:'pointer'}}>X</span></div>
                 <div className="card-body">
-                  <span> Available Balance</span><h5 className="card-title">20000</h5>
-                  <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ****4567</span><p className="card-text"><a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a></p>
+                  <span> Available Balance</span><h5 className="card-title">{account.accountBalance}</h5>
+                  <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ***{ account.bankAccountId && account.bankAccountId.slice(-4)
+                  }</span><p className="card-text">
+                    <a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a> 
+                  </p>
                   </div>
                 </div>
               </div>
+          
+            </div>
             ))}
-                  </div>
                 </div>
               </div>
           

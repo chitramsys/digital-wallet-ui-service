@@ -69,7 +69,7 @@ function OTPVerification(props) {
       }
     );
     const data = await response.json();
-    if(data.result==='Approved'){
+    if(data.result==='approved'){
       nextStep(form, 'otp');
     }
     else{

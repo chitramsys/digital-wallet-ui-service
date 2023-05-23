@@ -1,29 +1,30 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './index.css';
 import Header from '../Header';
 import SideBar from '../SideBar';
 function Transaction() {
+  // eslint-disable-next-line no-unused-vars
+  const [transactionList, setTransactionList] = useState([])
 
   useEffect(() => {
-    const responseLinkAccount = fetch('http://3.232.225.73//digital-wallet/wallet/transaction', {
-      method: 'POST',
+    getTransaction();
+  }, []);
+
+  const getTransaction = async () => {
+    const responseLinkAccount = await fetch('http://3.232.225.73/digital-wallet/wallet/transactions?userId=cbc29bee-3ff3-47d6-9314-d0423a7e93a8', {
+      method: 'GET',
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'user-id': '8a80b6bc-eb9d-4d57-90e9-6e065489e6df'
+        
       },
-      body: JSON.stringify({
-        'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
-        'amount': 300.00,
-        'reason': 'testing',
-        'currency': 'GBP'
-      }),
     });
 
-    const datalinkaccount = responseLinkAccount.json();
+    const datalinkaccount = await responseLinkAccount.json();
+    setTransactionList(datalinkaccount)
     console.log(datalinkaccount);
-  }, []);
+  }
 
   return(
     <>
@@ -41,50 +42,23 @@ function Transaction() {
                   <th scope="col">From</th>
                   <th scope="col">To</th>
                   <th scope="col">Date</th>
+                  <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>2000</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
-                <tr>
-    
-                  <td>300</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
-                <tr>
-     
-                  <td>750</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
-                <tr>
-      
-                  <td>400</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
-                <tr>
-     
-                  <td>250</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
-                <tr>
-     
-                  <td>5000</td>
-                  <td>city bank</td>
-                  <td>Wallet</td>
-                  <td>Tue May 09 2023 10:26:02</td>
-                </tr>
+                {transactionList && transactionList.length>0 && transactionList.map(trans=>{
+                  console.log('ss')
+                  return(
+                    
+                    <tr key={trans.transacDateTime}>
+                      <td>{trans.amount}</td>
+                      <td>{trans.accountIDFrom}</td>
+                      <td>{trans.accountIDTo}</td>
+                      <td>{trans.transacDateTime}</td>
+                      <td>{trans.transactionStatus}</td>
+                    </tr>
+                  )}) }
+              
     
               </tbody>
             </table>
