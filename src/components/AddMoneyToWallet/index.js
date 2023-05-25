@@ -38,7 +38,7 @@ function AddMoneyToWallet() {
       },
       body: JSON.stringify({
         'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
-        'amount': 10.00,
+        'amount': walletAmount,
         'reason': 'testing',
         'currency': 'GBP'
       }),

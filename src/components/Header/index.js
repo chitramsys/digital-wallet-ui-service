@@ -52,7 +52,7 @@ function Header({ page }) {
                   (process.env.REACT_APP_isKeycloak === menu.keyCloak ||
                     menu.keyCloak === null) && (
                     <li key={menu.key} className="nav-item" onClick={() => navigateTo(menu.key)}>
-                      <a className="nav-link active" aria-current="page" >{menu.displayName}</a>
+                      <a className="nav-link active" style={{cursor:'pointer'}} aria-current="page" >{menu.displayName}</a>
                     </li>
                     // <a
                     //   key={index}
