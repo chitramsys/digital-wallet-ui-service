@@ -75,3 +75,20 @@
   float: right;
   font-size: 11px;
 }
+
+.email-radio--input{
+  margin-left: 1rem
+}
+
+.radio-option--container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.email-mobile--label{
+  margin-bottom: 0 !important;
+  margin-left: 3px;
+}

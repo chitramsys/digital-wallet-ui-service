@@ -15,12 +15,22 @@ function AddMoneyToWallet() {
   const [walletId, setWalletId] = useState('23907d09-3d25-4499-96f1-03e02d12a074')
   const [walletAmount, setWalletAmount] = useState(0)
   const [showToastMessage, setShowToastMessage] = useState(false)
+  const [payWithRadioOption, setPayWithRadioOption] = useState('mobile')
+  const [mobileEmailValue, setMobileEmailValue] = useState('');
+
+  const onOptionChange = e => {
+    setPayWithRadioOption(e.target.value);
+  }
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
     setWalletAmount(event.target.value)
+  }
+
+  const handleMobileEmailValueChange = (e) => {
+    setMobileEmailValue(e.target.value);
   }
 
   const handleSubmit = async(event) => {
@@ -100,6 +110,42 @@ function AddMoneyToWallet() {
         }
         <form onSubmit={handleSubmit}>
           <div className="content">
+            {isWalletToWalletSelected && (<>
+              <div className='mb-3'>
+                <label className="form-label lable-align">Pay with</label>
+                <div className='radio-option--container'>
+                  <input
+                    type="radio"
+                    name="payWith"
+                    value="mobile"
+                    id="mobile"
+                    checked={payWithRadioOption === 'mobile'}
+                    onChange={onOptionChange}
+                  />
+                  <label className="form-label lable-align email-mobile--label" htmlFor="mobile">Mobile</label>
+
+                  <input
+                    type="radio"
+                    name="payWith"
+                    value="email"
+                    id="email"
+                    className='email-radio--input'
+                    checked={payWithRadioOption === 'email'}
+                    onChange={onOptionChange}
+                  />
+                  <label className="form-label lable-align email-mobile--label" htmlFor="email">Email</label>
+                </div>
+                <input 
+                  type={payWithRadioOption === 'email' ? 'email' : 'number'} 
+                  minLength={payWithRadioOption === 'email' ? '2' : '10'} 
+                  name="mobileEmail" value={mobileEmailValue || ''}
+                  onChange={handleMobileEmailValueChange} 
+                  maxLength={payWithRadioOption === 'email' ? '64' : '10'} 
+                  placeholder={payWithRadioOption === 'email' ? 'Please enter email address' : 'Please enter mobile number'} 
+                  className="form-control" id="mobileEmail" required />
+              </div>
+            </>
+            )}
             <div className="mb-3">
               <label htmlFor="amount" className="form-label lable-align">Enter amount</label>
               <input type="text" minLength="2" name="amount" value={walletAmount || ''}
