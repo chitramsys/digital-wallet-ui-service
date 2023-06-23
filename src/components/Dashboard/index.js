@@ -5,12 +5,16 @@ import { usePlaidLink } from 'react-plaid-link';
 import { linkToken } from '../../services/ApiService';
 import Header from '../Header';
 
+
 import SideBar from '../SideBar';
+import ProfileDetails from '../ProfileDetails';
 
 function App() {
   const [token, setToken] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentUserData, setCurrentUserData] = useState({});
+  const [currentUserWalletData, setCurrentUserWalletData] = useState({});
 
   //const [displayResponse, setDisplayResponse] = useState('');
   const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
@@ -112,7 +116,7 @@ function App() {
     const datalinkaccount = await responseLinkAccount.json();
     getUsers();
     setLoading(false);
-  }, [setData, setLoading]);
+  }, [setLoading]);
 
   let isOauth = false;
 
@@ -128,7 +132,7 @@ function App() {
   }
   const { open, ready } = usePlaidLink(config);
   // eslint-disable-next-line no-unused-vars
-  const sideBarCollapse = async() => setSideBarCollapsed(!sideBarCollapsed);
+  const sideBarCollapse = async () => setSideBarCollapsed(!sideBarCollapsed);
   useEffect(() => {
     if (token == null) {
       createLinkToken();
@@ -137,23 +141,65 @@ function App() {
       open();
     }
 
-    
-    
-
-   
-
     getUsers();
   }, [token, isOauth, ready, open, createLinkToken]);
 
-  const getUsers = async () => {
-    const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
+  const getCurrentUsers = async () => {
+    const responseProfileData = await fetch(
+      'http://3.232.225.73/digital-wallet/user/tests2',
       {
         method: 'GET',
         headers: {
-          'accept': 'application/json',
+          accept: 'application/json',
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-        }
+        },
+      }
+    );
+
+    // eslint-disable-next-line no-unused-vars
+    const profileData = await responseProfileData.json();
+    console.log(profileData);
+    setCurrentUserData(profileData);
+    setLoading(false);
+  };
+
+  const getCurrentUsersWallet = async () => {
+    const responseWalletData = await fetch(
+      'http://3.232.225.73/digital-wallet/wallet/account',
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'user-id': '43d1b2be-abff-4d11-b4fd-cf5463bd9f4c',
+        },
+      }
+    );
+
+    // eslint-disable-next-line no-unused-vars
+    const walletData = await responseWalletData.json();
+    console.log(walletData);
+    setCurrentUserWalletData(walletData);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getCurrentUsers();
+    getCurrentUsersWallet();
+  }, []);
+
+  const getUsers = async () => {
+    const responseLinkAccount = await fetch(
+      `${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
       }
     );
 
@@ -162,7 +208,6 @@ function App() {
     console.log(datalinkaccount1);
     setLoading(false);
     setData(datalinkaccount1);
-    
   };
   return (
     <>
@@ -171,56 +216,74 @@ function App() {
         <div className="row flex-nowrap">
           <SideBar />
           <div className="col py-3 px-5">
-            <div className="heading-container">
-              <div className="linked-bank-title" >
-              Linked Bank Accounts
-              </div>
-              <div className="link-account-button">
+            <ProfileDetails currentUserData={currentUserData} currentUserWalletData={currentUserWalletData} />
+            <section>
+              <div className='linked-account--header'>
+                <div className="linked-bank-title">Linked Bank Accounts</div>
+                
                 <button
                   type="button"
                   onClick={() => open()}
                   disabled={!ready}
-                  className="btn btn-secondary">
-                Link Account
+                  className="btn btn-secondary link-account--button"
+                >
+                    Link Account
                 </button>
-            
               </div>
 
               <div className="container">
                 <div className="row">
-                 
                   {!loading &&
-            data != null && data.result.data.length>0 &&
-            data.result.data.map((account, i) => (     <div key ={i} className="col-3" style={{width: '18rem !important'}}>
-                    
-              <div className="card border-info mb-3" key= {i} >
-                <div className="card-header">{account.bankName}<span style={{float:'right', cursor:'pointer'}}>X</span></div>
-                <div className="card-body">
-                  <span> Available Balance</span><h5 className="card-title">{account.accountBalance}</h5>
-                  <div style={{display:'flex'}}><span style={{flex:1}}>Account No: ***{ account.bankAccountId && account.bankAccountId.slice(-4)
-                  }</span><p className="card-text">
-                    <a style={{textDecoration: 'underline', cursor:'pointer', alignContent:'flex-end'}}>Transfer</a> 
-                  </p>
-                  </div>
+                      data != null &&
+                      data.result.data.length > 0 &&
+                      data.result.data.map((account, i) => (
+                        <div
+                          key={i}
+                          className="col-3"
+                          style={{ width: '18rem !important' }}
+                        >
+                          <div className="card border-info mb-3" key={i}>
+                            <div className="card-header">
+                              {account.bankName}
+                              <span
+                                style={{ float: 'right', cursor: 'pointer' }}
+                              >
+                                X
+                              </span>
+                            </div>
+                            <div className="card-body">
+                              <span> Available Balance</span>
+                              <h5 className="card-title">
+                                {account.accountBalance}
+                              </h5>
+                              <div style={{ display: 'flex' }}>
+                                <span style={{ flex: 1 }}>
+                                  Account No: ***
+                                  {account.bankAccountId &&
+                                    account.bankAccountId.slice(-4)}
+                                </span>
+                                <p className="card-text">
+                                  <a
+                                    style={{
+                                      textDecoration: 'underline',
+                                      cursor: 'pointer',
+                                      alignContent: 'flex-end',
+                                    }}
+                                  >
+                                    Transfer
+                                  </a>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                 </div>
               </div>
-          
-            </div>
-            ))}
-                </div>
-              </div>
-          
-
-         
-
-
-          
-            </div>
-        
+            </section>
           </div>
         </div>
       </div>
-     
     </>
   );
 }
