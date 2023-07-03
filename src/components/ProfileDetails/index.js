@@ -78,20 +78,26 @@ function ProfileDetails({currentUserData, currentUserWalletData}) {
         <div className='common-section-header'>
           <span className='section-detail--text'>Wallet Details</span>
         </div>
-        <div className='details-container'>
-          <div className='details-box--style2'>
-            <span className='profile--label'>Walled Id:</span>
-            <div className='profile-value--box'><span className='profile-value--text'>{walletData?.id}</span></div>
+        {
+          walletData?.id ? <>
+            <div className='details-container'>
+              <div className='details-box--style2'>
+                <span className='profile--label'>Walled Id:</span>
+                <div className='profile-value--box'><span className='profile-value--text'>{walletData?.id}</span></div>
+              </div>
+              <div className='details-box--style2'>
+                <span className='profile--label'>Wallet Balance:</span>
+                <div className='profile-value--box'><span className='profile-value--text'>{`${walletData?.accountBalance} ${walletData?.currency}`}</span></div>
+              </div>
+              <div className='details-box--style2'>
+                <span className='profile--label'>Wallet Status:</span>
+                <div className='profile-value--box'><span className='profile-value--text'>{walletData?.status}</span></div>
+              </div>
+            </div>
+          </> : <div className='no-wallet-found'>
+            <span className='no-wallet-found--text'>No Wallet Details Found!</span>
           </div>
-          <div className='details-box--style2'>
-            <span className='profile--label'>Wallet Balance:</span>
-            <div className='profile-value--box'><span className='profile-value--text'>{`${walletData?.accountBalance} ${walletData?.currency}`}</span></div>
-          </div>
-          <div className='details-box--style2'>
-            <span className='profile--label'>Wallet Status:</span>
-            <div className='profile-value--box'><span className='profile-value--text'>{walletData?.status}</span></div>
-          </div>
-        </div>
+        }
       </section>
     </>
   )

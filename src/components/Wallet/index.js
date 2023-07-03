@@ -32,22 +32,6 @@ function App(props) {
     })
   }
 
-  const onSuccess = useCallback(async (publicToken) => {
-    setLoading(true);
-    const response = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/access-token`, {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({ publicToken: publicToken }),
-    });
-    var data = await response.json();
-    localStorage.setItem('accessToken', data.result.data.accessToken);
-    await getBalance();
-  }, []);
-
   // Creates a Link token
   const createLinkToken = React.useCallback(async () => {
     // For OAuth, use previously generated Link token
@@ -98,6 +82,22 @@ function App(props) {
 
     setLoading(false);
   }, [setData, setLoading]);
+
+  const onSuccess = useCallback(async (publicToken) => {
+    setLoading(true);
+    const response = await fetch(`${process.env.REACT_APP_serverURL}/plaid-service/access-token`, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({ publicToken: publicToken }),
+    });
+    var data = await response.json();
+    localStorage.setItem('accessToken', data.result.data.accessToken);
+    await getBalance();
+  }, [getBalance]);
 
   let isOauth = false;
 

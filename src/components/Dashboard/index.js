@@ -5,9 +5,11 @@ import { usePlaidLink } from 'react-plaid-link';
 import { linkToken } from '../../services/ApiService';
 import Header from '../Header';
 
-
 import SideBar from '../SideBar';
 import ProfileDetails from '../ProfileDetails';
+import axios from 'axios';
+import Loader from '../Loader';
+import UserService from '../../services/UserService';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -15,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [currentUserData, setCurrentUserData] = useState({});
   const [currentUserWalletData, setCurrentUserWalletData] = useState({});
+  const [currentUsername, setCurrentUsername] = useState('');
 
   //const [displayResponse, setDisplayResponse] = useState('');
   const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
@@ -54,7 +57,6 @@ function App() {
     );
     var data = await response.json();
     localStorage.setItem('accessToken', data.result.data.accessToken);
-    await getBalance();
   }, []);
 
   // Creates a Link token
@@ -73,6 +75,17 @@ function App() {
         .catch((err) => {});
     }
   }, [setToken]);
+
+  const deLinkAccount = (accountId) => {
+    axios
+      .post(`${process.env.REACT_APP_serverURL}/accountId/${accountId}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Fetch balance data
   const getBalance = React.useCallback(async () => {
@@ -144,9 +157,10 @@ function App() {
     getUsers();
   }, [token, isOauth, ready, open, createLinkToken]);
 
-  const getCurrentUsers = async () => {
+  const getCurrentUsers = async (username) => {
+    setLoading(true);
     const responseProfileData = await fetch(
-      'http://3.232.225.73/digital-wallet/user/tests2',
+      `${process.env.REACT_APP_serverURL}/user/${username}`,
       {
         method: 'GET',
         headers: {
@@ -161,19 +175,19 @@ function App() {
     const profileData = await responseProfileData.json();
     console.log(profileData);
     setCurrentUserData(profileData);
-    setLoading(false);
   };
 
-  const getCurrentUsersWallet = async () => {
+  const getCurrentUsersWallet = async (userId) => {
+    setLoading(true);
     const responseWalletData = await fetch(
-      'http://3.232.225.73/digital-wallet/wallet/account',
+      `${process.env.REACT_APP_serverURL}/wallet/account`,
       {
         method: 'GET',
         headers: {
           accept: 'application/json',
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'user-id': '43d1b2be-abff-4d11-b4fd-cf5463bd9f4c',
+          'user-id': userId,
         },
       }
     );
@@ -186,13 +200,27 @@ function App() {
   };
 
   useEffect(() => {
-    getCurrentUsers();
-    getCurrentUsersWallet();
+    if (currentUserData?.userId) {
+      getCurrentUsersWallet(currentUserData?.userId);
+      getBalance(currentUserData?.userId);
+    }
+  }, [currentUserData]);
+
+  useEffect(() => {
+    if (currentUsername) {
+      getCurrentUsers(currentUsername);
+    }
+  }, [currentUsername])
+
+  useEffect(() => {
+    const username = UserService.getUsername();
+    setCurrentUsername(username);
   }, []);
 
-  const getUsers = async () => {
+  const getUsers = async (userId) => {
+    setLoading(true);
     const responseLinkAccount = await fetch(
-      `${process.env.REACT_APP_serverURL}/digital-wallet/userId/6433a4233810353a290384c0`,
+      `${process.env.REACT_APP_serverURL}/digital-wallet/userId/${userId}`,
       {
         method: 'GET',
         headers: {
@@ -206,7 +234,6 @@ function App() {
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount1 = await responseLinkAccount.json();
     console.log(datalinkaccount1);
-    setLoading(false);
     setData(datalinkaccount1);
   };
   return (
@@ -215,25 +242,33 @@ function App() {
       <div className="container-fluid content-area">
         <div className="row flex-nowrap">
           <SideBar />
-          <div className="col py-3 px-5">
-            <ProfileDetails currentUserData={currentUserData} currentUserWalletData={currentUserWalletData} />
-            <section>
-              <div className='linked-account--header'>
-                <div className="linked-bank-title">Linked Bank Accounts</div>
-                
-                <button
-                  type="button"
-                  onClick={() => open()}
-                  disabled={!ready}
-                  className="btn btn-secondary link-account--button"
-                >
-                    Link Account
-                </button>
-              </div>
+          {loading ? (
+            <div className="loader-container-dashboard">
+              <Loader />
+            </div>
+          ) : (
+            <div className="col py-3 px-5">
+              <ProfileDetails
+                currentUserData={currentUserData}
+                currentUserWalletData={currentUserWalletData}
+              />
+              <section>
+                <div className="linked-account--header">
+                  <div className="linked-bank-title">Linked Bank Accounts</div>
 
-              <div className="container">
-                <div className="row">
-                  {!loading &&
+                  <button
+                    type="button"
+                    onClick={() => open()}
+                    disabled={!ready}
+                    className="btn btn-secondary link-account--button"
+                  >
+                    Link Account
+                  </button>
+                </div>
+
+                <div className="container">
+                  <div className="row">
+                    {!loading &&
                       data != null &&
                       data.result.data.length > 0 &&
                       data.result.data.map((account, i) => (
@@ -247,6 +282,9 @@ function App() {
                               {account.bankName}
                               <span
                                 style={{ float: 'right', cursor: 'pointer' }}
+                                onClick={() =>
+                                  deLinkAccount(account?.bankAccountId)
+                                }
                               >
                                 X
                               </span>
@@ -278,10 +316,11 @@ function App() {
                           </div>
                         </div>
                       ))}
+                  </div>
                 </div>
-              </div>
-            </section>
-          </div>
+              </section>
+            </div>
+          )}
         </div>
       </div>
     </>
