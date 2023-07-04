@@ -1,10 +1,12 @@
-import React from 'react';
+/* eslint-disable no-undef */
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import './index.css';
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
 import MSysLogo from '../../assets/images/msysLogo.png';
 import headers from './headers.json';
+import noImage from '../../assets/images/noProfilePic.png'
 
 /**
  * Header With Searchbar
@@ -13,6 +15,9 @@ import headers from './headers.json';
  * @returns Header Component
  */
 function Header({ page }) {
+  const [currentUserData, setCurrentUserData] = useState({});
+  const [currentUsername, setCurrentUsername] = useState('');
+
   const navigate = useNavigate();
   const navigateTo = (path) => {
     if (path === 'signin') {
@@ -25,7 +30,37 @@ function Header({ page }) {
     }
   };
 
-  useEffect(() => {}, []);
+  const getCurrentUsers = async (username) => {
+    const responseProfileData = await fetch(
+      `${process.env.REACT_APP_serverURL}/user/${username}`,
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+
+    // eslint-disable-next-line no-unused-vars
+    const profileData = await responseProfileData.json();
+    console.log(profileData);
+    setCurrentUserData(profileData);
+  };
+
+  useEffect(() => {
+    if (currentUsername) {
+      getCurrentUsers(currentUsername);
+    }
+  }, [currentUsername])
+
+  useEffect(() => {
+    const username = UserService.getUsername();
+    if (username !== currentUsername) {
+      setCurrentUsername(username);
+    }
+  }, []);
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -74,8 +109,13 @@ function Header({ page }) {
 
             <div className="dropdown pb-1" style={{marginRight: '10px',marginLeft: '10px'}}>
               <a href="#" className="d-flex  text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
-                <span className="d-none d-sm-inline mx-1">Chitra</span>
+                {
+                  currentUserData?.profilePic ? 
+                    <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={userData?.profilePic} /> 
+                    : 
+                    <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={noImage} />
+                }
+                <span className="d-none d-sm-inline mx-1 header--username">{currentUserData?.username}</span>
               </a>
               <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
                 {/* <li><a className="dropdown-item" href="#">New </a></li>

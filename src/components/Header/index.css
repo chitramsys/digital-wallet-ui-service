@@ -131,7 +131,11 @@ header {
     border-right: 0.3em solid transparent;
     border-bottom: 0;
     border-left: 0.3em solid transparent;
-    margin-top: 15px !important;
+    margin-top: 13px !important;
+}
+
+.header--username{
+  margin-top: 2px !important;
 }
   
   

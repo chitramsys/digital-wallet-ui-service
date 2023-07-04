@@ -19,7 +19,7 @@ function AddMoneyToWallet() {
   const [walletId, setWalletId] = useState();
   const [amount, setAmount] = useState(0);
   const [showToastMessage, setShowToastMessage] = useState(false);
-  const [payWithRadioOption, setPayWithRadioOption] = useState('mobile');
+  const [payWithRadioOption, setPayWithRadioOption] = useState('MOBILE');
   const [mobileEmailValue, setMobileEmailValue] = useState('');
   const [accountNumInput, setAccountNumInput] = useState('');
   const [remarkInput, setRemarkInput] = useState('');
@@ -39,7 +39,7 @@ function AddMoneyToWallet() {
   };
 
   const handleMobileEmailValueChange = (e) => {
-    if (payWithRadioOption === 'email') {
+    if (payWithRadioOption === 'EMAIL') {
       setMobileEmailValue(e.target.value);
     } else {
       setMobileEmailValue(
@@ -85,7 +85,7 @@ function AddMoneyToWallet() {
           } else {
             setCurrentUserId();
           }
-          setloader(false);
+          // setloader(false);
         })
         .catch((error) => {
           console.log(error);
@@ -97,10 +97,10 @@ function AddMoneyToWallet() {
 
   useEffect(() => {
     const username = UserService.getUsername();
-    setCurrentUsername(username);
+    if (username !== currentUsername) {
+      setCurrentUsername(username);
+    }
   }, []);
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -125,25 +125,45 @@ function AddMoneyToWallet() {
 
     // const datalinkaccount = await responseLinkAccount.json();
     // console.log(datalinkaccount);
+    //   const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/wallet/payment/wallet-to-wallet`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'accept': 'application/json',
+    //       'Content-Type': 'application/json',
+    //       'Access-Control-Allow-Origin': '*',
+    //       'user-id': currentUserId
+    //     },
+    //     body: JSON.stringify({
+    //       toWalletAccountId: walletId,
+    //       amount: walletAmount,
+    //       reason: 'testing',
+    //       currency: 'GBP',
+    //       identifierType: ''
+    //     }),
+    //   });
     if (moneyTranserType === 'Add Money from Wallet to Wallet') {
-      const responseLinkAccount = await fetch(`${process.env.REACT_APP_serverURL}/wallet/payment/wallet-to-wallet`, {
-        method: 'POST',
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'user-id': walletId
-        },
-        body: JSON.stringify({
-          'toWalletAccountId': '23907d09-3d25-4499-96f1-03e02d12a074',
-          'amount': walletAmount,
-          'reason': 'testing',
-          'currency': 'GBP'
-        }),
-      });
-
-      const datalinkaccount = await responseLinkAccount.json();
-      console.log(datalinkaccount);
+      axios
+        .post(
+          `${process.env.REACT_APP_serverURL}/wallet/payment/wallet-to-wallet`,
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'user-id': currentUserId,
+            },
+            identifierType: payWithRadioOption,
+            identifier: mobileEmailValue,
+            amount: amount,
+            reason: 'testing',
+            currency: 'GBP',
+            accessToken: localStorage.getItem('accessToken'),
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
     if (moneyTranserType === 'Add Money from Wallet to Bank') {
       axios
@@ -214,6 +234,10 @@ function AddMoneyToWallet() {
         });
     }
 
+    setAmount('');
+    setMobileEmailValue('');
+    setAccountNumInput('');
+    setRemarkInput('');
     setShowToastMessage(false);
   };
 
@@ -295,9 +319,9 @@ function AddMoneyToWallet() {
                         <input
                           type="radio"
                           name="payWith"
-                          value="mobile"
+                          value="MOBILE"
                           id="mobile"
-                          checked={payWithRadioOption === 'mobile'}
+                          checked={payWithRadioOption === 'MOBILE'}
                           onChange={onOptionChange}
                         />
                         <label
@@ -310,10 +334,10 @@ function AddMoneyToWallet() {
                         <input
                           type="radio"
                           name="payWith"
-                          value="email"
+                          value="EMAIL"
                           id="email"
                           className="email-radio--input"
-                          checked={payWithRadioOption === 'email'}
+                          checked={payWithRadioOption === 'EMAIL'}
                           onChange={onOptionChange}
                         />
                         <label
@@ -324,14 +348,14 @@ function AddMoneyToWallet() {
                         </label>
                       </div>
                       <input
-                        type={payWithRadioOption === 'email' ? 'email' : 'text'}
-                        minLength={payWithRadioOption === 'email' ? '2' : '10'}
+                        type={payWithRadioOption === 'EMAIL' ? 'email' : 'text'}
+                        minLength={payWithRadioOption === 'EMAIL' ? '2' : '10'}
                         name="mobileEmail"
                         value={mobileEmailValue || ''}
                         onChange={handleMobileEmailValueChange}
-                        maxLength={payWithRadioOption === 'email' ? '64' : '10'}
+                        maxLength={payWithRadioOption === 'EMAIL' ? '64' : '10'}
                         placeholder={
-                          payWithRadioOption === 'email'
+                          payWithRadioOption === 'EMAIL'
                             ? 'Please enter email address'
                             : 'Please enter mobile number'
                         }
@@ -359,33 +383,33 @@ function AddMoneyToWallet() {
                     required
                   />
                 </div>
-                {moneyTranserType === 'Add Money from Bank to Wallet' &&
-                <div className="mb-3">
-                  <label
-                    htmlFor="accountNo"
-                    className="form-label lable-align"
-                  >
-                        Enter Bank Account Number
-                  </label>
-                  <input
-                    type="text"
-                    minLength="2"
-                    name="amount"
-                    value={accountNumInput || ''}
-                    onChange={(e) =>
-                      setAccountNumInput(
-                        e.target.value
-                          .replace(/[^0-9.]/g, '')
-                          .replace(/(\..*?)\..*/g, '$1')
-                      )
-                    }
-                    placeholder="Enter Account Number"
-                    className="form-control"
-                    id="accountNo"
-                    required
-                  />
-                </div>
-                }
+                {moneyTranserType === 'Add Money from Bank to Wallet' && (
+                  <div className="mb-3">
+                    <label
+                      htmlFor="accountNo"
+                      className="form-label lable-align"
+                    >
+                      Enter Bank Account Number
+                    </label>
+                    <input
+                      type="text"
+                      minLength="2"
+                      name="amount"
+                      value={accountNumInput || ''}
+                      onChange={(e) =>
+                        setAccountNumInput(
+                          e.target.value
+                            .replace(/[^0-9.]/g, '')
+                            .replace(/(\..*?)\..*/g, '$1')
+                        )
+                      }
+                      placeholder="Enter Account Number"
+                      className="form-control"
+                      id="accountNo"
+                      required
+                    />
+                  </div>
+                )}
                 {moneyTranserType === 'Add Money from Wallet to Bank' && (
                   <>
                     <div className="mb-3">
@@ -413,24 +437,6 @@ function AddMoneyToWallet() {
                         required
                       />
                     </div>
-                    <div className="mb-3">
-                      <label
-                        htmlFor="remark"
-                        className="form-label lable-align"
-                      >
-                        Enter Remark
-                      </label>
-                      <input
-                        type="text"
-                        minLength="2"
-                        name="remark"
-                        value={remarkInput || ''}
-                        onChange={(e) => setRemarkInput(e.target.value)}
-                        placeholder="Enter Remark"
-                        className="form-control"
-                        id="remark"
-                      />
-                    </div>
                   </>
                 )}
                 {moneyTranserType === 'Add Money from Wallet to Wallet' && (
@@ -452,6 +458,21 @@ function AddMoneyToWallet() {
                     />
                   </div>
                 )}
+                <div className="mb-3">
+                  <label htmlFor="remark" className="form-label lable-align">
+                    Enter Remark
+                  </label>
+                  <input
+                    type="text"
+                    minLength="2"
+                    name="remark"
+                    value={remarkInput || ''}
+                    onChange={(e) => setRemarkInput(e.target.value)}
+                    placeholder="Enter Remark"
+                    className="form-control"
+                    id="remark"
+                  />
+                </div>
                 <div className="button-container">
                   <button
                     type="button"

@@ -214,7 +214,9 @@ function App() {
 
   useEffect(() => {
     const username = UserService.getUsername();
-    setCurrentUsername(username);
+    if (username !== currentUsername) {
+      setCurrentUsername(username);
+    }
   }, []);
 
   const getUsers = async (userId) => {
@@ -238,7 +240,7 @@ function App() {
   };
   return (
     <>
-      <Header page={'dashboard'}></Header>
+      <Header page={'dashboard'} ></Header>
       <div className="container-fluid content-area">
         <div className="row flex-nowrap">
           <SideBar />
