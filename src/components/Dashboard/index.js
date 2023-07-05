@@ -57,6 +57,7 @@ function App() {
     );
     var data = await response.json();
     localStorage.setItem('accessToken', data.result.data.accessToken);
+    setLoading(false);
   }, []);
 
   // Creates a Link token
@@ -127,7 +128,6 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount = await responseLinkAccount.json();
-    getUsers();
     setLoading(false);
   }, [setLoading]);
 
@@ -153,8 +153,6 @@ function App() {
     if (isOauth && ready) {
       open();
     }
-
-    getUsers();
   }, [token, isOauth, ready, open, createLinkToken]);
 
   const getCurrentUsers = async (username) => {
@@ -202,6 +200,7 @@ function App() {
   useEffect(() => {
     if (currentUserData?.userId) {
       getCurrentUsersWallet(currentUserData?.userId);
+      getUsers(currentUserData?.userId);
       getBalance(currentUserData?.userId);
     }
   }, [currentUserData]);

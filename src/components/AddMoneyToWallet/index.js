@@ -16,7 +16,6 @@ function AddMoneyToWallet() {
   const [moneyTranserType, setMoneyTranserType] = useState(
     'Add Money from Bank to Wallet'
   );
-  const [walletId, setWalletId] = useState();
   const [amount, setAmount] = useState(0);
   const [showToastMessage, setShowToastMessage] = useState(false);
   const [payWithRadioOption, setPayWithRadioOption] = useState('MOBILE');
@@ -149,13 +148,13 @@ function AddMoneyToWallet() {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'user-id': currentUserId,
+              accessToken: localStorage.getItem('accessToken'),
             },
             identifierType: payWithRadioOption,
             identifier: mobileEmailValue,
             amount: amount,
-            reason: 'testing',
+            reason: remarkInput,
             currency: 'GBP',
-            accessToken: localStorage.getItem('accessToken'),
           }
         )
         .then((response) => {
@@ -170,6 +169,10 @@ function AddMoneyToWallet() {
         .post(
           `${process.env.REACT_APP_serverURL}/wallet/payment/Wallet-toBank`,
           {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              accessToken: localStorage.getItem('accessToken'),
+            },
             idempotencyKey: Math.floor(Math.random() * 1000000000) + Date.now(),
             walletId: currentWalletId,
             counterparty: {
@@ -189,7 +192,6 @@ function AddMoneyToWallet() {
               value: amount,
             },
             reference: remarkInput,
-            accessToken: localStorage.getItem('accessToken'),
           }
         )
         .then((response) => {
@@ -204,6 +206,10 @@ function AddMoneyToWallet() {
         .post(
           `${process.env.REACT_APP_serverURL}/wallet/payment/bank-to-wallet`,
           {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              accessToken: localStorage.getItem('accessToken'),
+            },
             idempotencyKey: Math.floor(Math.random() * 1000000000) + Date.now(),
             walletId: currentWalletId,
             counterparty: {
@@ -223,7 +229,6 @@ function AddMoneyToWallet() {
               value: amount,
             },
             reference: remarkInput,
-            accessToken: localStorage.getItem('accessToken'),
           }
         )
         .then((response) => {
@@ -258,9 +263,6 @@ function AddMoneyToWallet() {
   };
   const handleOnAddThousand = () => {
     setAmount(amount ? amount + 1000 : 1000);
-  };
-  const handleWalletIdChange = (e) => {
-    setWalletId(e.target.value);
   };
   const handleOnToastClose = () => {
     setShowToastMessage(false);
@@ -439,7 +441,7 @@ function AddMoneyToWallet() {
                     </div>
                   </>
                 )}
-                {moneyTranserType === 'Add Money from Wallet to Wallet' && (
+                {/* {moneyTranserType === 'Add Money from Wallet to Wallet' && (
                   <div className="mb-3">
                     <label htmlFor="amount" className="form-label lable-align">
                       Enter Wallet Id
@@ -457,7 +459,7 @@ function AddMoneyToWallet() {
                       required
                     />
                   </div>
-                )}
+                )} */}
                 <div className="mb-3">
                   <label htmlFor="remark" className="form-label lable-align">
                     Enter Remark
