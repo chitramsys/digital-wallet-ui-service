@@ -18,6 +18,7 @@ function App() {
   const [currentUserData, setCurrentUserData] = useState({});
   const [currentUserWalletData, setCurrentUserWalletData] = useState({});
   const [currentUsername, setCurrentUsername] = useState('');
+  const [currentUserBankDet, setCurrentUserBankDet] = useState({});
 
   //const [displayResponse, setDisplayResponse] = useState('');
   const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
@@ -88,6 +89,30 @@ function App() {
       });
   };
 
+  const linkAccount = async (bankName, bankAccountId) => {
+    const responseLinkAccount = await fetch(
+      `${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`,
+      {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          bankName,
+          userId: currentUserData?.userId,
+          bankRoutingNumber: 'CITI2041',
+          bankAccountId,
+        }),
+      }
+    );
+
+    // eslint-disable-next-line no-unused-vars
+    const datalinkaccount = await responseLinkAccount.json();
+    setLoading(false);
+  }
+
   // Fetch balance data
   const getBalance = React.useCallback(async () => {
     setLoading(true);
@@ -107,28 +132,8 @@ function App() {
       }
     );
     const data = await response.json();
-    console.log(data);
-    const responseLinkAccount = await fetch(
-      `${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`,
-      {
-        method: 'POST',
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-        body: JSON.stringify({
-          bankName: 'Bank of America',
-          userId: '6433a4233810353a290384c0',
-          bankRoutingNumber: 'CITI2041',
-          bankAccountId: '234354546445',
-        }),
-      }
-    );
-
-    // eslint-disable-next-line no-unused-vars
-    const datalinkaccount = await responseLinkAccount.json();
-    setLoading(false);
+    console.log(data?.result?.data?.accounts);
+    setCurrentUserBankDet(data?.result?.data?.accounts);
   }, [setLoading]);
 
   let isOauth = false;
@@ -200,7 +205,7 @@ function App() {
   useEffect(() => {
     if (currentUserData?.userId) {
       getCurrentUsersWallet(currentUserData?.userId);
-      getUsers(currentUserData?.userId);
+      getUsersAccountdetails(currentUserData?.userId);
       getBalance(currentUserData?.userId);
     }
   }, [currentUserData]);
@@ -218,7 +223,23 @@ function App() {
     }
   }, []);
 
-  const getUsers = async (userId) => {
+  const linkAccountOnclickHandler = () => {
+    open();
+    const unLinkedAccounts = currentUserBankDet?.filter((obj) => data?.some((linkedAcc) => obj?.accountId !== linkedAcc?.userAccountId)).map((obj) => {
+      const newObj = {
+        accountBalance: obj.balances.available,
+        bankAccountId: obj.accountId,
+        bankName: obj.name,
+      }
+      return {...newObj}
+    });
+    console.log(unLinkedAccounts);
+    unLinkedAccounts.forEach((obj) => {
+      linkAccount(obj?.bankName, obj?.bankAccountId)
+    })
+  }
+
+  const getUsersAccountdetails = async (userId) => {
     setLoading(true);
     const responseLinkAccount = await fetch(
       `${process.env.REACT_APP_serverURL}/digital-wallet/userId/${userId}`,
@@ -234,8 +255,8 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount1 = await responseLinkAccount.json();
-    console.log(datalinkaccount1);
-    setData(datalinkaccount1);
+    console.log(datalinkaccount1?.result?.data);
+    setData(datalinkaccount1?.result?.data);
   };
   return (
     <>
@@ -259,7 +280,7 @@ function App() {
 
                   <button
                     type="button"
-                    onClick={() => open()}
+                    onClick={linkAccountOnclickHandler}
                     disabled={!ready}
                     className="btn btn-secondary link-account--button"
                   >
@@ -271,8 +292,8 @@ function App() {
                   <div className="row">
                     {!loading &&
                       data != null &&
-                      data.result.data.length > 0 &&
-                      data.result.data.map((account, i) => (
+                      data.length > 0 &&
+                      data.map((account, i) => (
                         <div
                           key={i}
                           className="col-3"

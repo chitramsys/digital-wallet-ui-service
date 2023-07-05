@@ -44,7 +44,7 @@ const updateToken = (successCallback) =>
     .then(successCallback)
     .catch(doLogin);
 
-const getUsername = () => _kc.tokenParsed.preferred_username;
+const getUsername = () => _kc?.tokenParsed?.preferred_username;
 
 const hasRole = (roles) => roles.some((role) => _kc.hasRealmRole(role));
 
