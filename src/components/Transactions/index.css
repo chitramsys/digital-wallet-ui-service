@@ -1,4 +1,12 @@
 .wallet-title {
-    font-size: 20px;
-    font-weight: bold;
-  }
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.transc-loader {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

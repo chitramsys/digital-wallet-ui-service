@@ -45,7 +45,6 @@ function Header({ page }) {
 
     // eslint-disable-next-line no-unused-vars
     const profileData = await responseProfileData.json();
-    console.log(profileData);
     setCurrentUserData(profileData);
   };
 

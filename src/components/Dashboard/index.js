@@ -18,7 +18,10 @@ function App() {
   const [currentUserData, setCurrentUserData] = useState({});
   const [currentUserWalletData, setCurrentUserWalletData] = useState({});
   const [currentUsername, setCurrentUsername] = useState('');
-  const [currentUserBankDet, setCurrentUserBankDet] = useState({});
+  const [currentUserBankname, setCurrentUserBankname] = useState('');
+  const [currentUserBankId, setCurrentUserBankId] = useState('');
+
+  // const [currentUserBankDet, setCurrentUserBankDet] = useState({});
 
   //const [displayResponse, setDisplayResponse] = useState('');
   const [sideBarCollapsed, setSideBarCollapsed] = useState(true);
@@ -57,6 +60,7 @@ function App() {
       }
     );
     var data = await response.json();
+    console.log(data.result.data.accessToken);
     localStorage.setItem('accessToken', data.result.data.accessToken);
     setLoading(false);
   }, []);
@@ -79,17 +83,21 @@ function App() {
   }, [setToken]);
 
   const deLinkAccount = (accountId) => {
+    setLoading(true);
     axios
-      .post(`${process.env.REACT_APP_serverURL}/accountId/${accountId}`)
-      .then((response) => {
-        console.log(response);
+      .delete(`${process.env.REACT_APP_serverURL}/digital-wallet/accountId/${accountId}`)
+      .then(() => {
+        getUsersAccountdetails(currentUserData?.userId);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
   const linkAccount = async (bankName, bankAccountId) => {
+    setLoading(true);
     const responseLinkAccount = await fetch(
       `${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`,
       {
@@ -110,8 +118,9 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount = await responseLinkAccount.json();
+    getUsersAccountdetails(currentUserData?.userId);
     setLoading(false);
-  }
+  };
 
   // Fetch balance data
   const getBalance = React.useCallback(async () => {
@@ -132,7 +141,6 @@ function App() {
       }
     );
     const data = await response.json();
-    console.log(data?.result?.data?.accounts);
     setCurrentUserBankDet(data?.result?.data?.accounts);
   }, [setLoading]);
 
@@ -176,7 +184,6 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const profileData = await responseProfileData.json();
-    console.log(profileData);
     setCurrentUserData(profileData);
   };
 
@@ -197,7 +204,6 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const walletData = await responseWalletData.json();
-    console.log(walletData);
     setCurrentUserWalletData(walletData);
     setLoading(false);
   };
@@ -214,7 +220,7 @@ function App() {
     if (currentUsername) {
       getCurrentUsers(currentUsername);
     }
-  }, [currentUsername])
+  }, [currentUsername]);
 
   useEffect(() => {
     const username = UserService.getUsername();
@@ -222,22 +228,6 @@ function App() {
       setCurrentUsername(username);
     }
   }, []);
-
-  const linkAccountOnclickHandler = () => {
-    open();
-    const unLinkedAccounts = currentUserBankDet?.filter((obj) => data?.some((linkedAcc) => obj?.accountId !== linkedAcc?.userAccountId)).map((obj) => {
-      const newObj = {
-        accountBalance: obj.balances.available,
-        bankAccountId: obj.accountId,
-        bankName: obj.name,
-      }
-      return {...newObj}
-    });
-    console.log(unLinkedAccounts);
-    unLinkedAccounts.forEach((obj) => {
-      linkAccount(obj?.bankName, obj?.bankAccountId)
-    })
-  }
 
   const getUsersAccountdetails = async (userId) => {
     setLoading(true);
@@ -255,12 +245,11 @@ function App() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount1 = await responseLinkAccount.json();
-    console.log(datalinkaccount1?.result?.data);
     setData(datalinkaccount1?.result?.data);
   };
   return (
     <>
-      <Header page={'dashboard'} ></Header>
+      <Header page={'dashboard'}></Header>
       <div className="container-fluid content-area">
         <div className="row flex-nowrap">
           <SideBar />
@@ -278,14 +267,97 @@ function App() {
                 <div className="linked-account--header">
                   <div className="linked-bank-title">Linked Bank Accounts</div>
 
-                  <button
+                  {/* <button
                     type="button"
                     onClick={linkAccountOnclickHandler}
                     disabled={!ready}
                     className="btn btn-secondary link-account--button"
                   >
                     Link Account
+                  </button> */}
+                  <button
+                    type="button"
+                    className="btn btn-success link-account--button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    Link Account
                   </button>
+
+                  <div
+                    className="modal fade"
+                    id="exampleModal"
+                    tabIndex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="exampleModalLabel">
+                            Bank Details
+                          </h5>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div className="modal-body">
+                          <form>
+                            <div className="mb-3">
+                              <label
+                                htmlFor="bankName"
+                                className="form-label lable-align"
+                              >
+                                Bank Name
+                              </label>
+                              <input
+                                type="text"
+                                name="bandName"
+                                value={currentUserBankname || ''}
+                                onChange={(e) =>
+                                  setCurrentUserBankname(e.target.value)
+                                }
+                                placeholder="Enter Bank Name"
+                                className="form-control"
+                                id="bankName"
+                                required
+                              />
+                            </div>
+                            <div className="mb-3">
+                              <label
+                                htmlFor="bankId"
+                                className="form-label lable-align"
+                              >
+                                Bank Id
+                              </label>
+                              <input
+                                type="text"
+                                name="bandId"
+                                value={currentUserBankId || ''}
+                                onChange={(e) =>
+                                  setCurrentUserBankId(e.target.value)
+                                }
+                                placeholder="Enter Bank Id"
+                                className="form-control"
+                                id="bankId"
+                                required
+                              />
+                            </div>
+                          </form>
+                        </div>
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          {/* <button type="button" className="btn btn-primary">Save changes</button> */}
+                          <form onSubmit={() => linkAccount(currentUserBankname, currentUserBankId)}>
+                            <input type='submit' value='Submit' className="btn btn-primary" />
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="container">

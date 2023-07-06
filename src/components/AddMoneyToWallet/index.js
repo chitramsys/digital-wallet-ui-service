@@ -26,6 +26,8 @@ function AddMoneyToWallet() {
   const [currentWalletId, setCurrentWalletId] = useState();
   const [loader, setloader] = useState(true);
   const [currentUsername, setCurrentUsername] = useState('');
+  const [messagetoDisplay, setMessagetoDisplay] = useState({status: '', message: ''});
+
 
   const onOptionChange = (e) => {
     setPayWithRadioOption(e.target.value);
@@ -79,7 +81,6 @@ function AddMoneyToWallet() {
         .get(`${process.env.REACT_APP_serverURL}/user/${currentUsername}`)
         .then((response) => {
           if (response?.data?.userId) {
-            console.log(response?.data);
             setCurrentUserId(response.data.userId);
           } else {
             setCurrentUserId();
@@ -145,23 +146,36 @@ function AddMoneyToWallet() {
         .post(
           `${process.env.REACT_APP_serverURL}/wallet/payment/wallet-to-wallet`,
           {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'user-id': currentUserId,
-              accessToken: localStorage.getItem('accessToken'),
-            },
             identifierType: payWithRadioOption,
             identifier: mobileEmailValue,
             amount: amount,
             reason: remarkInput,
             currency: 'GBP',
+          },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'user-id': currentUserId,
+              accessToken: localStorage.getItem('accessToken'),
+            },
           }
         )
         .then((response) => {
           console.log(response);
+          const status = response?.request?.status;
+          setMessagetoDisplay({
+            status: status === '200' || status === 200  ? 'SUCCESS' : 'FAILURE',
+            message: status === '200' || status === 200 ?'Transaction Done Successfully!' : response?.message
+          })
+          setShowToastMessage(true);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, 'error');
+          setMessagetoDisplay({
+            status: 'FAILURE',
+            message: error?.message
+          })
+          setShowToastMessage(true);
         });
     }
     if (moneyTranserType === 'Add Money from Wallet to Bank') {
@@ -169,10 +183,6 @@ function AddMoneyToWallet() {
         .post(
           `${process.env.REACT_APP_serverURL}/wallet/payment/Wallet-toBank`,
           {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              accessToken: localStorage.getItem('accessToken'),
-            },
             idempotencyKey: Math.floor(Math.random() * 1000000000) + Date.now(),
             walletId: currentWalletId,
             counterparty: {
@@ -192,13 +202,31 @@ function AddMoneyToWallet() {
               value: amount,
             },
             reference: remarkInput,
+          },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'user-id': currentUserId,
+              accessToken: localStorage.getItem('accessToken'),
+            },
           }
         )
         .then((response) => {
           console.log(response);
+          const status = response?.request?.status;
+          setMessagetoDisplay({
+            status: status === '200' || status === 200  ? 'SUCCESS' : 'FAILURE',
+            message: status === '200' || status === 200 ?'Transaction Done Successfully!' : response?.message
+          })
+          setShowToastMessage(true);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, 'error');
+          setMessagetoDisplay({
+            status: 'FAILURE',
+            message: error?.message
+          })
+          setShowToastMessage(true);
         });
     }
     if (moneyTranserType === 'Add Money from Bank to Wallet') {
@@ -206,10 +234,6 @@ function AddMoneyToWallet() {
         .post(
           `${process.env.REACT_APP_serverURL}/wallet/payment/bank-to-wallet`,
           {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              accessToken: localStorage.getItem('accessToken'),
-            },
             idempotencyKey: Math.floor(Math.random() * 1000000000) + Date.now(),
             walletId: currentWalletId,
             counterparty: {
@@ -229,13 +253,31 @@ function AddMoneyToWallet() {
               value: amount,
             },
             reference: remarkInput,
+          },
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'user-id': currentUserId,
+              accessToken: localStorage.getItem('accessToken'),
+            },
           }
         )
         .then((response) => {
           console.log(response);
+          const status = response?.request?.status;
+          setMessagetoDisplay({
+            status: status === '200' || status === 200  ? 'SUCCESS' : 'FAILURE',
+            message: status === '200' || status === 200 ?'Transaction Done Successfully!' : response?.message
+          })
+          setShowToastMessage(true);
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, 'error');
+          setMessagetoDisplay({
+            status: 'FAILURE',
+            message: error?.message
+          })
+          setShowToastMessage(true);
         });
     }
 
@@ -296,10 +338,10 @@ function AddMoneyToWallet() {
           <div className="outer-container">
             {showToastMessage && (
               <div
-                className="alert alert-success alert-dismissible fade show toast-wrapper"
+                className={`alert alert-dismissible fade show toast-wrapper ${messagetoDisplay?.status === 'SUCCESS' ? 'alert-success' : 'alert-danger'}`}
                 role="alert"
               >
-                <strong>Success!</strong> Money Added Successfully.
+                <strong>{`${messagetoDisplay?.status}!`}</strong> {messagetoDisplay.message}
                 <button
                   type="button"
                   className="close close-btn"
