@@ -9,6 +9,7 @@ import ResidanceDetails from './ResidanceDetails';
 import signupJSON  from '../../services/signup.json';
 import {signup} from '../../services/ApiService';
 import OTPVerification from './OTPVerification';
+import Loader from '../Loader';
 
 
 /**
@@ -26,6 +27,7 @@ function Signup() {
   const [residanceDetailsValue, setResidanceDetailsValue] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Proceed to next step
   const nextStep = async(form, position) => {
@@ -55,6 +57,7 @@ function Signup() {
       signupJSON.name.firstName = form.firstName;
       signupJSON.name.lastName = form.lastName;
       signupJSON.name.middleName = form.middleName;
+      signupJSON.dateOfBirth = form.dateOfBirth;
       setPersonnalDetailsValue(form);
 
     }
@@ -64,11 +67,17 @@ function Signup() {
       signupJSON.address.address2 =form.address2;
       signupJSON.address.city = form.city;
       signupJSON.address.state = form.state;
+      signupJSON.address.country = form.country;
+      signupJSON.address.zip = form.zip;
+      setLoading(true);
       signup(signupJSON).then((data)=>{
         if(data.success === true){
           navigate('/success');
+          setLoading(false);
         }
         else{
+          setLoading(false);
+          console.log(data);
           setErrorMessage(data.message)
         }
       })
@@ -91,7 +100,7 @@ function Signup() {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
           },
-          body: JSON.stringify({'identifier': '+919884313282','channel':'sms'}),
+          body: JSON.stringify({'identifier': form.mobileNumber,'channel':'sms'}),
         }
       );
       const data = await response.json();
@@ -118,45 +127,48 @@ function Signup() {
   return (
     <>
       <Header page={'signup'}></Header>
-
-      <div className="welcome-container">
-        <div className="left-container">
-          {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
-        </div>
-        <div className="right-container">
-          <div  className="sign-up-content">
-            <div className="sign-up-container" >
+      {
+        loading ? <div className='welcome--loader'><Loader /></div> : (
+          <div className="welcome-container">
+            <div className="left-container">
+              {/* <img alt="logo" className="img-logo" src={MSysLogo} /> */}
+            </div>
+            <div className="right-container">
+              <div  className="sign-up-content">
+                <div className="sign-up-container" >
         
-              {(() => {
-                switch (step) {
-                case 1:
-                  return <UserDetails  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} />
+                  {(() => {
+                    switch (step) {
+                    case 1:
+                      return <UserDetails  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
+                        nextStep={nextStep} />
 
-                case 2:
-                  return <OTPVerification  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} />
+                    case 2:
+                      return <OTPVerification  userDetailsValue = {userDetailsValue}  step={step} handleUpdate={handleUpdate}
+                        nextStep={nextStep} />
            
-                case 3:
-                  return <PersonalDetails personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} />
+                    case 3:
+                      return <PersonalDetails personnalDetailsValue={personnalDetailsValue}  step={step} handleUpdate={handleUpdate}
+                        nextStep={nextStep} />
 
-                case 4:
-                  return <IdentificationDetails  identificationDetailsValue = {identificationDetailsValue}  step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} />
+                    case 4:
+                      return <IdentificationDetails  identificationDetailsValue = {identificationDetailsValue}  step={step} handleUpdate={handleUpdate}
+                        nextStep={nextStep} />
 
-                case 5:
-                  return <ResidanceDetails residanceDetailsValue= {residanceDetailsValue} errorMessage = {errorMessage} step={step} handleUpdate={handleUpdate}
-                    nextStep={nextStep} />
+                    case 5:
+                      return <ResidanceDetails residanceDetailsValue= {residanceDetailsValue} errorMessage = {errorMessage} step={step} handleUpdate={handleUpdate}
+                        nextStep={nextStep} />
          
-                default:
-                  return null
-                }
-              })()}
+                    default:
+                      return null
+                    }
+                  })()}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      }
     </>
         
   );

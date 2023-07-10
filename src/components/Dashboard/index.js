@@ -20,6 +20,8 @@ function App() {
   const [currentUsername, setCurrentUsername] = useState('');
   const [currentUserBankname, setCurrentUserBankname] = useState('');
   const [currentUserBankId, setCurrentUserBankId] = useState('');
+  const [accountLoader, setAccountLoader] = useState(true)
+
 
   // const [currentUserBankDet, setCurrentUserBankDet] = useState({});
 
@@ -60,7 +62,6 @@ function App() {
       }
     );
     var data = await response.json();
-    console.log(data.result.data.accessToken);
     localStorage.setItem('accessToken', data.result.data.accessToken);
     setLoading(false);
   }, []);
@@ -85,7 +86,9 @@ function App() {
   const deLinkAccount = (accountId) => {
     setLoading(true);
     axios
-      .delete(`${process.env.REACT_APP_serverURL}/digital-wallet/accountId/${accountId}`)
+      .delete(
+        `${process.env.REACT_APP_serverURL}/digital-wallet/accountId/${accountId}`
+      )
       .then(() => {
         getUsersAccountdetails(currentUserData?.userId);
         setLoading(false);
@@ -230,7 +233,7 @@ function App() {
   }, []);
 
   const getUsersAccountdetails = async (userId) => {
-    setLoading(true);
+    setAccountLoader(true);
     const responseLinkAccount = await fetch(
       `${process.env.REACT_APP_serverURL}/digital-wallet/userId/${userId}`,
       {
@@ -246,6 +249,7 @@ function App() {
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount1 = await responseLinkAccount.json();
     setData(datalinkaccount1?.result?.data);
+    setAccountLoader(false);
   };
   return (
     <>
@@ -349,10 +353,29 @@ function App() {
                           </form>
                         </div>
                         <div className="modal-footer">
-                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
                           {/* <button type="button" className="btn btn-primary">Save changes</button> */}
-                          <form onSubmit={() => linkAccount(currentUserBankname, currentUserBankId)}>
-                            <input type='submit' value='Submit' className="btn btn-primary" />
+                          <form
+                            onSubmit={(e) =>{
+                              e.preventDefault();
+                              linkAccount(
+                                currentUserBankname,
+                                currentUserBankId
+                              )}
+                            }
+                          >
+                            <input
+                              type="submit"
+                              value="Submit"
+                              className="btn btn-primary"
+                              data-bs-dismiss="modal"
+                            />
                           </form>
                         </div>
                       </div>
@@ -362,9 +385,9 @@ function App() {
 
                 <div className="container">
                   <div className="row">
-                    {!loading &&
-                      data != null &&
-                      data.length > 0 &&
+                    {accountLoader ? <div className='account-loader--container'><Loader /></div> : data && data?.length < 1 ? (
+                      <div className='no-account-text'>No accounts linked yet!</div>
+                    ) :(
                       data.map((account, i) => (
                         <div
                           key={i}
@@ -374,14 +397,41 @@ function App() {
                           <div className="card border-info mb-3" key={i}>
                             <div className="card-header">
                               {account.bankName}
-                              <span
+                              {/* <span
                                 style={{ float: 'right', cursor: 'pointer' }}
                                 onClick={() =>
                                   deLinkAccount(account?.bankAccountId)
                                 }
                               >
                                 X
-                              </span>
+                              </span> */}
+                              <i 
+                                // onClick={() =>
+                                //   deLinkAccount(account?.bankAccountId)
+                                // } 
+                                style={{float: 'right', cursor: 'pointer'}} 
+                                title='De-Link Account'
+                                className="bi bi-x-circle-fill"
+                                data-bs-toggle="modal" data-bs-target="#exampleModalDelinkAcc"></i>
+                            </div>
+                            <div className="modal fade" id="exampleModalDelinkAcc" tabIndex="-1" aria-labelledby="exampleModalDelinkAcc" aria-hidden="true">
+                              <div className="modal-dialog">
+                                <div className="modal-content">
+                                  <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalDelinkAcc">{`De-Link ${account.bankName} Account`}</h5>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div className="modal-body">
+                                    {`${account.bankName} Account with account Id: ${account.bankAccountId} will be de-linked by the wallet permanently.`}
+                                  </div>
+                                  <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() =>
+                                      deLinkAccount(account?.bankAccountId)
+                                    }>De-Link</button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                             <div className="card-body">
                               <span> Available Balance</span>
@@ -394,7 +444,7 @@ function App() {
                                   {account.bankAccountId &&
                                     account.bankAccountId.slice(-4)}
                                 </span>
-                                <p className="card-text">
+                                {/* <p className="card-text">
                                   <a
                                     style={{
                                       textDecoration: 'underline',
@@ -404,12 +454,12 @@ function App() {
                                   >
                                     Transfer
                                   </a>
-                                </p>
+                                </p> */}
                               </div>
                             </div>
                           </div>
                         </div>
-                      ))}
+                      )))}
                   </div>
                 </div>
               </section>

@@ -82,10 +82,6 @@ function ProfileDetails({currentUserData, currentUserWalletData}) {
           walletData?.id ? <>
             <div className='details-container'>
               <div className='details-box--style2'>
-                <span className='profile--label'>Walled Id:</span>
-                <div className='profile-value--box'><span className='profile-value--text'>{walletData?.id}</span></div>
-              </div>
-              <div className='details-box--style2'>
                 <span className='profile--label'>Wallet Balance:</span>
                 <div className='profile-value--box'><span className='profile-value--text'>{`${walletData?.accountBalance} ${walletData?.currency}`}</span></div>
               </div>

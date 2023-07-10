@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import CountryCurrency from '../../../services/countryCurreny.json'
 
 /**
  * Signup Display Page
@@ -8,24 +9,24 @@ import './index.css';
  * @returns Signup Component
  */
 function ResidanceDetails(props) {
-  const {
-    handleUpdate,
-    nextStep,
-    errorMessage,
-    residanceDetailsValue,
-  } = props;
+  const { handleUpdate, nextStep, errorMessage, residanceDetailsValue } = props;
+  const [countryOption, setCountryOption] = useState([]);
   const [form, setForm] = useState({
     step: 1,
     address1: '',
     address2: '',
     city: '',
     state: '',
-    formErrors: { address1: '', address2: '', city: '', state: '' },
+    country: '',
+    zip: '',
+    formErrors: { address1: '', address2: '', city: '', state: '', country:'', zip: '' },
     address1Valid: false,
     address2Valid: false,
     cityValid: false,
     stateValid: false,
     formValid: false,
+    countryValid: false,
+    zipValid: false,
   });
   const [errorMsg, setErrorMsg] = useState(errorMessage);
   const handleUserInput = (e) => {
@@ -35,12 +36,26 @@ function ResidanceDetails(props) {
     validateField(name, value);
   };
 
+  const handleUserOptionInput = (e) => {
+    const value = e.target.value;
+    setForm((values) => ({ ...values, ['country']: value }));
+    validateField('country', value);
+  };
+
+  
+
+  useEffect(() => {
+    setCountryOption(CountryCurrency);
+  }, [])
+
   const validateField = (fieldName, value) => {
     let fieldValidationErrors = form.formErrors;
     let address1Valid = form.address1Valid;
     let address2Valid = form.address2Valid;
     let cityValid = form.cityValid;
     let stateValid = form.stateValid;
+    let countryValid = form.countryValid;
+    let zipValid = form.zipValid;
 
     switch (fieldName) {
     case 'address1':
@@ -67,6 +82,18 @@ function ResidanceDetails(props) {
         ? ''
         : 'state should have minimum 2 characters';
       break;
+    case 'country':
+      countryValid = value !== 'Select Country' || value !== '' || value !== null;
+      fieldValidationErrors.country = countryValid
+        ? ''
+        : 'Please select country';
+      break;
+    case 'zip':
+      zipValid = value.length >= 2;
+      fieldValidationErrors.zip = zipValid
+        ? ''
+        : 'Zip should have minimum 2 characters';
+      break;
     default:
       break;
     }
@@ -77,6 +104,8 @@ function ResidanceDetails(props) {
       address2Valid: address2Valid,
       cityValid: cityValid,
       stateValid: stateValid,
+      countryValid: countryValid,
+      zipValid: zipValid,
     }));
 
     validateForm();
@@ -89,7 +118,9 @@ function ResidanceDetails(props) {
         form.address1Valid &&
         form.address2Valid &&
         form.cityValid &&
-        form.stateValid,
+        form.stateValid &&
+        form.countryValid &&
+        form.zipValid,
     }));
   };
 
@@ -97,7 +128,7 @@ function ResidanceDetails(props) {
     return error.length === 0 ? '' : 'has-error';
   };
   const onSignup = () => {
-    nextStep(form, 'Residance');
+    nextStep({...form}, 'Residance');
   };
 
   const redirectTo = () => {
@@ -208,6 +239,59 @@ function ResidanceDetails(props) {
               onChange={(e) => handleUserInput(e)}
             />
             {<div className="invalid-feedback">{form.formErrors.state}</div>}
+          </div>
+
+          <div
+            className={`form-group form-elements ${errorClass(
+              form.formErrors.country
+            )}`}
+          >
+            <label htmlFor="country" className="form-label">
+              Country
+            </label>
+            <select
+              className="form-select header select-wrapper-res-input"
+              aria-label="Default select example"
+              onClick={(e) => handleUserOptionInput(e)}
+              id="country"
+              name='country'
+            >
+              <option className='sel-acc-opt' value="Select Country">
+                              Select Country
+              </option>
+              {countryOption?.map((cty) => (
+                <option
+                  key={cty?.country}
+                  value={cty?.country}
+                  className='sel-acc-opt'
+                >{cty?.country}</option>
+              ))}
+            </select>
+            {<div className="invalid-feedback">{form.formErrors.country}</div>}
+          </div>
+
+          <div
+            className={`form-group form-elements ${errorClass(
+              form.formErrors.zip
+            )}`}
+          >
+            <label htmlFor="zip" className="form-label">
+              Postal Zip Code
+            </label>
+            <input
+              type="text"
+              required
+              className={
+                form.formErrors.zip.length > 0
+                  ? 'is-invalid form-control'
+                  : 'form-control'
+              }
+              name="zip"
+              placeholder="Please enter Postal Zip Code"
+              value={form.zip}
+              onChange={(e) => handleUserInput(e)}
+            />
+            {<div className="invalid-feedback">{form.formErrors.zip}</div>}
           </div>
 
           <div className="button-container">

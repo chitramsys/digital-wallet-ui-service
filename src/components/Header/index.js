@@ -101,31 +101,28 @@ function Header({ page }) {
               )}
         
             </ul>
-            {page!='welcome' && page!='signup' &&  (<><form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            {page!='welcome' && page!='signup' &&  (<>
 
-            <div className="dropdown pb-1" style={{marginRight: '10px',marginLeft: '10px'}}>
-              <a href="#" className="d-flex  text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                {
-                  currentUserData?.profilePic ? 
-                    <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={userData?.profilePic} /> 
-                    : 
-                    <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={noImage} />
-                }
-                <span className="d-none d-sm-inline mx-1 header--username">{currentUserData?.username}</span>
-              </a>
-              <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-                {/* <li><a className="dropdown-item" href="#">New </a></li>
+              <div className="dropdown pb-1" style={{marginRight: '10px',marginLeft: '10px'}}>
+                <a href="#" className="d-flex  text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                  {
+                    currentUserData?.profilePic ? 
+                      <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={userData?.profilePic} /> 
+                      : 
+                      <img alt="hugenerd" width="30" height="30" className="rounded-circle" src={noImage} />
+                  }
+                  <span className="d-none d-sm-inline mx-1 header--username">{currentUserData?.username}</span>
+                </a>
+                <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
+                  {/* <li><a className="dropdown-item" href="#">New </a></li>
                         <li><a className="dropdown-item" href="#">Settings</a></li>
                         <li><a className="dropdown-item" href="#">Profile</a></li>
                         <li>
                             <hr className="dropdown-divider" />
                         </li> */}
-                <li onClick={()=>window.location.replace('http://3.232.225.73:8080/realms/SpringBootKeycloak/protocol/openid-connect/logout')} ><a href=""  className="dropdown-item" target="_blank" rel="noopener noreferrer">Sign out</a></li>
-              </ul>
-            </div>
+                  <li onClick={()=>window.location.replace('http://3.232.225.73:8080/realms/SpringBootKeycloak/protocol/openid-connect/logout')} ><a href=""  className="dropdown-item" target="_blank" rel="noopener noreferrer">Sign out</a></li>
+                </ul>
+              </div>
             </>)
             }
      

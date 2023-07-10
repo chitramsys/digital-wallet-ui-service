@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import { DatePicker } from 'antd';
 
 /**
  * Signup Display Page
@@ -8,27 +9,34 @@ import './index.css';
  * @returns Signup Component
  */
 function PersonalDetails(props) {
-  const {
-    handleUpdate,
-    nextStep,
-    personnalDetailsValue
-  } = props;
+  const { handleUpdate, nextStep, personnalDetailsValue } = props;
   const [form, setForm] = useState({
     step: 2,
     firstName: '',
     lastName: '',
     middleName: '',
-    formErrors: { firstName: '', lastName: '', middleName: '' },
+    formErrors: { firstName: '', lastName: '', middleName: ''},
     firstNameValid: false,
     lastNameValid: false,
     middleNameValid: false,
     formValid: false,
   });
+  const [birthDate, setBirthDate] = useState('');
+  // const [birthDateValid, setBirthDateValid] = useState(false);
+  const [birthDateValidor, setBirthDateValidor] = useState('');
+
   const handleUserInput = (e) => {
-    const name = e.target.name;
+    const name = e?.target?.name;
     const value = e.target.value;
     setForm((values) => ({ ...values, [name]: value }));
     validateField(name, value);
+  };
+
+  const handleBirthDateInput = (date) => {
+    const dateT = date?.$d?.toISOString();
+    // setBirthDateValid(birthDate !== null || birthDate !== undefined || birthDate !== '');
+    setBirthDate(dateT);
+    setBirthDateValidor('');
   };
 
   const validateField = (fieldName, value) => {
@@ -76,16 +84,22 @@ function PersonalDetails(props) {
     setForm((values) => ({
       ...values,
       formValid:
-        form.firstNameValid && form.lastNameValid && form.middleNameValid,
+        form.firstNameValid &&
+        form.lastNameValid &&
+        form.middleNameValid
     }));
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? '' : 'has-error';
+    return error?.length === 0 ? '' : 'has-error';
   };
 
   const onSignup = () => {
-    nextStep(form, 'personalDetails');
+    if (!birthDate || birthDate === null || birthDate === undefined || birthDate === '') {
+      setBirthDateValidor('Please enter date of birth')
+    } else {
+      nextStep({...form, dateOfBirth: birthDate}, 'personalDetails');
+    }
   };
 
   const redirectTo = () => {
@@ -175,6 +189,22 @@ function PersonalDetails(props) {
                 {form.formErrors.middleName}
               </div>
             }
+          </div>
+
+          <div
+            className='form-group form-elements'
+          >
+            <label htmlFor="birthDate" className="form-label">
+              Date Of Birth
+            </label>
+            <DatePicker
+              name="birthDate"
+              onChange={handleBirthDateInput}
+              className='pd-datepicker'
+            />
+            <div className="invalid-feedback bDate-invalid">
+              {birthDateValidor}
+            </div>
           </div>
 
           <div className="button-container">

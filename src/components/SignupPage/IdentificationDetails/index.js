@@ -48,7 +48,7 @@ function IdentificationDetails(props) {
         : 'identification number should have minimum 2 characters';
       break;
     case 'identificationType':
-      identificationTypeValid = value.length >= 2;
+      identificationTypeValid = value !== '' || value !== 'Select Identification Type';
       fieldValidationErrors.identificationType = identificationTypeValid
         ? ''
         : 'identification number should have minimum 2 characters';
@@ -94,6 +94,12 @@ function IdentificationDetails(props) {
       setForm(identificationDetailsValue);
     }
   }, [identificationDetailsValue]);
+
+  const handleUserOptionInput = (e) => {
+    setForm((values) => ({ ...values, identificationType: e.target.value }));
+    validateField('identificationType', e.target.value);
+  }
+
   return (
     <>
       <form className="demoForm">
@@ -105,25 +111,22 @@ function IdentificationDetails(props) {
             )}`}
           >
             <label htmlFor="identificationType" className="form-label">
-              IDentification Type
+              Identification Type
             </label>
-            <input
-              type="text"
-              className={
-                form.formErrors.identificationType.length > 0
-                  ? 'is-invalid form-control'
-                  : 'form-control'
-              }
-              name="identificationType"
-              placeholder="Please enter identification type"
-              value={form.identificationType}
-              onChange={(e) => handleUserInput(e)}
-            />
-            {
-              <div className="invalid-feedback">
-                {form.formErrors.identificationType}
-              </div>
-            }
+            <select
+              className="form-select header select-wrapper-idf-input"
+              aria-label="Default select example"
+              onClick={(e) => handleUserOptionInput(e)}
+              id="identificationType"
+              name='identificationType'
+            >
+              <option className='sel-acc-opt' value="Select Identification Type">
+                              Select Identification Type
+              </option>
+              <option className='sel-acc-opt' value="driving liscence">Driving Liscence</option>
+              <option className='sel-acc-opt' value="pan card">Pan Card</option>
+            </select>
+            {<div className="invalid-feedback">{form.formErrors.country}</div>}
           </div>
           <div
             className={`form-group form-elements ${errorClass(

@@ -45,7 +45,6 @@ function Transaction() {
 
     // eslint-disable-next-line no-unused-vars
     const profileData = await responseProfileData.json();
-    console.log(profileData);
     setCurrentUserId(profileData?.userId);
   };
 
@@ -81,24 +80,25 @@ function Transaction() {
               loading ? <div className='transc-loader'><Loader /></div> : <table className="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Currency</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactionList && transactionList.length>0 && transactionList.map(trans=>{
-                    console.log('ss')
                     return(
                     
-                      <tr key={trans.transacDateTime}>
-                        <td>{trans.amount}</td>
-                        <td>{trans.accountIDFrom}</td>
-                        <td>{trans.accountIDTo}</td>
-                        <td>{trans.transacDateTime}</td>
-                        <td>{trans.transactionStatus}</td>
+                      <tr key={trans?.transacDateTime}>
+                        <td>{trans?.transacDateTime?.replace('T', ' ')}</td>
+                        <td>{trans?.accountIDFrom}</td>
+                        <td>{trans?.accountIDTo}</td>
+                        <td>{trans?.amount}</td>
+                        <td>{trans?.currency}</td>
+                        <td>{trans?.transactionStatus}</td>
                       </tr>
                     )}) }
               

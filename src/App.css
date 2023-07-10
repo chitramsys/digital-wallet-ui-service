@@ -38,6 +38,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background: #F2F2F2;
+}
+
 .icon-home:before {
   content: "\61";
 }
