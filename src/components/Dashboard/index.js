@@ -10,6 +10,7 @@ import ProfileDetails from '../ProfileDetails';
 import axios from 'axios';
 import Loader from '../Loader';
 import UserService from '../../services/UserService';
+import { CloseCircleFilled } from '@ant-design/icons'
 
 function App() {
   const [token, setToken] = useState(null);
@@ -397,22 +398,11 @@ function App() {
                           <div className="card border-info mb-3" key={i}>
                             <div className="card-header">
                               {account.bankName}
-                              {/* <span
-                                style={{ float: 'right', cursor: 'pointer' }}
-                                onClick={() =>
-                                  deLinkAccount(account?.bankAccountId)
-                                }
-                              >
-                                X
-                              </span> */}
-                              <i 
-                                // onClick={() =>
-                                //   deLinkAccount(account?.bankAccountId)
-                                // } 
-                                style={{float: 'right', cursor: 'pointer'}} 
-                                title='De-Link Account'
-                                className="bi bi-x-circle-fill"
-                                data-bs-toggle="modal" data-bs-target="#exampleModalDelinkAcc"></i>
+                              <CloseCircleFilled
+                                style={{float: 'right', cursor: 'pointer', marginTop: '4px'}} 
+                                title='De-Link Account' 
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModalDelinkAcc" />
                             </div>
                             <div className="modal fade" id="exampleModalDelinkAcc" tabIndex="-1" aria-labelledby="exampleModalDelinkAcc" aria-hidden="true">
                               <div className="modal-dialog">
