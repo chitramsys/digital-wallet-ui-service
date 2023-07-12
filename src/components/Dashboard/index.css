@@ -187,3 +187,8 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+.balance--link{
+  display: block;
+  pointer-events: none;
+}

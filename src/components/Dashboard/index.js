@@ -424,10 +424,11 @@ function App() {
                               </div>
                             </div>
                             <div className="card-body">
-                              <span> Available Balance</span>
-                              <h5 className="card-title">
+                              <span> Available Balance:</span>
+                              {/* <h5 className="card-title">
                                 {account.accountBalance}
-                              </h5>
+                              </h5> */}
+                              <a className='balance--link' href='#'>Check Balance</a>
                               <div style={{ display: 'flex' }}>
                                 <span style={{ flex: 1 }}>
                                   Account No: ***
