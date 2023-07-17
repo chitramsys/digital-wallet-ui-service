@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.css';
 import Header from '../Header';
 import SideBar from '../SideBar';
@@ -7,27 +7,28 @@ import Loader from '../Loader';
 import UserService from '../../services/UserService';
 function Transaction() {
   // eslint-disable-next-line no-unused-vars
-  const [transactionList, setTransactionList] = useState([])
+  const [transactionList, setTransactionList] = useState([]);
   const [currentUsername, setCurrentUsername] = useState('');
   const [currentUserId, setCurrentUserId] = useState('');
   const [loading, setLoading] = useState(true);
 
-
   const getTransaction = async (userId) => {
-    const responseLinkAccount = await fetch(`http://3.232.225.73/digital-wallet/wallet/transactions?userId=${userId}`, {
-      method: 'GET',
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        
-      },
-    });
+    const responseLinkAccount = await fetch(
+      `http://3.232.225.73/digital-wallet/wallet/transactions?userId=${userId}`,
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
 
     const datalinkaccount = await responseLinkAccount.json();
-    setTransactionList(datalinkaccount)
+    setTransactionList(datalinkaccount);
     setLoading(false);
-  }
+  };
 
   const getCurrentUsers = async (username) => {
     setLoading(true);
@@ -50,9 +51,9 @@ function Transaction() {
 
   useEffect(() => {
     if (currentUserId) {
-      getTransaction(currentUserId)
+      getTransaction(currentUserId);
     }
-  }, [currentUserId])
+  }, [currentUserId]);
 
   useEffect(() => {
     if (currentUsername) {
@@ -67,17 +68,35 @@ function Transaction() {
     }
   }, []);
 
-  return(
-    <>
+  const dateFormatter = (date) => {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    const ddmmyy = [day, month, year].join('-');
+    const hhmm = d.getHours() + ':' + d.getMinutes()
+
+    return (ddmmyy + ' ' + hhmm);
+  };
+
+  return (
+    <>
       <Header page={'dashboard'}></Header>
       <div className="container-fluid content-area">
         <div className="row flex-nowrap">
           <SideBar />
           <div className="col py-3 px-5">
             <div className="wallet-title">Transaction List</div>
-            {
-              loading ? <div className='transc-loader'><Loader /></div> : <table className="table table-striped table-hover">
+            {loading ? (
+              <div className="transc-loader">
+                <Loader />
+              </div>
+            ) : (
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th scope="col">Date</th>
@@ -89,30 +108,28 @@ function Transaction() {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactionList && transactionList.length>0 && transactionList.map(trans=>{
-                    return(
-                    
-                      <tr key={trans?.transacDateTime}>
-                        <td>{trans?.transacDateTime?.replace('T', ' ')}</td>
-                        <td>{trans?.accountIDFrom}</td>
-                        <td>{trans?.accountIDTo}</td>
-                        <td>{trans?.amount}</td>
-                        <td>{trans?.currency}</td>
-                        <td>{trans?.transactionStatus}</td>
-                      </tr>
-                    )}) }
-              
-    
+                  {transactionList &&
+                    transactionList.length > 0 &&
+                    transactionList.map((trans) => {
+                      return (
+                        <tr key={trans?.transacDateTime}>
+                          <td>{dateFormatter(trans?.transacDateTime)}</td>
+                          <td>{trans?.accountIDFrom}</td>
+                          <td>{trans?.accountIDTo}</td>
+                          <td>{trans?.amount}</td>
+                          <td>{trans?.currency}</td>
+                          <td>{trans?.transactionStatus}</td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
-            }
+            )}
           </div>
-                
-                
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Transaction
+export default Transaction;

@@ -590,21 +590,21 @@ function AddMoneyToWallet() {
                           className="btn btn-outline-secondary text-left"
                           onClick={handleOnAddHundred}
                         >
-                          &#x20b9; +100
+                          £ +100
                         </button>
                         <button
                           type="button"
                           className="btn btn-outline-secondary text-center button-align"
                           onClick={handleOnAddfiveHundred}
                         >
-                          &#x20b9; +500
+                          £ +500
                         </button>
                         <button
                           type="button"
                           className="btn btn-outline-secondary text-right button-align"
                           onClick={handleOnAddThousand}
                         >
-                          &#x20b9; +1000
+                          £ +1000
                         </button>
                       </div>
                       <div className="row submit">

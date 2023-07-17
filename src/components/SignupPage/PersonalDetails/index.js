@@ -15,10 +15,9 @@ function PersonalDetails(props) {
     firstName: '',
     lastName: '',
     middleName: '',
-    formErrors: { firstName: '', lastName: '', middleName: ''},
+    formErrors: { firstName: '', lastName: '' },
     firstNameValid: false,
     lastNameValid: false,
-    middleNameValid: false,
     formValid: false,
   });
   const [birthDate, setBirthDate] = useState('');
@@ -43,7 +42,6 @@ function PersonalDetails(props) {
     let fieldValidationErrors = form.formErrors;
     let firstNameValid = form.firstNameValid;
     let lastNameValid = form.lastNameValid;
-    let middleNameValid = form.middleNameValid;
 
     switch (fieldName) {
     case 'firstName':
@@ -59,13 +57,6 @@ function PersonalDetails(props) {
         : 'last name should have minimum 2 characters';
       break;
 
-    case 'middleName':
-      middleNameValid = value.length >= 2;
-      fieldValidationErrors.middleName = middleNameValid
-        ? ''
-        : 'middle name should have minimum 2 characters';
-      break;
-
     default:
       break;
     }
@@ -74,7 +65,6 @@ function PersonalDetails(props) {
       formErrors: fieldValidationErrors,
       firstNameValid: firstNameValid,
       lastNameValid: lastNameValid,
-      middleNameValid: middleNameValid,
     }));
 
     validateForm();
@@ -83,10 +73,7 @@ function PersonalDetails(props) {
   const validateForm = () => {
     setForm((values) => ({
       ...values,
-      formValid:
-        form.firstNameValid &&
-        form.lastNameValid &&
-        form.middleNameValid
+      formValid: form.firstNameValid && form.lastNameValid,
     }));
   };
 
@@ -95,10 +82,15 @@ function PersonalDetails(props) {
   };
 
   const onSignup = () => {
-    if (!birthDate || birthDate === null || birthDate === undefined || birthDate === '') {
-      setBirthDateValidor('Please enter date of birth')
+    if (
+      !birthDate ||
+      birthDate === null ||
+      birthDate === undefined ||
+      birthDate === ''
+    ) {
+      setBirthDateValidor('Please enter date of birth');
     } else {
-      nextStep({...form, dateOfBirth: birthDate}, 'personalDetails');
+      nextStep({ ...form, dateOfBirth: birthDate }, 'personalDetails');
     }
   };
 
@@ -142,6 +134,19 @@ function PersonalDetails(props) {
               </div>
             }
           </div>
+          <div className="form-group form-elements">
+            <label htmlFor="middleName" className="form-label">
+              Middle name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              name="middleName"
+              placeholder="Please enter middle name"
+              value={form.middleName}
+              onChange={(e) => handleUserInput(e)}
+            />
+          </div>
           <div
             className={`form-group form-elements ${errorClass(
               form.formErrors.lastName
@@ -164,43 +169,15 @@ function PersonalDetails(props) {
             />
             {<div className="invalid-feedback">{form.formErrors.lastName}</div>}
           </div>
-          <div
-            className={`form-group form-elements ${errorClass(
-              form.formErrors.middleName
-            )}`}
-          >
-            <label htmlFor="middleName" className="form-label">
-              Middle name
-            </label>
-            <input
-              type="text"
-              className={
-                form.formErrors.middleName.length > 0
-                  ? 'is-invalid form-control'
-                  : 'form-control'
-              }
-              name="middleName"
-              placeholder="Please enter middle name"
-              value={form.middleName}
-              onChange={(e) => handleUserInput(e)}
-            />
-            {
-              <div className="invalid-feedback">
-                {form.formErrors.middleName}
-              </div>
-            }
-          </div>
 
-          <div
-            className='form-group form-elements'
-          >
+          <div className="form-group form-elements">
             <label htmlFor="birthDate" className="form-label">
               Date Of Birth
             </label>
             <DatePicker
               name="birthDate"
               onChange={handleBirthDateInput}
-              className='pd-datepicker'
+              className="pd-datepicker"
             />
             <div className="invalid-feedback bDate-invalid">
               {birthDateValidor}

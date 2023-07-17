@@ -123,7 +123,7 @@ function IdentificationDetails(props) {
               <option className='sel-acc-opt' value="Select Identification Type">
                               Select Identification Type
               </option>
-              <option className='sel-acc-opt' value="driving liscence">Driving Liscence</option>
+              <option className='sel-acc-opt' value="driving license">Driving License</option>
               <option className='sel-acc-opt' value="pan card">Pan Card</option>
             </select>
             {<div className="invalid-feedback">{form.formErrors.country}</div>}
