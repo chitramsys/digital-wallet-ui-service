@@ -78,7 +78,7 @@ function Transaction() {
     if (day.length < 2) day = '0' + day;
 
     const ddmmyy = [day, month, year].join('-');
-    const hhmm = d.getHours() + ':' + d.getMinutes()
+    const hhmm = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 
     return (ddmmyy + ' ' + hhmm);
   };
