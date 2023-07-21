@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import CountryCurrency from '../../../services/countryCurreny.json'
+import CountryCurrency from '../../../services/countryCurreny.json';
 
 /**
  * Signup Display Page
@@ -19,7 +19,7 @@ function ResidanceDetails(props) {
     state: '',
     country: '',
     zip: '',
-    formErrors: { address1: '', address2: '', city: '', state: '', country:'', zip: '' },
+    formErrors: { address1: '', city: '', state: '', country: '', zip: '' },
     address1Valid: false,
     address2Valid: false,
     cityValid: false,
@@ -42,16 +42,13 @@ function ResidanceDetails(props) {
     validateField('country', value);
   };
 
-  
-
   useEffect(() => {
     setCountryOption(CountryCurrency);
-  }, [])
+  }, []);
 
   const validateField = (fieldName, value) => {
     let fieldValidationErrors = form.formErrors;
     let address1Valid = form.address1Valid;
-    let address2Valid = form.address2Valid;
     let cityValid = form.cityValid;
     let stateValid = form.stateValid;
     let countryValid = form.countryValid;
@@ -63,12 +60,6 @@ function ResidanceDetails(props) {
       fieldValidationErrors.address1 = address1Valid
         ? ''
         : 'address1 should have minimum 2 characters';
-      break;
-    case 'address2':
-      address2Valid = value.length >= 2;
-      fieldValidationErrors.address2 = address2Valid
-        ? ''
-        : 'address2 should have minimum 2 characters';
       break;
     case 'city':
       cityValid = value.length >= 2;
@@ -83,7 +74,8 @@ function ResidanceDetails(props) {
         : 'state should have minimum 2 characters';
       break;
     case 'country':
-      countryValid = value !== 'Select Country' || value !== '' || value !== null;
+      countryValid =
+          value !== 'Select Country' || value !== '' || value !== null;
       fieldValidationErrors.country = countryValid
         ? ''
         : 'Please select country';
@@ -101,7 +93,6 @@ function ResidanceDetails(props) {
       ...values,
       formErrors: fieldValidationErrors,
       address1Valid: address1Valid,
-      address2Valid: address2Valid,
       cityValid: cityValid,
       stateValid: stateValid,
       countryValid: countryValid,
@@ -116,7 +107,6 @@ function ResidanceDetails(props) {
       ...values,
       formValid:
         form.address1Valid &&
-        form.address2Valid &&
         form.cityValid &&
         form.stateValid &&
         form.countryValid &&
@@ -125,10 +115,10 @@ function ResidanceDetails(props) {
   };
 
   const errorClass = (error) => {
-    return error.length === 0 ? '' : 'has-error';
+    return error?.length === 0 ? '' : 'has-error';
   };
   const onSignup = () => {
-    nextStep({...form}, 'Residance');
+    nextStep({ ...form }, 'Residance');
   };
 
   const redirectTo = () => {
@@ -169,28 +159,19 @@ function ResidanceDetails(props) {
             />
             {<div className="invalid-feedback">{form.formErrors.address1}</div>}
           </div>
-          <div
-            className={`form-group form-elements ${errorClass(
-              form.formErrors.address2
-            )}`}
-          >
+          <div className="form-group form-elements">
             <label htmlFor="address2" className="form-label">
               Address 2
             </label>
             <input
               type="text"
               required
-              className={
-                form.formErrors.address2.length > 0
-                  ? 'is-invalid form-control'
-                  : 'form-control'
-              }
+              className='form-control'
               name="address2"
               placeholder="Please enter email address 2"
               value={form.address2}
               onChange={(e) => handleUserInput(e)}
             />
-            {<div className="invalid-feedback">{form.formErrors.address2}</div>}
           </div>
 
           <div
@@ -254,17 +235,19 @@ function ResidanceDetails(props) {
               aria-label="Default select example"
               onClick={(e) => handleUserOptionInput(e)}
               id="country"
-              name='country'
+              name="country"
             >
-              <option className='sel-acc-opt' value="Select Country">
-                              Select Country
+              <option className="sel-acc-opt" value="Select Country">
+                Select Country
               </option>
               {countryOption?.map((cty) => (
                 <option
                   key={cty?.country}
                   value={cty?.country}
-                  className='sel-acc-opt'
-                >{cty?.country}</option>
+                  className="sel-acc-opt"
+                >
+                  {cty?.country}
+                </option>
               ))}
             </select>
             {<div className="invalid-feedback">{form.formErrors.country}</div>}

@@ -10,3 +10,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.from-to-emails-span{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.from-to-email-td{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}

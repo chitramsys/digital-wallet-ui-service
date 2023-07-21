@@ -62,6 +62,7 @@ function AddMoneyToWallet() {
 
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount1 = await responseLinkAccount.json();
+    console.log(datalinkaccount1);
     setUserAccountsList(datalinkaccount1?.result?.data);
   };
 
@@ -206,9 +207,11 @@ function AddMoneyToWallet() {
             setShowToastMessage(true);
             getUsersWallet();
             setloader(false);
+            setRemarkInput('');
           })
           .catch((error) => {
             console.log(error);
+            setRemarkInput('');
             setSelectedAccount('Select Account');
             setMessagetoDisplay({
               status: 'FAILURE',
@@ -264,12 +267,14 @@ function AddMoneyToWallet() {
                   ? 'Transaction Done Successfully!'
                   : response?.message,
             });
+            setRemarkInput('');
             setShowToastMessage(true);
             getUsersWallet();
             setloader(false);
           })
           .catch((error) => {
             console.log(error);
+            setRemarkInput('');
             setSelectedAccount('Select Account');
             setMessagetoDisplay({
               status: 'FAILURE',

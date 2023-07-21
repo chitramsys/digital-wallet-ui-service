@@ -10,7 +10,7 @@ import ProfileDetails from '../ProfileDetails';
 import axios from 'axios';
 import Loader from '../Loader';
 import UserService from '../../services/UserService';
-import { CloseCircleFilled } from '@ant-design/icons'
+import { CloseCircleFilled } from '@ant-design/icons';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -21,8 +21,8 @@ function App() {
   const [currentUsername, setCurrentUsername] = useState('');
   const [currentUserBankname, setCurrentUserBankname] = useState('');
   const [currentUserBankId, setCurrentUserBankId] = useState('');
-  const [accountLoader, setAccountLoader] = useState(true)
-
+  const [currentUserSortingCode, setCurrentUserSortingCode] = useState('');
+  const [accountLoader, setAccountLoader] = useState(true);
 
   // const [currentUserBankDet, setCurrentUserBankDet] = useState({});
 
@@ -100,7 +100,7 @@ function App() {
       });
   };
 
-  const linkAccount = async (bankName, bankAccountId) => {
+  const linkAccount = async (bankName, bankAccountId, sortingCode) => {
     setLoading(true);
     const responseLinkAccount = await fetch(
       `${process.env.REACT_APP_serverURL}/plaid-service/link-bank-account`,
@@ -114,7 +114,7 @@ function App() {
         body: JSON.stringify({
           bankName,
           userId: currentUserData?.userId,
-          bankRoutingNumber: 'CITI2041',
+          bankRoutingNumber: sortingCode,
           bankAccountId,
         }),
       }
@@ -123,6 +123,9 @@ function App() {
     // eslint-disable-next-line no-unused-vars
     const datalinkaccount = await responseLinkAccount.json();
     getUsersAccountdetails(currentUserData?.userId);
+    setCurrentUserBankname('');
+    setCurrentUserBankId('')
+    setCurrentUserSortingCode('')
     setLoading(false);
   };
 
@@ -332,24 +335,48 @@ function App() {
                               />
                             </div>
                             <div className="mb-3">
-                              <label
-                                htmlFor="bankId"
-                                className="form-label lable-align"
-                              >
-                                Bank Id
-                              </label>
-                              <input
-                                type="text"
-                                name="bandId"
-                                value={currentUserBankId || ''}
-                                onChange={(e) =>
-                                  setCurrentUserBankId(e.target.value)
-                                }
-                                placeholder="Enter Bank Id"
-                                className="form-control"
-                                id="bankId"
-                                required
-                              />
+                              <div className="row">
+                                <div className="col-sm-12 col-md-6">
+                                  <label
+                                    htmlFor="sortingCode"
+                                    className="form-label lable-align"
+                                  >
+                                    Sort Code
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="sortingCode"
+                                    value={currentUserSortingCode || ''}
+                                    onChange={(e) =>
+                                      setCurrentUserSortingCode(e.target.value)
+                                    }
+                                    placeholder="Enter Sorting Code"
+                                    className="form-control"
+                                    id="sortingCode"
+                                    required
+                                  />
+                                </div>
+                                <div className="col-sm-12 col-md-6">
+                                  <label
+                                    htmlFor="accountNo"
+                                    className="form-label lable-align"
+                                  >
+                                    Account No.
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="accountNo"
+                                    value={currentUserBankId || ''}
+                                    onChange={(e) =>
+                                      setCurrentUserBankId(e.target.value)
+                                    }
+                                    placeholder="Enter Account No."
+                                    className="form-control"
+                                    id="accountNo"
+                                    required
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -363,19 +390,21 @@ function App() {
                           </button>
                           {/* <button type="button" className="btn btn-primary">Save changes</button> */}
                           <form
-                            onSubmit={(e) =>{
+                            onSubmit={(e) => {
                               e.preventDefault();
                               linkAccount(
                                 currentUserBankname,
-                                currentUserBankId
-                              )}
-                            }
+                                currentUserBankId,
+                                currentUserSortingCode
+                              );
+                            }}
                           >
                             <input
                               type="submit"
                               value="Submit"
                               className="btn btn-primary"
                               data-bs-dismiss="modal"
+                              disabled={!(currentUserBankId && currentUserSortingCode && currentUserBankname)}
                             />
                           </form>
                         </div>
@@ -386,9 +415,15 @@ function App() {
 
                 <div className="container">
                   <div className="row">
-                    {accountLoader ? <div className='account-loader--container'><Loader /></div> : data && data?.length < 1 ? (
-                      <div className='no-account-text'>No accounts linked yet!</div>
-                    ) :(
+                    {accountLoader ? (
+                      <div className="account-loader--container">
+                        <Loader />
+                      </div>
+                    ) : data && data?.length < 1 ? (
+                      <div className="no-account-text">
+                        No accounts linked yet!
+                      </div>
+                    ) : (
                       data.map((account, i) => (
                         <div
                           key={i}
@@ -399,26 +434,58 @@ function App() {
                             <div className="card-header">
                               {account.bankName}
                               <CloseCircleFilled
-                                style={{float: 'right', cursor: 'pointer', marginTop: '4px'}} 
-                                title='De-Link Account' 
+                                style={{
+                                  float: 'right',
+                                  cursor: 'pointer',
+                                  marginTop: '4px',
+                                }}
+                                title="De-Link Account"
                                 data-bs-toggle="modal"
-                                data-bs-target="#exampleModalDelinkAcc" />
+                                data-bs-target="#exampleModalDelinkAcc"
+                              />
                             </div>
-                            <div className="modal fade" id="exampleModalDelinkAcc" tabIndex="-1" aria-labelledby="exampleModalDelinkAcc" aria-hidden="true">
+                            <div
+                              className="modal fade"
+                              id="exampleModalDelinkAcc"
+                              tabIndex="-1"
+                              aria-labelledby="exampleModalDelinkAcc"
+                              aria-hidden="true"
+                            >
                               <div className="modal-dialog">
                                 <div className="modal-content">
                                   <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalDelinkAcc">{`De-Link ${account.bankName} Account`}</h5>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5
+                                      className="modal-title"
+                                      id="exampleModalDelinkAcc"
+                                    >{`De-Link ${account.bankName} Account`}</h5>
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      data-bs-dismiss="modal"
+                                      aria-label="Close"
+                                    ></button>
                                   </div>
                                   <div className="modal-body">
                                     {`${account.bankName} Account with account Id: ${account.bankAccountId} will be de-linked by the wallet permanently.`}
                                   </div>
                                   <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() =>
-                                      deLinkAccount(account?.bankAccountId)
-                                    }>De-Link</button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-secondary"
+                                      data-bs-dismiss="modal"
+                                    >
+                                      Close
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary"
+                                      data-bs-dismiss="modal"
+                                      onClick={() =>
+                                        deLinkAccount(account?.bankAccountId)
+                                      }
+                                    >
+                                      De-Link
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -428,7 +495,9 @@ function App() {
                               {/* <h5 className="card-title">
                                 {account.accountBalance}
                               </h5> */}
-                              <a className='balance--link' href='#'>Check Balance</a>
+                              <a className="balance--link" href="#">
+                                Check Balance
+                              </a>
                               <div style={{ display: 'flex' }}>
                                 <span style={{ flex: 1 }}>
                                   Account No: ***
@@ -450,7 +519,8 @@ function App() {
                             </div>
                           </div>
                         </div>
-                      )))}
+                      ))
+                    )}
                   </div>
                 </div>
               </section>

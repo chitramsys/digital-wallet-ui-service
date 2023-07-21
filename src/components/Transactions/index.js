@@ -78,9 +78,9 @@ function Transaction() {
     if (day.length < 2) day = '0' + day;
 
     const ddmmyy = [day, month, year].join('-');
-    const hhmm = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
+    const hhmm = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
-    return (ddmmyy + ' ' + hhmm);
+    return ddmmyy + ' ' + hhmm;
   };
 
   return (
@@ -114,9 +114,50 @@ function Transaction() {
                       return (
                         <tr key={trans?.transacDateTime}>
                           <td>{dateFormatter(trans?.transacDateTime)}</td>
-                          <td>{trans?.accountIDFrom}</td>
-                          <td>{trans?.accountIDTo}</td>
-                          <td>{trans?.amount}</td>
+                          <td>
+                            {trans?.accountIDFromType?.toLowerCase() === 'wallet' ? (
+                              <div className="from-to-email-td">
+                                <div
+                                  className="from-to-emails-span"
+                                  title={trans?.fromUserEmail}
+                                >
+                                  {trans?.fromUserEmail}
+                                </div>{' '}
+                                | {trans?.accountIDFromType?.toUpperCase()}
+                              </div>
+                            ) : (
+                              <div className="from-to-email-td">
+                                {trans?.accountIDFrom} |{' '}
+                                {trans?.accountIDFromType?.toUpperCase()}
+                              </div>
+                            )}
+                          </td>
+                          <td>
+                            {trans?.accountIdToType.toLowerCase() === 'wallet' ? (
+                              <div className="from-to-email-td">
+                                <div
+                                  className="from-to-emails-span"
+                                  title={trans?.toUserEmail}
+                                >
+                                  {trans?.toUserEmail}
+                                </div>
+                                | {trans?.accountIdToType?.toUpperCase()}
+                              </div>
+                            ) : (
+                              <div className="from-to-email-td">
+                                {trans?.accountIDTo} |{' '}
+                                {trans?.accountIdToType?.toUpperCase()}
+                              </div>
+                            )}
+                          </td>
+                          <td>
+                            {trans?.accountIDFromType.toLowerCase() === 'wallet' ? (
+                              <span style={{ color: 'red' }}>Dr. </span>
+                            ) : (
+                              <span style={{ color: 'green' }}>Cr. </span>
+                            )}
+                            {trans?.amount}
+                          </td>
                           <td>{trans?.currency}</td>
                           <td>{trans?.transactionStatus}</td>
                         </tr>
