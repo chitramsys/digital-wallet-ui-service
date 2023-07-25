@@ -115,51 +115,54 @@ function Transaction() {
                         <tr key={trans?.transacDateTime}>
                           <td>{dateFormatter(trans?.transacDateTime)}</td>
                           <td>
-                            {trans?.accountIDFromType?.toLowerCase() === 'wallet' ? (
-                              <div className="from-to-email-td">
-                                <div
-                                  className="from-to-emails-span"
-                                  title={trans?.fromUserEmail}
-                                >
-                                  {trans?.fromUserEmail}
-                                </div>{' '}
-                                | {trans?.accountIDFromType?.toUpperCase()}
-                              </div>
-                            ) : (
-                              <div className="from-to-email-td">
-                                {trans?.accountIDFrom} |{' '}
-                                {trans?.accountIDFromType?.toUpperCase()}
-                              </div>
-                            )}
-                          </td>
-                          <td>
-                            {trans?.accountIdToType.toLowerCase() === 'wallet' ? (
-                              <div className="from-to-email-td">
-                                <div
-                                  className="from-to-emails-span"
-                                  title={trans?.toUserEmail}
-                                >
-                                  {trans?.toUserEmail}
+                            {trans?.accountIDFromType?.toLowerCase() ===
+                            'wallet' ? (
+                                <div className="from-to-email-td">
+                                  <div
+                                    className="from-to-emails-span"
+                                    title={trans?.fromUserEmail}
+                                  >
+                                    {trans?.fromUserEmail}
+                                  </div>{' '}
+                                |{' '} {trans?.accountIDFromType?.toUpperCase()}
                                 </div>
-                                | {trans?.accountIdToType?.toUpperCase()}
-                              </div>
-                            ) : (
-                              <div className="from-to-email-td">
-                                {trans?.accountIDTo} |{' '}
-                                {trans?.accountIdToType?.toUpperCase()}
-                              </div>
-                            )}
+                              ) : (
+                                <div className="from-to-email-td">
+                                  {trans?.accountIDFrom} {' '}|{' '}
+                                  {trans?.accountIDFromType?.toUpperCase()}
+                                </div>
+                              )}
                           </td>
                           <td>
-                            {trans?.accountIDFromType.toLowerCase() === 'wallet' ? (
-                              <span style={{ color: 'red' }}>Dr. </span>
-                            ) : (
-                              <span style={{ color: 'green' }}>Cr. </span>
-                            )}
+                            {trans?.accountIdToType.toLowerCase() ===
+                            'wallet' ? (
+                                <div className="from-to-email-td">
+                                  <div
+                                    className="from-to-emails-span"
+                                    title={trans?.toUserEmail}
+                                  >
+                                    {trans?.toUserEmail}
+                                  </div>{' '}
+                                |{' '}{trans?.accountIdToType?.toUpperCase()}
+                                </div>
+                              ) : (
+                                <div className="from-to-email-td">
+                                  {trans?.accountIDTo} {' '}|{' '}
+                                  {trans?.accountIdToType?.toUpperCase()}
+                                </div>
+                              )}
+                          </td>
+                          <td>
+                            {trans?.accountIDFromType.toLowerCase() ===
+                            'wallet' ? (
+                                <span style={{ color: 'red' }}>-</span>
+                              ) : (
+                                <span style={{ color: 'green' }}>+</span>
+                              )}
                             {trans?.amount}
                           </td>
                           <td>{trans?.currency}</td>
-                          <td>{trans?.transactionStatus}</td>
+                          <td>{trans?.transactionStatus?.toUpperCase()}</td>
                         </tr>
                       );
                     })}

@@ -23,6 +23,10 @@ function App() {
   const [currentUserBankId, setCurrentUserBankId] = useState('');
   const [currentUserSortingCode, setCurrentUserSortingCode] = useState('');
   const [accountLoader, setAccountLoader] = useState(true);
+  const [clickedBankAccount, setClickedBankAccount] = useState({
+    bankName: '',
+    accountNo: ''
+  });
 
   // const [currentUserBankDet, setCurrentUserBankDet] = useState({});
 
@@ -442,6 +446,7 @@ function App() {
                                 title="De-Link Account"
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModalDelinkAcc"
+                                onClick={() => setClickedBankAccount({bankName: account.bankName, accountNo: account.bankAccountId})}
                               />
                             </div>
                             <div
@@ -457,7 +462,7 @@ function App() {
                                     <h5
                                       className="modal-title"
                                       id="exampleModalDelinkAcc"
-                                    >{`De-Link ${account.bankName} Account`}</h5>
+                                    >{`De-Link ${clickedBankAccount.bankName} Account`}</h5>
                                     <button
                                       type="button"
                                       className="btn-close"
@@ -466,7 +471,7 @@ function App() {
                                     ></button>
                                   </div>
                                   <div className="modal-body">
-                                    {`${account.bankName} Account with account Id: ${account.bankAccountId} will be de-linked by the wallet permanently.`}
+                                    {`${clickedBankAccount.bankName} Account with account Id: ${clickedBankAccount.accountNo} will be de-linked by the wallet permanently.`}
                                   </div>
                                   <div className="modal-footer">
                                     <button
@@ -481,7 +486,7 @@ function App() {
                                       className="btn btn-primary"
                                       data-bs-dismiss="modal"
                                       onClick={() =>
-                                        deLinkAccount(account?.bankAccountId)
+                                        deLinkAccount(clickedBankAccount.accountNo)
                                       }
                                     >
                                       De-Link
